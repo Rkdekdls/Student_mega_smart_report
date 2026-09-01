@@ -15,12 +15,12 @@
         <div class="nav-mega-backdrop" aria-hidden="true"></div>
         <nav class="header-nav" aria-label="메인 메뉴">
           <div class="nav-item" data-panel="scores">
-            <button type="button" class="nav-link" data-panel="scores">성적 분석</button>
+            <button type="button" class="nav-link active" data-panel="scores">성적 분석</button>
             <div class="nav-mega-col" data-panel="scores">
               <button type="button" class="nav-mega-title" data-panel="scores">성적 분석</button>
               <div class="nav-mega-links">
-                <button type="button" class="nav-dropdown-link is-disabled" data-panel="scores" data-scores="school" disabled>내신</button>
                 <button type="button" class="nav-dropdown-link" data-panel="scores" data-scores="mock">모의고사</button>
+                <button type="button" class="nav-dropdown-link is-disabled" data-panel="scores" data-scores="school" disabled>내신</button>
               </div>
             </div>
           </div>
@@ -38,12 +38,12 @@
           </div>
 
           <div class="nav-item" data-panel="admission">
-            <button type="button" class="nav-link active" data-panel="admission">합격 예측</button>
+            <button type="button" class="nav-link" data-panel="admission">합격 예측</button>
             <div class="nav-mega-col" data-panel="admission">
               <button type="button" class="nav-mega-title" data-panel="admission">합격 예측</button>
               <div class="nav-mega-links">
-                <button type="button" class="nav-dropdown-link is-disabled" data-panel="admission" data-admission="early" disabled>수시</button>
                 <button type="button" class="nav-dropdown-link" data-panel="admission" data-admission="regular">정시</button>
+                <button type="button" class="nav-dropdown-link is-disabled" data-panel="admission" data-admission="early" disabled>수시</button>
               </div>
             </div>
           </div>
@@ -88,16 +88,16 @@
   </header>
 
   <main class="main-shell">
-    <h1 class="page-title" id="pageTitle">합격 예측</h1>
+    <h1 class="page-title" id="pageTitle">모의고사</h1>
 
-    <section class="panel" data-panel="scores">
+    <section class="panel active" data-panel="scores">
       <div class="sub-panel" data-scores="school">
         <div class="content-empty">
           <p>내신 성적과 추이를 확인하는 영역입니다.</p>
         </div>
       </div>
 
-      <div class="sub-panel" data-scores="mock">
+      <div class="sub-panel active" data-scores="mock">
         <div class="content-tabs" role="tablist" aria-label="모의고사 성적 분석">
           <button type="button" class="content-tab active" data-score-view="exam" role="tab" aria-selected="true">시험별 성적</button>
           <button type="button" class="content-tab" data-score-view="subject" role="tab" aria-selected="false">과목별 분석</button>
@@ -337,7 +337,7 @@
       </section>
     </section>
 
-    <section class="panel active" data-panel="admission">
+    <section class="panel" data-panel="admission">
       <div class="sub-panel" data-admission="early">
         <div class="content-empty">
           <p>수시 지원 가능성을 확인하는 영역입니다.</p>
@@ -619,29 +619,11 @@
 
     <section class="panel" data-panel="mypage">
       <div class="content-tabs" role="tablist" aria-label="성적 구분">
-        <button type="button" class="content-tab active" data-mypage="school" role="tab" aria-selected="true">내신 성적</button>
-        <button type="button" class="content-tab" data-mypage="mock" role="tab" aria-selected="false">모의고사 성적</button>
+        <button type="button" class="content-tab active" data-mypage="mock" role="tab" aria-selected="true">모의고사 성적</button>
+        <button type="button" class="content-tab" data-mypage="school" role="tab" aria-selected="false">내신 성적</button>
       </div>
 
-      <div class="content-tab-panel active" data-mypage="school" role="tabpanel">
-        <div class="month-chips" role="tablist" aria-label="내신 학년 선택">
-          <button type="button" class="month-chip active" data-school-grade="1" role="tab" aria-selected="true">1학년</button>
-          <button type="button" class="month-chip" data-school-grade="2" role="tab" aria-selected="false">2학년</button>
-          <button type="button" class="month-chip" data-school-grade="3" role="tab" aria-selected="false">3학년</button>
-        </div>
-
-        <div class="school-grade-panel active" data-school-grade="1" role="tabpanel">
-          <div class="mypage-school" data-school-render="1"></div>
-        </div>
-        <div class="school-grade-panel" data-school-grade="2" role="tabpanel">
-          <div class="mypage-school" data-school-render="2"></div>
-        </div>
-        <div class="school-grade-panel" data-school-grade="3" role="tabpanel">
-          <div class="mypage-school" data-school-render="3"></div>
-        </div>
-      </div>
-
-      <div class="content-tab-panel" data-mypage="mock" role="tabpanel">
+      <div class="content-tab-panel active" data-mypage="mock" role="tabpanel">
         <div class="month-chips" role="tablist" aria-label="모의고사 월 선택">
           <button type="button" class="month-chip active" data-mock-month="3" role="tab" aria-selected="true">3월</button>
           <button type="button" class="month-chip" data-mock-month="4" role="tab" aria-selected="false">4월</button>
@@ -676,6 +658,24 @@
         </div>
         <div class="mock-month-panel" data-mock-month="10" role="tabpanel">
           <div class="mypage-mock" data-mock-render="10"></div>
+        </div>
+      </div>
+
+      <div class="content-tab-panel" data-mypage="school" role="tabpanel">
+        <div class="month-chips" role="tablist" aria-label="내신 학년 선택">
+          <button type="button" class="month-chip active" data-school-grade="1" role="tab" aria-selected="true">1학년</button>
+          <button type="button" class="month-chip" data-school-grade="2" role="tab" aria-selected="false">2학년</button>
+          <button type="button" class="month-chip" data-school-grade="3" role="tab" aria-selected="false">3학년</button>
+        </div>
+
+        <div class="school-grade-panel active" data-school-grade="1" role="tabpanel">
+          <div class="mypage-school" data-school-render="1"></div>
+        </div>
+        <div class="school-grade-panel" data-school-grade="2" role="tabpanel">
+          <div class="mypage-school" data-school-render="2"></div>
+        </div>
+        <div class="school-grade-panel" data-school-grade="3" role="tabpanel">
+          <div class="mypage-school" data-school-render="3"></div>
         </div>
       </div>
     </section>

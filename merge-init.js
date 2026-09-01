@@ -348,7 +348,7 @@
   }
 
   function resetMypageView() {
-    activateMypageTab("school");
+    activateMypageTab("mock");
     activateSchoolGrade("1");
     activateMockMonth("3");
   }
@@ -642,5 +642,5 @@
   });
 
   Object.values(subMap).forEach(({ attr, fallback }) => activateSub(attr, fallback));
-  activate("admission", "regular");
+  activate("scores", "mock");
 })();

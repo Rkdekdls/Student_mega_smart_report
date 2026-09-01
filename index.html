@@ -1,0 +1,770 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>학생용 메가스마트리포트</title>
+  <link rel="stylesheet" href="merge.css">
+</head>
+<body class="is-logged-in">
+  <header class="global-header">
+    <div class="global-header-inner">
+      <a class="logo" href="#">학생용 메가스마트리포트</a>
+
+      <div class="header-nav-zone">
+        <div class="nav-mega-backdrop" aria-hidden="true"></div>
+        <nav class="header-nav" aria-label="메인 메뉴">
+          <div class="nav-item" data-panel="scores">
+            <button type="button" class="nav-link" data-panel="scores">성적 분석</button>
+            <div class="nav-mega-col" data-panel="scores">
+              <button type="button" class="nav-mega-title" data-panel="scores">성적 분석</button>
+              <div class="nav-mega-links">
+                <button type="button" class="nav-dropdown-link is-disabled" data-panel="scores" data-scores="school" disabled>내신</button>
+                <button type="button" class="nav-dropdown-link" data-panel="scores" data-scores="mock">모의고사</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="nav-item" data-panel="analysis">
+            <button type="button" class="nav-link" data-panel="analysis">문항분석 및 오답노트</button>
+            <div class="nav-mega-col" data-panel="analysis">
+              <button type="button" class="nav-mega-title" data-panel="analysis">문항분석 및 오답노트</button>
+            </div>
+          </div>
+
+          <div class="nav-item" data-panel="admission">
+            <button type="button" class="nav-link active" data-panel="admission">합격 예측</button>
+            <div class="nav-mega-col" data-panel="admission">
+              <button type="button" class="nav-mega-title" data-panel="admission">합격 예측</button>
+              <div class="nav-mega-links">
+                <button type="button" class="nav-dropdown-link is-disabled" data-panel="admission" data-admission="early" disabled>수시</button>
+                <button type="button" class="nav-dropdown-link" data-panel="admission" data-admission="regular">정시</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="nav-item" data-panel="diagnostic">
+            <button type="button" class="nav-link" data-panel="diagnostic">학습종합진단검사</button>
+            <div class="nav-mega-col" data-panel="diagnostic">
+              <button type="button" class="nav-mega-title" data-panel="diagnostic">학습종합진단검사</button>
+              <div class="nav-mega-links">
+                <button type="button" class="nav-dropdown-link" data-panel="diagnostic" data-diagnostic="guide">검사 소개</button>
+                <button type="button" class="nav-dropdown-link" data-panel="diagnostic" data-diagnostic="result">검사 결과</button>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      <div class="header-utils">
+        <div class="header-auth header-auth--guest">
+          <button type="button" class="btn-login">로그인</button>
+          <button type="button" class="btn-mypage">마이페이지</button>
+        </div>
+
+        <div class="header-auth header-auth--member">
+          <div class="user-profile">
+            <span class="user-avatar" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v1h16v-1c0-2.66-5.33-4-8-4z"/>
+              </svg>
+            </span>
+            <span class="user-label">
+              <span class="user-name">김메가 학생</span>
+              <span class="user-divider" aria-hidden="true">·</span>
+              <span class="user-academy">러셀 강남학원</span>
+            </span>
+          </div>
+          <button type="button" class="btn-mypage">마이페이지</button>
+          <button type="button" class="btn-logout">로그아웃</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-shell">
+    <h1 class="page-title" id="pageTitle">합격 예측</h1>
+
+    <section class="panel" data-panel="scores">
+      <div class="sub-panel" data-scores="school">
+        <div class="content-empty">
+          <p>내신 성적과 추이를 확인하는 영역입니다.</p>
+        </div>
+      </div>
+
+      <div class="sub-panel" data-scores="mock">
+        <div class="content-tabs" role="tablist" aria-label="모의고사 성적 분석">
+          <button type="button" class="content-tab active" data-score-view="exam" role="tab" aria-selected="true">시험별 성적</button>
+          <button type="button" class="content-tab" data-score-view="subject" role="tab" aria-selected="false">과목별 분석</button>
+          <button type="button" class="content-tab" data-score-view="trend" role="tab" aria-selected="false">성적 추이</button>
+          <button type="button" class="content-tab" data-score-view="strategy" role="tab" aria-selected="false">학습 전략</button>
+        </div>
+
+        <div class="content-tab-panel active" data-score-view="exam" role="tabpanel">
+          <div class="diag-result-head taken-exam-head">
+            <h2 class="diag-section-title">응시 시험</h2>
+          </div>
+          <div data-taken-exams></div>
+
+          <section class="summary-block">
+            <div class="diag-result-head">
+              <h2 class="diag-section-title">성적 핵심 요약</h2>
+            </div>
+            <div data-score-summary></div>
+          </section>
+
+          <section class="accuracy-block">
+            <div class="diag-result-head">
+              <h2 class="diag-section-title">과목별 정답률 비교</h2>
+            </div>
+            <div data-accuracy-compare></div>
+          </section>
+
+          <div class="score-overview">
+            <section class="percentile-block">
+              <div class="diag-result-head">
+                <h2 class="diag-section-title">평균 백분위</h2>
+              </div>
+              <div data-percentile-report></div>
+              <div class="adm-toolbar">
+                <button type="button" class="btn-adm-primary" data-open-score="subject">과목별 분석 보기</button>
+              </div>
+            </section>
+            <section class="trend-mini-block">
+              <div class="diag-result-head">
+                <h2 class="diag-section-title">성적 추이</h2>
+              </div>
+              <div data-trend-mini></div>
+              <div class="adm-toolbar">
+                <button type="button" class="btn-adm-primary" data-open-score="trend">성적 추이 보기</button>
+              </div>
+            </section>
+          </div>
+        </div>
+        <div class="content-tab-panel" data-score-view="subject" role="tabpanel">
+          <div class="diag-result-head taken-exam-head">
+            <h2 class="diag-section-title">응시 시험</h2>
+          </div>
+          <div data-taken-exams="subject"></div>
+
+          <section class="subject-score-block">
+            <div class="content-tabs" role="tablist" aria-label="과목 선택">
+              <button type="button" class="content-tab active" data-subject-chip="국어" role="tab" aria-selected="true">국어</button>
+              <button type="button" class="content-tab" data-subject-chip="수학" role="tab" aria-selected="false">수학</button>
+              <button type="button" class="content-tab" data-subject-chip="영어" role="tab" aria-selected="false">영어</button>
+              <button type="button" class="content-tab" data-subject-chip="한국사" role="tab" aria-selected="false">한국사</button>
+              <button type="button" class="content-tab" data-subject-chip="통합사회" role="tab" aria-selected="false">통합사회</button>
+              <button type="button" class="content-tab" data-subject-chip="통합과학" role="tab" aria-selected="false">통합과학</button>
+            </div>
+            <div data-subject-overview></div>
+
+            <section class="summary-block">
+              <div class="diag-result-head">
+                <h2 class="diag-section-title">문항 결과 요약</h2>
+              </div>
+              <div data-subject-result></div>
+            </section>
+
+            <section class="question-status-block">
+              <div class="diag-result-head">
+                <h2 class="diag-section-title">문항별 정오 현황</h2>
+              </div>
+              <div data-subject-questions></div>
+            </section>
+
+            <div class="score-overview subject-rate-overview">
+              <section class="percentile-block">
+                <div class="diag-result-head">
+                  <h2 class="diag-section-title">정답률 비교</h2>
+                </div>
+                <div data-subject-accuracy></div>
+              </section>
+              <section class="trend-mini-block">
+                <div class="diag-result-head">
+                  <h2 class="diag-section-title">영역별 정답률</h2>
+                </div>
+                <div data-subject-areas></div>
+              </section>
+              <div class="adm-toolbar">
+                <button type="button" class="btn-adm-primary" data-open-analysis="questions">전체 문항 분석 보기</button>
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="content-tab-panel" data-score-view="trend" role="tabpanel">
+          <section class="trend-exam-block">
+            <div class="diag-result-head">
+              <h2 class="diag-section-title">시험별 성적 현황</h2>
+            </div>
+            <div data-trend-exam-table></div>
+          </section>
+          <section class="trend-full-block">
+            <div class="diag-result-head">
+              <h2 class="diag-section-title">백분위 변화</h2>
+            </div>
+            <div class="content-tabs" role="tablist" aria-label="성적 추이 과목">
+              <button type="button" class="content-tab active" data-trend-subject="전체" role="tab" aria-selected="true">전체</button>
+              <button type="button" class="content-tab" data-trend-subject="국어" role="tab" aria-selected="false">국어</button>
+              <button type="button" class="content-tab" data-trend-subject="수학" role="tab" aria-selected="false">수학</button>
+              <button type="button" class="content-tab" data-trend-subject="영어" role="tab" aria-selected="false">영어</button>
+              <button type="button" class="content-tab" data-trend-subject="한국사" role="tab" aria-selected="false">한국사</button>
+              <button type="button" class="content-tab" data-trend-subject="통합사회" role="tab" aria-selected="false">통합사회</button>
+              <button type="button" class="content-tab" data-trend-subject="통합과학" role="tab" aria-selected="false">통합과학</button>
+            </div>
+            <div data-trend-subject-chart></div>
+          </section>
+        </div>
+        <div class="content-tab-panel" data-score-view="strategy" role="tabpanel">
+          <div class="diag-result-head taken-exam-head">
+            <h2 class="diag-section-title">응시 시험</h2>
+          </div>
+          <div data-taken-exams="strategy"></div>
+
+          <section class="strategy-suggest-block">
+            <div class="content-tabs" role="tablist" aria-label="학습 제안 과목">
+              <button type="button" class="content-tab active" data-strategy-subject="전체" role="tab" aria-selected="true">전체</button>
+              <button type="button" class="content-tab" data-strategy-subject="국어" role="tab" aria-selected="false">국어</button>
+              <button type="button" class="content-tab" data-strategy-subject="수학" role="tab" aria-selected="false">수학</button>
+              <button type="button" class="content-tab" data-strategy-subject="영어" role="tab" aria-selected="false">영어</button>
+              <button type="button" class="content-tab" data-strategy-subject="한국사" role="tab" aria-selected="false">한국사</button>
+              <button type="button" class="content-tab" data-strategy-subject="통합사회" role="tab" aria-selected="false">통합사회</button>
+              <button type="button" class="content-tab" data-strategy-subject="통합과학" role="tab" aria-selected="false">통합과학</button>
+            </div>
+            <div class="strategy-suggest-summary" data-strategy-summary></div>
+            <section class="strategy-task-block">
+              <div class="diag-result-head">
+                <h2 class="diag-section-title">우선 학습 과제</h2>
+              </div>
+              <div data-strategy-tasks></div>
+            </section>
+            <div class="score-overview strategy-priority-overview">
+              <section class="percentile-block">
+                <div class="diag-result-head">
+                  <h2 class="diag-section-title">학습 우선 순위</h2>
+                </div>
+                <div data-strategy-priority></div>
+              </section>
+              <section class="trend-mini-block">
+                <div class="diag-result-head">
+                  <h2 class="diag-section-title">권장 학습 비중</h2>
+                </div>
+                <div data-strategy-ratio></div>
+              </section>
+              <div class="adm-toolbar">
+                <button type="button" class="btn-adm-primary" data-open-analysis="questions">관련 문항 확인하기</button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="analysis">
+      <div class="content-tabs" role="tablist" aria-label="문항분석 및 오답노트">
+        <button type="button" class="content-tab active" data-analysis-view="summary" role="tab" aria-selected="true">시험 요약</button>
+        <button type="button" class="content-tab" data-analysis-view="questions" role="tab" aria-selected="false">문항 분석</button>
+        <button type="button" class="content-tab" data-analysis-view="notes" role="tab" aria-selected="false">오답 노트</button>
+      </div>
+
+      <div class="diag-result-head taken-exam-head">
+        <h2 class="diag-section-title">응시 시험</h2>
+      </div>
+      <div data-taken-exams="analysis"></div>
+
+      <section class="analysis-subject-block">
+        <div class="content-tabs" role="tablist" aria-label="과목 선택">
+          <button type="button" class="content-tab active" data-analysis-subject="국어" role="tab" aria-selected="true">국어</button>
+          <button type="button" class="content-tab" data-analysis-subject="수학" role="tab" aria-selected="false">수학</button>
+          <button type="button" class="content-tab" data-analysis-subject="영어" role="tab" aria-selected="false">영어</button>
+          <button type="button" class="content-tab" data-analysis-subject="한국사" role="tab" aria-selected="false">한국사</button>
+          <button type="button" class="content-tab" data-analysis-subject="통합사회" role="tab" aria-selected="false">통합사회</button>
+          <button type="button" class="content-tab" data-analysis-subject="통합과학" role="tab" aria-selected="false">통합과학</button>
+        </div>
+
+        <div class="content-tab-panel active" data-analysis-view="summary" role="tabpanel">
+          <div data-exam-summary></div>
+          <div class="score-overview strategy-priority-overview exam-review-overview">
+            <section class="percentile-block">
+              <div class="diag-result-head">
+                <h2 class="diag-section-title">우선 복습 내용</h2>
+              </div>
+              <div data-exam-review></div>
+            </section>
+            <section class="trend-mini-block">
+              <div class="diag-result-head">
+                <h2 class="diag-section-title">오답 원인 요약</h2>
+              </div>
+              <div data-exam-causes></div>
+            </section>
+          </div>
+        </div>
+        <div class="content-tab-panel" data-analysis-view="questions" role="tabpanel">
+          <section class="question-status-block">
+            <div class="diag-result-head">
+              <h2 class="diag-section-title">문항별 정오 현황</h2>
+            </div>
+            <div data-subject-questions></div>
+          </section>
+          <div class="score-overview wrong-area-overview">
+            <section class="percentile-block wrong-area-block">
+              <div class="diag-result-head">
+                <h2 class="diag-section-title">내용 영역 오답</h2>
+              </div>
+              <div data-content-wrongs></div>
+            </section>
+            <section class="trend-mini-block wrong-area-block">
+              <div class="diag-result-head">
+                <h2 class="diag-section-title">행동 영역 오답</h2>
+              </div>
+              <div data-behavior-wrongs></div>
+            </section>
+          </div>
+          <div class="content-tabs" role="tablist" aria-label="문항분석 세부">
+            <button type="button" class="content-tab active" data-question-view="type" role="tab" aria-selected="true">유형별 분석</button>
+            <button type="button" class="content-tab" data-question-view="item" role="tab" aria-selected="false">문항별 분석</button>
+          </div>
+          <div class="content-tab-panel active" data-question-view="type" role="tabpanel">
+            <div data-type-analysis></div>
+          </div>
+          <div class="content-tab-panel" data-question-view="item" role="tabpanel">
+            <div data-item-analysis></div>
+          </div>
+        </div>
+        <div class="content-tab-panel" data-analysis-view="notes" role="tabpanel">
+          <div class="month-chips" role="tablist" aria-label="오답 노트 범위">
+            <button type="button" class="month-chip active" data-note-scope="selected" role="tab" aria-selected="true">선택 시험</button>
+            <button type="button" class="month-chip" data-note-scope="all" role="tab" aria-selected="false">누적 시험</button>
+          </div>
+          <div data-wrong-note></div>
+          <div data-wrong-note-all hidden></div>
+        </div>
+      </section>
+    </section>
+
+    <section class="panel active" data-panel="admission">
+      <div class="sub-panel" data-admission="early">
+        <div class="content-empty">
+          <p>수시 지원 가능성을 확인하는 영역입니다.</p>
+        </div>
+      </div>
+
+      <div class="sub-panel active" data-admission="regular">
+        <div class="diag-result-head taken-exam-head">
+          <h2 class="diag-section-title">응시 시험</h2>
+        </div>
+        <div data-taken-exams="regular"></div>
+
+        <div class="regular-month-panel active" data-regular-month="3" role="tabpanel">
+          <div class="admission-regular" data-regular-render="3"></div>
+        </div>
+        <div class="regular-month-panel" data-regular-month="4" role="tabpanel">
+          <div class="admission-regular" data-regular-render="4"></div>
+        </div>
+        <div class="regular-month-panel" data-regular-month="5" role="tabpanel">
+          <div class="admission-regular" data-regular-render="5"></div>
+        </div>
+        <div class="regular-month-panel" data-regular-month="6" role="tabpanel">
+          <div class="admission-regular" data-regular-render="6"></div>
+        </div>
+        <div class="regular-month-panel" data-regular-month="7" role="tabpanel">
+          <div class="admission-regular" data-regular-render="7"></div>
+        </div>
+        <div class="regular-month-panel" data-regular-month="8" role="tabpanel">
+          <div class="admission-regular" data-regular-render="8"></div>
+        </div>
+        <div class="regular-month-panel" data-regular-month="9" role="tabpanel">
+          <div class="admission-regular" data-regular-render="9"></div>
+        </div>
+        <div class="regular-month-panel" data-regular-month="10" role="tabpanel">
+          <div class="admission-regular" data-regular-render="10"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="diagnostic">
+      <div class="sub-panel active" data-diagnostic="guide">
+        <div class="diag">
+          <h2 class="diag-section-title">검사 영역 안내</h2>
+        <div class="diag-guide">
+          <article class="diag-guide-card">
+            <h3>학업스트레스</h3>
+            <p>성적이나 학습량에 대해 무리한 계획이나 목표를 세워 스스로를 압박하고 있지 않은지 확인하고 본인만의 스트레스 해소를 위한 방법을 찾도록 하세요. 적절한 학업스트레스는 오히려 느슨해질 수 있는 상태에 긴장감을 불러일으키고 공부에 대한 집중력을 향상시키기도 합니다.</p>
+          </article>
+          <article class="diag-guide-card">
+            <h3>자기결정동기</h3>
+            <p>내적동기가 높다는 것은 개인에 따라 차이는 있지만 높은 성적을 유지하거나 성적이 상승하는 학생들에게서 많이 나타나는 유형입니다. 주변사람들의 인정을 받거나 비난을 피하기 위해 공부하는 것도 학습 동기가 될 수는 있지만 보다 근본적으로 본인 스스로가 공부를 하고자 하는 의지를 가지고 구체적인 계획을 세워 학습하는 것이 중요합니다.</p>
+          </article>
+          <article class="diag-guide-card">
+            <h3>학습문제해결전략</h3>
+            <p>시험 및 학습 이후에도 각 문제에 관련된 개념을 확인하고 본인의 문제풀이 방법과 해설지를 비교하여 문제를 제대로 풀었는지 확인하며 본인의 문제풀이 방법과 다른 풀이방법이 있다면 그 부분까지도 공부하며 출제의도 및 문제를 이해하는 능력을 키워야 합니다.</p>
+          </article>
+        </div>
+
+        <h2 class="diag-section-title">측정요소 별 정의</h2>
+        <div class="diag-tscore-box">
+          <span class="diag-tscore-label">검사결과값 (T점수)</span>
+          <p class="diag-tscore-desc">검사 결과 원점수를 평균 50, 표준편차 10인 점수 분포로 변환시킨 점수</p>
+        </div>
+        <div class="diag-table-scroll">
+          <table class="diag-table diag-table-define">
+            <thead>
+              <tr>
+                <th>측정요소</th>
+                <th>측정요소 정의</th>
+                <th>하위요인</th>
+                <th>하위요인 정의</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th rowspan="4">학업스트레스</th>
+                <td rowspan="4" class="is-left">공부와 관련되어 생기는 불쾌한 마음 상태</td>
+                <td class="diag-subfactor">성적스트레스</td>
+                <td class="is-left">성적 비교, 낮은 성적에 대한 스트레스</td>
+              </tr>
+              <tr>
+                <td class="diag-subfactor">시험스트레스</td>
+                <td class="is-left">시험에 대한 불안, 긴장으로 인한 스트레스</td>
+              </tr>
+              <tr>
+                <td class="diag-subfactor">수업스트레스</td>
+                <td class="is-left">수업 방식, 수업 내용에 대한 지루함·부담</td>
+              </tr>
+              <tr>
+                <td class="diag-subfactor">공부스트레스</td>
+                <td class="is-left">학습량, 이해 부족 등 공부 과정에서의 부담</td>
+              </tr>
+              <tr>
+                <th rowspan="3">자기결정동기</th>
+                <td rowspan="3" class="is-left">학습에 대한 동기의 유형</td>
+                <td class="diag-subfactor">무동기</td>
+                <td class="is-left">학습에 대한 의지·목적 의식이 부족한 상태</td>
+              </tr>
+              <tr>
+                <td class="diag-subfactor">외적동기</td>
+                <td class="is-left">보상 추구, 처벌 회피 등 외부 요인에 의한 동기</td>
+              </tr>
+              <tr>
+                <td class="diag-subfactor">내적동기</td>
+                <td class="is-left">학습 자체의 가치·즐거움에서 비롯된 동기</td>
+              </tr>
+              <tr>
+                <th rowspan="3">학습문제해결전략</th>
+                <td rowspan="3" class="is-left">문제풀이 학습과정에서 사용하는 전략</td>
+                <td class="diag-subfactor">문항풀기전략</td>
+                <td class="is-left">문제를 푸는 과정에서의 전략</td>
+              </tr>
+              <tr>
+                <td class="diag-subfactor">문항분석전략</td>
+                <td class="is-left">채점 후 정답 문항을 분석하는 전략</td>
+              </tr>
+              <tr>
+                <td class="diag-subfactor">오답분석전략</td>
+                <td class="is-left">채점 후 오답 문항을 분석하는 전략</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        </div>
+      </div>
+
+      <div class="sub-panel" data-diagnostic="result">
+        <div class="diag">
+          <div class="diag-result-head">
+          <h2 class="diag-section-title">학습정서 및 동기검사 결과</h2>
+          <div class="diag-chart-legend">
+            <span class="diag-legend-item"><i class="diag-dot is-1st"></i>1차</span>
+            <span class="diag-legend-item"><i class="diag-dot is-2nd"></i>2차</span>
+          </div>
+        </div>
+
+        <div class="diag-chart-row">
+          <article class="diag-chart-card">
+            <h3 class="diag-chart-title cat-stress">학업스트레스</h3>
+            <div class="diag-chart-body">
+              <div class="diag-y-axis" aria-hidden="true">
+                <span>높음</span>
+                <span>중간</span>
+                <span>낮음</span>
+              </div>
+              <div class="diag-chart-main">
+                <svg viewBox="0 0 220 140" class="diag-mini-svg" role="img" aria-label="학업스트레스 차트">
+                  <rect x="0" y="0" width="220" height="56" fill="#f3f0f0"/>
+                  <rect x="0" y="56" width="220" height="28" fill="#ececec"/>
+                  <rect x="0" y="84" width="220" height="56" fill="#f0f2f4"/>
+                  <polyline fill="none" stroke="#9a4a4a" stroke-width="2.5"
+                    points="30,89.3 80,81.8 130,58.8 180,87.1"/>
+                  <g fill="#9a4a4a" stroke="#0c1b33" stroke-width="1">
+                    <rect x="24" y="83.3" width="12" height="12"/>
+                    <rect x="74" y="75.8" width="12" height="12"/>
+                    <rect x="124" y="52.8" width="12" height="12"/>
+                    <rect x="174" y="81.1" width="12" height="12"/>
+                  </g>
+                </svg>
+                <div class="diag-x-axis" aria-hidden="true">
+                  <span>성적</span>
+                  <span>시험</span>
+                  <span>수업</span>
+                  <span>공부</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="diag-chart-card">
+            <h3 class="diag-chart-title cat-motive">자기결정동기</h3>
+            <div class="diag-chart-body">
+              <div class="diag-y-axis" aria-hidden="true">
+                <span>높음</span>
+                <span>중간</span>
+                <span>낮음</span>
+              </div>
+              <div class="diag-chart-main">
+                <svg viewBox="0 0 220 140" class="diag-mini-svg" role="img" aria-label="자기결정동기 차트">
+                  <rect x="0" y="0" width="220" height="56" fill="#f3f0f0"/>
+                  <rect x="0" y="56" width="220" height="28" fill="#ececec"/>
+                  <rect x="0" y="84" width="220" height="56" fill="#f0f2f4"/>
+                  <polyline fill="none" stroke="#4a7a5c" stroke-width="2.5"
+                    points="45,64.5 100,68.3 155,66.1"/>
+                  <g fill="#4a7a5c" stroke="#0c1b33" stroke-width="1">
+                    <rect x="39" y="58.5" width="12" height="12"/>
+                    <rect x="94" y="62.3" width="12" height="12"/>
+                    <rect x="149" y="60.1" width="12" height="12"/>
+                  </g>
+                </svg>
+                <div class="diag-x-axis" aria-hidden="true">
+                  <span>무동기</span>
+                  <span>외적동기</span>
+                  <span>내적동기</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="diag-chart-card">
+            <h3 class="diag-chart-title cat-strategy">학습문제해결전략</h3>
+            <div class="diag-chart-body">
+              <div class="diag-y-axis" aria-hidden="true">
+                <span>높음</span>
+                <span>중간</span>
+                <span>낮음</span>
+              </div>
+              <div class="diag-chart-main">
+                <svg viewBox="0 0 220 140" class="diag-mini-svg" role="img" aria-label="학습문제해결전략 차트">
+                  <rect x="0" y="0" width="220" height="56" fill="#f3f0f0"/>
+                  <rect x="0" y="56" width="220" height="28" fill="#ececec"/>
+                  <rect x="0" y="84" width="220" height="56" fill="#f0f2f4"/>
+                  <polyline fill="none" stroke="#5a5280" stroke-width="2.5"
+                    points="45,71.1 100,68.2 155,71.8"/>
+                  <g fill="#5a5280" stroke="#0c1b33" stroke-width="1">
+                    <rect x="39" y="65.1" width="12" height="12"/>
+                    <rect x="94" y="62.2" width="12" height="12"/>
+                    <rect x="149" y="65.8" width="12" height="12"/>
+                  </g>
+                </svg>
+                <div class="diag-x-axis" aria-hidden="true">
+                  <span>문항풀기</span>
+                  <span>문항분석</span>
+                  <span>오답분석</span>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="diag-table-scroll">
+          <table class="diag-table diag-table-score">
+            <thead>
+              <tr>
+                <th rowspan="2" colspan="2" class="diag-col-label">구분</th>
+                <th colspan="4" class="cat-stress">학업스트레스</th>
+                <th colspan="3" class="cat-motive">자기결정동기</th>
+                <th colspan="3" class="cat-strategy">학습문제해결전략</th>
+              </tr>
+              <tr>
+                <th class="cat-stress">성적</th><th class="cat-stress">시험</th><th class="cat-stress">수업</th><th class="cat-stress">공부</th>
+                <th class="cat-motive">무동기</th><th class="cat-motive">외적동기</th><th class="cat-motive">내적동기</th>
+                <th class="cat-strategy">문항풀기</th><th class="cat-strategy">문항분석</th><th class="cat-strategy">오답분석</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th rowspan="2">1차</th>
+                <th class="diag-sub">T점수</th>
+                <td></td><td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <th class="diag-sub">진단</th>
+                <td></td><td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <th rowspan="2">2차</th>
+                <th class="diag-sub">T점수</th>
+                <td class="cat-stress">36.2</td><td class="cat-stress">41.6</td><td class="cat-stress">58.0</td><td class="cat-stress">37.8</td>
+                <td class="cat-motive">53.9</td><td class="cat-motive">51.2</td><td class="cat-motive">52.8</td>
+                <td class="cat-strategy">49.2</td><td class="cat-strategy">51.3</td><td class="cat-strategy">48.7</td>
+              </tr>
+              <tr>
+                <th class="diag-sub">진단</th>
+                <td class="cat-stress">낮음</td><td class="cat-stress">중간</td><td class="cat-stress">중간</td><td class="cat-stress">낮음</td>
+                <td class="cat-motive">중간</td><td class="cat-motive">중간</td><td class="cat-motive">중간</td>
+                <td class="cat-strategy">중간</td><td class="cat-strategy">중간</td><td class="cat-strategy">중간</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="mypage">
+      <div class="content-tabs" role="tablist" aria-label="성적 구분">
+        <button type="button" class="content-tab active" data-mypage="school" role="tab" aria-selected="true">내신 성적</button>
+        <button type="button" class="content-tab" data-mypage="mock" role="tab" aria-selected="false">모의고사 성적</button>
+      </div>
+
+      <div class="content-tab-panel active" data-mypage="school" role="tabpanel">
+        <div class="month-chips" role="tablist" aria-label="내신 학년 선택">
+          <button type="button" class="month-chip active" data-school-grade="1" role="tab" aria-selected="true">1학년</button>
+          <button type="button" class="month-chip" data-school-grade="2" role="tab" aria-selected="false">2학년</button>
+          <button type="button" class="month-chip" data-school-grade="3" role="tab" aria-selected="false">3학년</button>
+        </div>
+
+        <div class="school-grade-panel active" data-school-grade="1" role="tabpanel">
+          <div class="mypage-school" data-school-render="1"></div>
+        </div>
+        <div class="school-grade-panel" data-school-grade="2" role="tabpanel">
+          <div class="mypage-school" data-school-render="2"></div>
+        </div>
+        <div class="school-grade-panel" data-school-grade="3" role="tabpanel">
+          <div class="mypage-school" data-school-render="3"></div>
+        </div>
+      </div>
+
+      <div class="content-tab-panel" data-mypage="mock" role="tabpanel">
+        <div class="month-chips" role="tablist" aria-label="모의고사 월 선택">
+          <button type="button" class="month-chip active" data-mock-month="3" role="tab" aria-selected="true">3월</button>
+          <button type="button" class="month-chip" data-mock-month="4" role="tab" aria-selected="false">4월</button>
+          <button type="button" class="month-chip" data-mock-month="5" role="tab" aria-selected="false">5월</button>
+          <button type="button" class="month-chip" data-mock-month="6" role="tab" aria-selected="false">6월</button>
+          <button type="button" class="month-chip" data-mock-month="7" role="tab" aria-selected="false">7월</button>
+          <button type="button" class="month-chip" data-mock-month="8" role="tab" aria-selected="false">8월</button>
+          <button type="button" class="month-chip" data-mock-month="9" role="tab" aria-selected="false">9월</button>
+          <button type="button" class="month-chip" data-mock-month="10" role="tab" aria-selected="false">10월</button>
+        </div>
+
+        <div class="mock-month-panel active" data-mock-month="3" role="tabpanel">
+          <div class="mypage-mock" data-mock-render="3"></div>
+        </div>
+        <div class="mock-month-panel" data-mock-month="4" role="tabpanel">
+          <div class="mypage-mock" data-mock-render="4"></div>
+        </div>
+        <div class="mock-month-panel" data-mock-month="5" role="tabpanel">
+          <div class="mypage-mock" data-mock-render="5"></div>
+        </div>
+        <div class="mock-month-panel" data-mock-month="6" role="tabpanel">
+          <div class="mypage-mock" data-mock-render="6"></div>
+        </div>
+        <div class="mock-month-panel" data-mock-month="7" role="tabpanel">
+          <div class="mypage-mock" data-mock-render="7"></div>
+        </div>
+        <div class="mock-month-panel" data-mock-month="8" role="tabpanel">
+          <div class="mypage-mock" data-mock-render="8"></div>
+        </div>
+        <div class="mock-month-panel" data-mock-month="9" role="tabpanel">
+          <div class="mypage-mock" data-mock-render="9"></div>
+        </div>
+        <div class="mock-month-panel" data-mock-month="10" role="tabpanel">
+          <div class="mypage-mock" data-mock-render="10"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="adm-modal" id="admDetailModal" hidden>
+    <div class="adm-modal-backdrop" data-adm-detail-close></div>
+    <div class="adm-modal-dialog adm-detail-dialog" role="dialog" aria-modal="true" aria-labelledby="admDetailModalTitle">
+      <div class="adm-modal-header adm-detail-header">
+        <span class="adm-detail-header-spacer" aria-hidden="true"></span>
+        <button type="button" class="adm-modal-close" data-adm-detail-close aria-label="닫기">✕</button>
+      </div>
+      <div class="adm-modal-body adm-detail-body">
+        <div class="adm-detail-badges" data-adm-detail-badges></div>
+        <h2 class="adm-detail-title" id="admDetailModalTitle" data-adm-detail-title></h2>
+
+        <div class="adm-detail-scores" data-adm-detail-scores></div>
+
+        <table class="diag-table adm-target-form-table adm-detail-form-table adm-detail-result-form-table">
+          <thead>
+            <tr>
+              <th>군</th>
+              <th>전형명</th>
+              <th>계열</th>
+              <th>활용지표</th>
+              <th>내 환산점수</th>
+              <th>지원가능점수</th>
+              <th>차이</th>
+              <th>지원 구간</th>
+            </tr>
+          </thead>
+          <tbody data-adm-detail-result-body></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="adm-modal" id="admTargetModal" hidden>
+    <div class="adm-modal-backdrop" data-adm-modal-close></div>
+    <div class="adm-modal-dialog adm-target-dialog" role="dialog" aria-modal="true" aria-labelledby="admTargetModalTitle">
+      <div class="adm-modal-header">
+        <h2 class="adm-modal-title" id="admTargetModalTitle">목표 모집단위</h2>
+        <button type="button" class="adm-modal-close" data-adm-modal-close aria-label="닫기">✕</button>
+      </div>
+      <div class="adm-modal-body">
+        <table class="diag-table adm-target-form-table">
+          <thead>
+            <tr>
+              <th>군</th>
+              <th>대학</th>
+              <th>전형명</th>
+              <th>모집단위</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>가군</th>
+              <td><select class="adm-select" data-target-field="ga-univ"></select></td>
+              <td><select class="adm-select" data-target-field="ga-type"></select></td>
+              <td><select class="adm-select" data-target-field="ga-major"></select></td>
+            </tr>
+            <tr>
+              <th>나군</th>
+              <td><select class="adm-select" data-target-field="na-univ"></select></td>
+              <td><select class="adm-select" data-target-field="na-type"></select></td>
+              <td><select class="adm-select" data-target-field="na-major"></select></td>
+            </tr>
+            <tr>
+              <th>다군</th>
+              <td><select class="adm-select" data-target-field="da-univ"></select></td>
+              <td><select class="adm-select" data-target-field="da-type"></select></td>
+              <td><select class="adm-select" data-target-field="da-major"></select></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="adm-modal-footer">
+        <button type="button" class="btn-adm-outline" data-adm-target-reset>초기화</button>
+        <button type="button" class="btn-adm-primary" data-adm-target-save>저장</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="merge-mypage-data.js"></script>
+  <script src="merge-admission-regular.js"></script>
+  <script src="merge-init.js"></script>
+</body>
+</html>

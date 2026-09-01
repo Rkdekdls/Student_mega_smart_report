@@ -2104,12 +2104,13 @@ body.adm-modal-open {
 }
 
 .taken-exam-cell {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
   width: 100%;
-  min-height: 132px;
+  min-height: 0;
   padding: 16px 16px 14px;
   border: 1px solid var(--line);
   background: var(--white);
@@ -2133,13 +2134,18 @@ body.adm-modal-open {
   line-height: 1.3;
 }
 
+.sub-panel[data-scores="mock"] .content-tab-panel[data-score-view="exam"] .taken-exam-cell {
+  padding-right: 92px;
+}
+
 .taken-exam-foot {
+  position: absolute;
+  right: 16px;
+  bottom: 14px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  width: 100%;
-  margin-top: auto;
+  align-items: baseline;
+  justify-content: flex-end;
+  margin: 0;
 }
 
 .taken-exam-foot b {
@@ -2155,39 +2161,6 @@ body.adm-modal-open {
   color: var(--gray-900);
   font-size: 14px;
   font-weight: 700;
-}
-
-.taken-exam-note-btn {
-  display: inline-flex;
-  align-items: center;
-  flex: 0 0 auto;
-  padding: 7px 12px;
-  border: 1px solid transparent;
-  background: var(--gray-100);
-  color: var(--navy);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.3;
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.taken-exam-note-btn:hover {
-  border-color: var(--navy);
-}
-
-.taken-exam-note-btn:active {
-  border-color: var(--navy);
-  background: #dce3ec;
-}
-
-.taken-exam-cell.active .taken-exam-note-btn {
-  background: #e4eaf2;
-}
-
-.taken-exam-cell.active .taken-exam-note-btn:active {
-  background: #d5dde8;
 }
 
 .taken-exam-cell:hover:not(.active) {
@@ -2828,11 +2801,6 @@ body.adm-modal-open {
 }
 
 .strategy-priority-overview {
-  margin-top: 0;
-}
-
-.strategy-priority-overview > .adm-toolbar {
-  grid-column: 2;
   margin-top: 0;
 }
 

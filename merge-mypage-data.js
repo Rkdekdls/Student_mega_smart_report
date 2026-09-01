@@ -267,7 +267,7 @@
     return (values.reduce((sum, value) => sum + value, 0) / values.length).toFixed(1);
   }
 
-  function renderTakenExams({ withNote = true, withScore = true } = {}) {
+  function renderTakenExams({ withScore = true } = {}) {
     const months = Object.keys(mockMeta);
 
     return `
@@ -275,13 +275,11 @@
         ${months
           .map((month, index) => {
             const name = mockMeta[month];
-            const foot =
-              withScore || withNote
-                ? `<span class="taken-exam-foot">
-                  ${withScore ? `<b>${mockAveragePercentile(month)}<small>점</small></b>` : ""}
-                  ${withNote ? `<button type="button" class="taken-exam-note-btn">문항분석 및 오답노트 →</button>` : ""}
+            const foot = withScore
+              ? `<span class="taken-exam-foot">
+                  <b>${mockAveragePercentile(month)}<small>점</small></b>
                 </span>`
-                : "";
+              : "";
             return `
               <article class="taken-exam-cell${index === 0 ? " active" : ""}" data-taken-exam="${month}" aria-selected="${index === 0 ? "true" : "false"}">
                 <time datetime="2026-${String(month).padStart(2, "0")}">${mockExamDates[month]}</time>
@@ -2081,7 +2079,6 @@
     document.querySelectorAll("[data-taken-exams]").forEach((el) => {
       const kind = el.dataset.takenExams;
       el.innerHTML = renderTakenExams({
-        withNote: !kind,
         withScore: !kind
       });
     });

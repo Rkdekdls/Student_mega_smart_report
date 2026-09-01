@@ -288,28 +288,10 @@
     if (!root) return;
 
     root.querySelectorAll("[data-taken-exam]").forEach((cell) => {
-      cell.addEventListener("click", (event) => {
-        if (event.target.closest(".taken-exam-note-btn")) return;
+      cell.addEventListener("click", () => {
         const month = cell.dataset.takenExam;
         activateTakenExam(root, month);
         onSelect?.(month);
-      });
-    });
-
-    root.querySelectorAll(".taken-exam-note-btn").forEach((button) => {
-      button.addEventListener("click", (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        const month = button.closest("[data-taken-exam]")?.dataset.takenExam;
-        if (!month) return;
-        const subject = selectedSubject;
-        activate("analysis");
-        selectedExamMonth = month;
-        selectedWrongNo = null;
-        activateTakenExam(analysisPanel, month);
-        activateTakenExam(scoresMockPanel, month);
-        activateAnalysisSubject(subject);
-        scrollToMainTop();
       });
     });
   }

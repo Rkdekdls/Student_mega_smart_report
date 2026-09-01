@@ -16,7 +16,6 @@
   const mockMonthChips = mypagePanel ? [...mypagePanel.querySelectorAll(".month-chip[data-mock-month]")] : [];
   const regularMonthTabs = regularPanel ? [...regularPanel.querySelectorAll(".content-tab[data-regular-month]")] : [];
   const scoreViewTabs = scoresMockPanel ? [...scoresMockPanel.querySelectorAll(".content-tab[data-score-view]")] : [];
-  const analysisViewTabs = analysisPanel ? [...analysisPanel.querySelectorAll(".content-tab[data-analysis-view]")] : [];
   const questionViewTabs = analysisPanel ? [...analysisPanel.querySelectorAll(".content-tab[data-question-view]")] : [];
 
   const labels = {
@@ -28,6 +27,7 @@
 
   const subMap = {
     scores: { attr: "data-scores", fallback: "mock" },
+    analysis: { attr: "data-analysis-view", fallback: "summary" },
     admission: { attr: "data-admission", fallback: "regular" },
     diagnostic: { attr: "data-diagnostic", fallback: "guide" }
   };
@@ -146,11 +146,14 @@
     if (view === "strategy") refreshStrategySubject();
   }
 
+  let selectedAnalysisView = "summary";
+
   function activateAnalysisView(view) {
-    analysisViewTabs.forEach((tab) => {
-      const isActive = tab.dataset.analysisView === view;
-      tab.classList.toggle("active", isActive);
-      tab.setAttribute("aria-selected", isActive ? "true" : "false");
+    selectedAnalysisView = view;
+
+    dropdownLinks.forEach((link) => {
+      if (!link.hasAttribute("data-analysis-view")) return;
+      link.classList.toggle("active", link.dataset.analysisView === view);
     });
 
     analysisPanel?.querySelectorAll(".content-tab-panel[data-analysis-view]").forEach((panel) => {
@@ -177,7 +180,7 @@
   let selectedNoteScope = "selected";
 
   function isAnalysisNotesView() {
-    return analysisPanel?.querySelector('.content-tab[data-analysis-view="notes"]')?.classList.contains("active");
+    return selectedAnalysisView === "notes";
   }
 
   function activateNoteScope(scope) {
@@ -459,16 +462,9 @@
     if (sub) {
       const name = subName || getActiveSubLink(sub.attr, sub.fallback)?.getAttribute(sub.attr) || sub.fallback;
       activateSub(sub.attr, name);
+      if (panelName === "analysis") activateAnalysisView(name);
       setPageTitle(panelName, name);
       return;
-    }
-
-    if (panelName === "analysis") {
-      if (subName === "questions" || subName === "notes" || subName === "summary") {
-        activateAnalysisView(subName);
-      } else if (subName) {
-        activateAnalysisSubject(subName);
-      }
     }
 
     setPageTitle(panelName);
@@ -564,12 +560,6 @@
     tab.addEventListener("click", () => {
       activateScoreView(tab.dataset.scoreView);
       scrollToMainTop();
-    });
-  });
-
-  analysisViewTabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      activateAnalysisView(tab.dataset.analysisView);
     });
   });
 

@@ -51,14 +51,14 @@ a {
   top: 0;
   z-index: 50;
   border-bottom: 1px solid var(--line);
-  background: #fbfbfb;
+  background: #fafafa;
   overflow: visible;
 }
 
 .global-header-inner {
   display: flex;
   align-items: stretch;
-  gap: 40px;
+  gap: 28px;
   width: min(var(--layout-max), calc(100% - var(--layout-gutter) * 2));
   height: 72px;
   margin: 0 auto;
@@ -69,12 +69,19 @@ a {
   display: flex;
   align-items: center;
   flex: 0 0 auto;
-  margin-right: 24px;
+  gap: 0.3em;
+  height: 100%;
+  margin-right: 8px;
   color: var(--navy);
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 800;
   letter-spacing: -0.04em;
+  line-height: 1;
   white-space: nowrap;
+}
+
+.logo span {
+  color: #2f5f96;
 }
 
 .header-nav-zone {
@@ -150,9 +157,9 @@ a {
   left: 0;
   z-index: 44;
   display: none;
-  min-height: 132px;
+  min-height: 160px;
   border-bottom: 1px solid var(--line);
-  background: #fbfbfb;
+  background: var(--white);
   box-shadow: 0 12px 32px rgba(12, 27, 51, 0.08);
 }
 
@@ -3865,7 +3872,7 @@ button.question-cell {
   }
 
   .logo {
-    font-size: 17px;
+    font-size: 20px;
   }
 
   .header-nav-zone {

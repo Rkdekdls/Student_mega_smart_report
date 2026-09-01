@@ -9,7 +9,7 @@
 <body class="is-logged-in">
   <header class="global-header">
     <div class="global-header-inner">
-      <a class="logo" href="#">학생용 메가스마트리포트</a>
+      <a class="logo" href="#"><span>MEGA</span> SMART REPORT</a>
 
       <div class="header-nav-zone">
         <div class="nav-mega-backdrop" aria-hidden="true"></div>
@@ -29,6 +29,11 @@
             <button type="button" class="nav-link" data-panel="analysis">문항분석 및 오답노트</button>
             <div class="nav-mega-col" data-panel="analysis">
               <button type="button" class="nav-mega-title" data-panel="analysis">문항분석 및 오답노트</button>
+              <div class="nav-mega-links">
+                <button type="button" class="nav-dropdown-link" data-panel="analysis" data-analysis-view="summary">시험 요약</button>
+                <button type="button" class="nav-dropdown-link" data-panel="analysis" data-analysis-view="questions">문항 분석</button>
+                <button type="button" class="nav-dropdown-link" data-panel="analysis" data-analysis-view="notes">오답 노트</button>
+              </div>
             </div>
           </div>
 
@@ -260,12 +265,6 @@
     </section>
 
     <section class="panel" data-panel="analysis">
-      <div class="content-tabs" role="tablist" aria-label="문항분석 및 오답노트">
-        <button type="button" class="content-tab active" data-analysis-view="summary" role="tab" aria-selected="true">시험 요약</button>
-        <button type="button" class="content-tab" data-analysis-view="questions" role="tab" aria-selected="false">문항 분석</button>
-        <button type="button" class="content-tab" data-analysis-view="notes" role="tab" aria-selected="false">오답 노트</button>
-      </div>
-
       <div class="diag-result-head taken-exam-head">
         <h2 class="diag-section-title">응시 시험</h2>
       </div>

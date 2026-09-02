@@ -325,6 +325,10 @@
 
     panel.querySelectorAll("[data-adm-list-tab]").forEach((tab) => {
       tab.addEventListener("click", () => {
+        const y = window.scrollY;
+        const html = document.documentElement;
+        const prevBehavior = html.style.scrollBehavior;
+        html.style.scrollBehavior = "auto";
         state.listFilter.listTab = tab.dataset.admListTab;
         panel.querySelectorAll("[data-adm-list-tab]").forEach((el) => {
           const isActive = el.dataset.admListTab === state.listFilter.listTab;
@@ -332,6 +336,16 @@
           el.setAttribute("aria-selected", isActive ? "true" : "false");
         });
         renderList(panel, state);
+        const restore = () => {
+          html.scrollTop = y;
+          document.body.scrollTop = y;
+          window.scrollTo(0, y);
+        };
+        restore();
+        requestAnimationFrame(() => {
+          restore();
+          html.style.scrollBehavior = prevBehavior;
+        });
       });
     });
 

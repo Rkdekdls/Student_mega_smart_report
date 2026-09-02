@@ -5,7 +5,6 @@
   const dropdownLinks = [...document.querySelectorAll(".nav-dropdown-link")];
   const navZone = document.querySelector(".header-nav-zone");
   const megaCols = [...document.querySelectorAll(".nav-mega-col")];
-  const megaTitles = [...document.querySelectorAll(".nav-mega-title")];
   const mypageButtons = [...document.querySelectorAll(".btn-mypage")];
   const mypagePanel = document.querySelector('.panel[data-panel="mypage"]');
   const regularPanel = document.querySelector('.sub-panel[data-admission="regular"]');
@@ -84,6 +83,35 @@
   function scrollToMainTop() {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }
+
+  function keepWindowScroll(run) {
+    const y = window.scrollY;
+    const html = document.documentElement;
+    const prevBehavior = html.style.scrollBehavior;
+    html.style.scrollBehavior = "auto";
+    run();
+    const restore = () => {
+      html.scrollTop = y;
+      document.body.scrollTop = y;
+      window.scrollTo(0, y);
+    };
+    restore();
+    requestAnimationFrame(() => {
+      restore();
+      html.style.scrollBehavior = prevBehavior;
+    });
+  }
+
+  document.addEventListener("mousedown", (event) => {
+    if (event.target.closest(".content-tab, .month-chip, [data-taken-exam], [data-wrong-cause]")) {
+      event.preventDefault();
+    }
+  });
+
+  document.querySelector(".logo")?.addEventListener("click", (event) => {
+    event.preventDefault();
+    window.location.reload();
+  });
 
   function activateMypageTab(name) {
     contentTabs.forEach((tab) => {
@@ -309,9 +337,11 @@
 
     root.querySelectorAll("[data-taken-exam]").forEach((cell) => {
       cell.addEventListener("click", () => {
-        const month = cell.dataset.takenExam;
-        activateTakenExam(root, month);
-        onSelect?.(month);
+        keepWindowScroll(() => {
+          const month = cell.dataset.takenExam;
+          activateTakenExam(root, month);
+          onSelect?.(month);
+        });
       });
     });
   }
@@ -489,15 +519,8 @@
     });
 
     tab.addEventListener("click", () => {
-      activate(tab.dataset.panel);
-      scrollToMainTop();
-    });
-  });
-
-  megaTitles.forEach((title) => {
-    title.addEventListener("click", () => {
-      activate(title.dataset.panel);
-      closeMenus();
+      const sub = subMap[tab.dataset.panel];
+      activate(tab.dataset.panel, sub?.fallback);
       scrollToMainTop();
     });
   });
@@ -529,63 +552,58 @@
 
   contentTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-      activateMypageTab(tab.dataset.mypage);
-      scrollToMainTop();
+      keepWindowScroll(() => activateMypageTab(tab.dataset.mypage));
     });
   });
 
   schoolGradeChips.forEach((chip) => {
     chip.addEventListener("click", () => {
-      activateSchoolGrade(chip.dataset.schoolGrade);
-      scrollToMainTop();
+      keepWindowScroll(() => activateSchoolGrade(chip.dataset.schoolGrade));
     });
   });
 
   mockMonthChips.forEach((chip) => {
     chip.addEventListener("click", () => {
-      activateMockMonth(chip.dataset.mockMonth);
-      scrollToMainTop();
+      keepWindowScroll(() => activateMockMonth(chip.dataset.mockMonth));
     });
   });
 
   regularMonthTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-      activateRegularMonth(tab.dataset.regularMonth);
-      window.AdmissionRegular?.onMonthChange(tab.dataset.regularMonth);
-      scrollToMainTop();
+      keepWindowScroll(() => {
+        activateRegularMonth(tab.dataset.regularMonth);
+        window.AdmissionRegular?.onMonthChange(tab.dataset.regularMonth);
+      });
     });
   });
 
   scoreViewTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-      activateScoreView(tab.dataset.scoreView);
-      scrollToMainTop();
+      keepWindowScroll(() => activateScoreView(tab.dataset.scoreView));
     });
   });
 
   admissionViewTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-      activateAdmissionView(tab.dataset.admissionView);
-      scrollToMainTop();
+      keepWindowScroll(() => activateAdmissionView(tab.dataset.admissionView));
     });
   });
 
   questionViewTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-      activateQuestionView(tab.dataset.questionView);
-      scrollToMainTop();
+      keepWindowScroll(() => activateQuestionView(tab.dataset.questionView));
     });
   });
 
   analysisPanel?.querySelectorAll("[data-note-scope]").forEach((chip) => {
     chip.addEventListener("click", () => {
-      activateNoteScope(chip.dataset.noteScope);
+      keepWindowScroll(() => activateNoteScope(chip.dataset.noteScope));
     });
   });
 
   analysisPanel?.querySelectorAll(".content-tab[data-analysis-subject]").forEach((tab) => {
     tab.addEventListener("click", () => {
-      activateAnalysisSubject(tab.dataset.analysisSubject);
+      keepWindowScroll(() => activateAnalysisSubject(tab.dataset.analysisSubject));
     });
   });
 
@@ -599,8 +617,10 @@
 
     const cause = event.target.closest("[data-wrong-cause]");
     if (!cause) return;
-    cause.parentElement?.querySelectorAll("[data-wrong-cause]").forEach((button) => {
-      button.classList.toggle("active", button === cause);
+    keepWindowScroll(() => {
+      cause.parentElement?.querySelectorAll("[data-wrong-cause]").forEach((button) => {
+        button.classList.toggle("active", button === cause);
+      });
     });
   });
 
@@ -629,21 +649,27 @@
   scoresSchoolPanel?.addEventListener("click", (event) => {
     const tab = event.target.closest("[data-school-trend-subject]");
     if (!tab || !scoresSchoolPanel.contains(tab)) return;
-    selectedSchoolTrendSubject = tab.dataset.schoolTrendSubject;
-    refreshSchoolTrend();
+    keepWindowScroll(() => {
+      selectedSchoolTrendSubject = tab.dataset.schoolTrendSubject;
+      refreshSchoolTrend();
+    });
   });
 
   scoresMockPanel?.querySelectorAll("[data-trend-subject]").forEach((tab) => {
     tab.addEventListener("click", () => {
-      selectedTrendSubject = tab.dataset.trendSubject;
-      refreshTrendSubject();
+      keepWindowScroll(() => {
+        selectedTrendSubject = tab.dataset.trendSubject;
+        refreshTrendSubject();
+      });
     });
   });
 
   scoresMockPanel?.querySelectorAll("[data-strategy-subject]").forEach((tab) => {
     tab.addEventListener("click", () => {
-      selectedStrategySubject = tab.dataset.strategySubject;
-      refreshStrategySubject();
+      keepWindowScroll(() => {
+        selectedStrategySubject = tab.dataset.strategySubject;
+        refreshStrategySubject();
+      });
     });
   });
 
@@ -1117,12 +1143,14 @@
   earlyListPanels.forEach((root) => {
     root.querySelectorAll("[data-early-list-tab]").forEach((tab) => {
       tab.addEventListener("click", () => {
-        root.querySelectorAll("[data-early-list-tab]").forEach((el) => {
-          const isActive = el === tab;
-          el.classList.toggle("active", isActive);
-          el.setAttribute("aria-selected", isActive ? "true" : "false");
+        keepWindowScroll(() => {
+          root.querySelectorAll("[data-early-list-tab]").forEach((el) => {
+            const isActive = el === tab;
+            el.classList.toggle("active", isActive);
+            el.setAttribute("aria-selected", isActive ? "true" : "false");
+          });
+          renderEarlyListFor(root);
         });
-        renderEarlyListFor(root);
       });
     });
 

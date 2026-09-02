@@ -78,6 +78,7 @@ a {
   letter-spacing: -0.04em;
   line-height: 1;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .logo span {
@@ -203,11 +204,8 @@ a {
   letter-spacing: -0.02em;
   text-align: left;
   white-space: nowrap;
-  cursor: pointer;
-}
-
-.nav-mega-title:hover {
-  color: var(--navy);
+  cursor: default;
+  pointer-events: none;
 }
 
 .nav-mega-links {

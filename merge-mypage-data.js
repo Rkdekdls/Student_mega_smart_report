@@ -357,11 +357,11 @@
           <h2 class="diag-section-title">내신 현황</h2>
         </div>
         <div class="exam-summary-grid school-gpa-kpis">
-          <article class="exam-summary-card">
+          <article class="exam-summary-card is-correct">
             <span>전교과 평균</span>
             <strong>${formatSchoolRank(allRank)}<small>등급</small></strong>
           </article>
-          <article class="exam-summary-card">
+          <article class="exam-summary-card is-wrong">
             <span>주요교과 평균</span>
             <strong>${formatSchoolRank(majorRank)}<small>등급</small></strong>
           </article>

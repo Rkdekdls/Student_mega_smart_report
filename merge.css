@@ -2090,13 +2090,11 @@ body.adm-modal-open {
   margin-bottom: 24px;
 }
 
-.sub-panel[data-scores="mock"] .content-tab-panel[data-score-view="subject"] .taken-exam-grid,
 .sub-panel[data-scores="mock"] .content-tab-panel[data-score-view="strategy"] .taken-exam-grid,
 .panel[data-panel="analysis"] .taken-exam-grid {
   grid-template-columns: repeat(8, minmax(0, 1fr));
 }
 
-.sub-panel[data-scores="mock"] .content-tab-panel[data-score-view="subject"] .taken-exam-cell,
 .sub-panel[data-scores="mock"] .content-tab-panel[data-score-view="strategy"] .taken-exam-cell,
 .sub-panel[data-admission="regular"] .taken-exam-cell,
 .panel[data-panel="analysis"] .taken-exam-cell {
@@ -2187,15 +2185,6 @@ body.adm-modal-open {
   margin-top: 0;
 }
 
-.subject-rate-overview {
-  grid-template-columns: minmax(280px, 2fr) minmax(0, 3fr);
-}
-
-.subject-rate-overview > .adm-toolbar {
-  grid-column: 2;
-  margin-top: 0;
-}
-
 .percentile-block,
 .trend-mini-block {
   display: flex;
@@ -2210,8 +2199,8 @@ body.adm-modal-open {
 
 .percentile-block [data-percentile-report],
 .percentile-block [data-subject-accuracy],
-.trend-mini-block [data-trend-mini],
-.trend-mini-block [data-subject-areas] {
+.trend-mini-block [data-subject-accuracy],
+.trend-mini-block [data-trend-mini] {
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
@@ -2261,6 +2250,8 @@ body.adm-modal-open {
   color: var(--gray-600);
   font-size: 13px;
   font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
 }
 
 .pct-legend span {
@@ -2299,7 +2290,9 @@ body.adm-modal-open {
 }
 
 .pct-chart--triple .pct-group em {
-  white-space: normal;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 400;
 }
 
 .pct-chart::before {
@@ -2367,7 +2360,7 @@ body.adm-modal-open {
 }
 
 .pct-chart--triple .pct-bar {
-  width: 40px;
+  width: 64px;
 }
 
 .pct-bar b {
@@ -2378,12 +2371,19 @@ body.adm-modal-open {
   margin: 0;
   padding: 0;
   color: var(--gray-600);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
+  letter-spacing: -0.02em;
   line-height: 1;
   text-align: center;
   white-space: nowrap;
   transform: translate(-50%, calc(-100% + 1px));
+}
+
+.pct-chart--triple .pct-bar b {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .pct-bar i {
@@ -2932,12 +2932,8 @@ body.adm-modal-open {
   gap: 16px;
 }
 
-.subject-score-block {
-  margin-top: 28px;
-}
-
-.subject-score-block > .content-tabs {
-  margin-bottom: 28px;
+.analysis-subject-block > .content-tab-panel[data-analysis-view="summary"] > .summary-block .diag-result-head {
+  margin-top: 24px;
 }
 
 .analysis-subject-block {
@@ -2948,7 +2944,8 @@ body.adm-modal-open {
   margin-bottom: 28px;
 }
 
-.analysis-subject-block > .content-tab-panel[data-analysis-view="questions"] > .question-status-block .diag-result-head {
+.analysis-subject-block > .content-tab-panel[data-analysis-view="questions"] > .wrong-area-overview > .percentile-block > .diag-result-head,
+.analysis-subject-block > .content-tab-panel[data-analysis-view="questions"] > .wrong-area-overview > .trend-mini-block > .diag-result-head {
   margin-top: 0;
 }
 
@@ -2957,7 +2954,7 @@ body.adm-modal-open {
   margin: 24px 0;
 }
 
-.wrong-area-overview + .content-tabs {
+.question-status-block + .content-tabs {
   margin-top: 24px;
 }
 
@@ -3125,7 +3122,7 @@ body.adm-modal-open {
   font-weight: 400;
 }
 
-.subject-overview .diag-table tbody td:first-child,
+.subject-overview .diag-table tbody th,
 .subject-overview .diag-table tbody td:last-child {
   font-weight: 700;
 }
@@ -3719,7 +3716,7 @@ button.question-cell {
   }
 
   .pct-chart--triple .pct-bar {
-    width: 32px;
+    width: 52px;
   }
 
   .area-rate-grid {
@@ -3738,7 +3735,6 @@ button.question-cell {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .sub-panel[data-scores="mock"] .content-tab-panel[data-score-view="subject"] .taken-exam-grid,
   .sub-panel[data-scores="mock"] .content-tab-panel[data-score-view="strategy"] .taken-exam-grid,
   .sub-panel[data-admission="regular"] .taken-exam-grid,
   .panel[data-panel="analysis"] .taken-exam-grid {
@@ -3752,7 +3748,6 @@ button.question-cell {
     grid-template-columns: 1fr;
   }
 
-  .sub-panel[data-scores="mock"] .content-tab-panel[data-score-view="subject"] .taken-exam-grid,
   .sub-panel[data-scores="mock"] .content-tab-panel[data-score-view="strategy"] .taken-exam-grid,
   .sub-panel[data-admission="regular"] .taken-exam-grid,
   .panel[data-panel="analysis"] .taken-exam-grid {

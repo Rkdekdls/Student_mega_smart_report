@@ -99,9 +99,8 @@
 
       <div class="sub-panel active" data-scores="mock">
         <div class="content-tabs" role="tablist" aria-label="모의고사 성적 분석">
-          <button type="button" class="content-tab active" data-score-view="exam" role="tab" aria-selected="true">시험별 성적</button>
-          <button type="button" class="content-tab" data-score-view="subject" role="tab" aria-selected="false">과목별 분석</button>
-          <button type="button" class="content-tab" data-score-view="trend" role="tab" aria-selected="false">성적 추이</button>
+          <button type="button" class="content-tab active" data-score-view="exam" role="tab" aria-selected="true">이번 성적</button>
+          <button type="button" class="content-tab" data-score-view="trend" role="tab" aria-selected="false">누적 성적</button>
           <button type="button" class="content-tab" data-score-view="strategy" role="tab" aria-selected="false">학습 전략</button>
         </div>
 
@@ -113,10 +112,25 @@
 
           <section class="summary-block">
             <div class="diag-result-head">
-              <h2 class="diag-section-title">성적 핵심 요약</h2>
+              <h2 class="diag-section-title">성적표</h2>
             </div>
-            <div data-score-summary></div>
+            <div data-subject-overview></div>
           </section>
+
+          <div class="score-overview">
+            <section class="percentile-block">
+              <div class="diag-result-head">
+                <h2 class="diag-section-title">백분위 비교</h2>
+              </div>
+              <div data-percentile-report></div>
+            </section>
+            <section class="trend-mini-block">
+              <div class="diag-result-head">
+                <h2 class="diag-section-title">정답률 비교</h2>
+              </div>
+              <div data-subject-accuracy></div>
+            </section>
+          </div>
 
           <section class="accuracy-block">
             <div class="diag-result-head">
@@ -125,94 +139,28 @@
             <div data-accuracy-compare></div>
           </section>
 
-          <div class="score-overview">
-            <section class="percentile-block">
-              <div class="diag-result-head">
-                <h2 class="diag-section-title">평균 백분위</h2>
-              </div>
-              <div data-percentile-report></div>
-              <div class="adm-toolbar">
-                <button type="button" class="btn-adm-primary" data-open-score="subject">과목별 분석 보기</button>
-              </div>
-            </section>
-            <section class="trend-mini-block">
-              <div class="diag-result-head">
-                <h2 class="diag-section-title">성적 추이</h2>
-              </div>
-              <div data-trend-mini></div>
-              <div class="adm-toolbar">
-                <button type="button" class="btn-adm-primary" data-open-score="trend">성적 추이 보기</button>
-              </div>
-            </section>
-          </div>
-        </div>
-        <div class="content-tab-panel" data-score-view="subject" role="tabpanel">
-          <div class="diag-result-head taken-exam-head">
-            <h2 class="diag-section-title">응시 시험</h2>
-          </div>
-          <div data-taken-exams="subject"></div>
-
-          <section class="subject-score-block">
-            <div class="content-tabs" role="tablist" aria-label="과목 선택">
-              <button type="button" class="content-tab active" data-subject-chip="국어" role="tab" aria-selected="true">국어</button>
-              <button type="button" class="content-tab" data-subject-chip="수학" role="tab" aria-selected="false">수학</button>
-              <button type="button" class="content-tab" data-subject-chip="영어" role="tab" aria-selected="false">영어</button>
-              <button type="button" class="content-tab" data-subject-chip="한국사" role="tab" aria-selected="false">한국사</button>
-              <button type="button" class="content-tab" data-subject-chip="통합사회" role="tab" aria-selected="false">통합사회</button>
-              <button type="button" class="content-tab" data-subject-chip="통합과학" role="tab" aria-selected="false">통합과학</button>
+          <section class="summary-block">
+            <div class="diag-result-head">
+              <h2 class="diag-section-title">성적 분석 결과</h2>
             </div>
-            <div data-subject-overview></div>
-
-            <section class="summary-block">
-              <div class="diag-result-head">
-                <h2 class="diag-section-title">문항 결과 요약</h2>
-              </div>
-              <div data-subject-result></div>
-            </section>
-
-            <section class="question-status-block">
-              <div class="diag-result-head">
-                <h2 class="diag-section-title">문항별 정오 현황</h2>
-              </div>
-              <div data-subject-questions></div>
-            </section>
-
-            <div class="score-overview subject-rate-overview">
-              <section class="percentile-block">
-                <div class="diag-result-head">
-                  <h2 class="diag-section-title">정답률 비교</h2>
-                </div>
-                <div data-subject-accuracy></div>
-              </section>
-              <section class="trend-mini-block">
-                <div class="diag-result-head">
-                  <h2 class="diag-section-title">영역별 정답률</h2>
-                </div>
-                <div data-subject-areas></div>
-              </section>
-              <div class="adm-toolbar">
-                <button type="button" class="btn-adm-primary" data-open-analysis="questions">문항 분석 보기</button>
-              </div>
-            </div>
+            <div data-score-summary></div>
           </section>
         </div>
         <div class="content-tab-panel" data-score-view="trend" role="tabpanel">
           <section class="trend-exam-block">
             <div class="diag-result-head">
-              <h2 class="diag-section-title">시험별 성적 현황</h2>
+              <h2 class="diag-section-title">시험별 비교</h2>
             </div>
             <div data-trend-exam-table></div>
           </section>
           <section class="trend-full-block">
             <div class="diag-result-head">
-              <h2 class="diag-section-title">백분위 변화</h2>
+              <h2 class="diag-section-title">백분위 추이</h2>
             </div>
-            <div class="content-tabs" role="tablist" aria-label="성적 추이 과목">
-              <button type="button" class="content-tab active" data-trend-subject="전체" role="tab" aria-selected="true">전체</button>
+            <div class="content-tabs" role="tablist" aria-label="백분위 추이 과목">
+              <button type="button" class="content-tab active" data-trend-subject="국수탐" role="tab" aria-selected="true">국수탐 평균</button>
               <button type="button" class="content-tab" data-trend-subject="국어" role="tab" aria-selected="false">국어</button>
               <button type="button" class="content-tab" data-trend-subject="수학" role="tab" aria-selected="false">수학</button>
-              <button type="button" class="content-tab" data-trend-subject="영어" role="tab" aria-selected="false">영어</button>
-              <button type="button" class="content-tab" data-trend-subject="한국사" role="tab" aria-selected="false">한국사</button>
               <button type="button" class="content-tab" data-trend-subject="통합사회" role="tab" aria-selected="false">통합사회</button>
               <button type="button" class="content-tab" data-trend-subject="통합과학" role="tab" aria-selected="false">통합과학</button>
             </div>
@@ -226,9 +174,8 @@
           <div data-taken-exams="strategy"></div>
 
           <section class="strategy-suggest-block">
-            <div class="content-tabs" role="tablist" aria-label="학습 제안 과목">
-              <button type="button" class="content-tab active" data-strategy-subject="전체" role="tab" aria-selected="true">전체</button>
-              <button type="button" class="content-tab" data-strategy-subject="국어" role="tab" aria-selected="false">국어</button>
+            <div class="content-tabs" role="tablist" aria-label="학습 전략 과목">
+              <button type="button" class="content-tab active" data-strategy-subject="국어" role="tab" aria-selected="true">국어</button>
               <button type="button" class="content-tab" data-strategy-subject="수학" role="tab" aria-selected="false">수학</button>
               <button type="button" class="content-tab" data-strategy-subject="영어" role="tab" aria-selected="false">영어</button>
               <button type="button" class="content-tab" data-strategy-subject="한국사" role="tab" aria-selected="false">한국사</button>
@@ -238,7 +185,7 @@
             <div class="strategy-suggest-summary" data-strategy-summary></div>
             <section class="strategy-task-block">
               <div class="diag-result-head">
-                <h2 class="diag-section-title">우선 학습 과제</h2>
+                <h2 class="diag-section-title">당일 학습 과제</h2>
               </div>
               <div data-strategy-tasks></div>
             </section>
@@ -282,25 +229,25 @@
           <div class="score-overview strategy-priority-overview exam-review-overview">
             <section class="percentile-block">
               <div class="diag-result-head">
-                <h2 class="diag-section-title">우선 복습 내용</h2>
+                <h2 class="diag-section-title">복습 우선 순위</h2>
               </div>
               <div data-exam-review></div>
             </section>
             <section class="trend-mini-block">
               <div class="diag-result-head">
-                <h2 class="diag-section-title">오답 원인 요약</h2>
+                <h2 class="diag-section-title">오답 원인 파악</h2>
               </div>
               <div data-exam-causes></div>
             </section>
           </div>
+          <section class="summary-block">
+            <div class="diag-result-head">
+              <h2 class="diag-section-title">문항 분석 결과</h2>
+            </div>
+            <div data-subject-result></div>
+          </section>
         </div>
         <div class="content-tab-panel" data-analysis-view="questions" role="tabpanel">
-          <section class="question-status-block">
-            <div class="diag-result-head">
-              <h2 class="diag-section-title">문항별 정오 현황</h2>
-            </div>
-            <div data-subject-questions></div>
-          </section>
           <div class="score-overview wrong-area-overview">
             <section class="percentile-block wrong-area-block">
               <div class="diag-result-head">
@@ -315,6 +262,12 @@
               <div data-behavior-wrongs></div>
             </section>
           </div>
+          <section class="question-status-block">
+            <div class="diag-result-head">
+              <h2 class="diag-section-title">정오 현황</h2>
+            </div>
+            <div data-subject-questions></div>
+          </section>
           <div class="content-tabs" role="tablist" aria-label="문항분석 세부">
             <button type="button" class="content-tab active" data-question-view="type" role="tab" aria-selected="true">유형별 분석</button>
             <button type="button" class="content-tab" data-question-view="item" role="tab" aria-selected="false">문항별 분석</button>
@@ -328,7 +281,7 @@
         </div>
         <div class="content-tab-panel" data-analysis-view="notes" role="tabpanel">
           <div class="month-chips" role="tablist" aria-label="오답 노트 범위">
-            <button type="button" class="month-chip active" data-note-scope="selected" role="tab" aria-selected="true">선택 시험</button>
+            <button type="button" class="month-chip active" data-note-scope="selected" role="tab" aria-selected="true">이번 시험</button>
             <button type="button" class="month-chip" data-note-scope="all" role="tab" aria-selected="false">누적 시험</button>
           </div>
           <div data-wrong-note></div>
@@ -396,7 +349,7 @@
           </article>
         </div>
 
-        <h2 class="diag-section-title">측정요소 별 정의</h2>
+        <h2 class="diag-section-title">측정요소별 정의</h2>
         <div class="diag-tscore-box">
           <span class="diag-tscore-label">검사결과값 (T점수)</span>
           <p class="diag-tscore-desc">검사 결과 원점수를 평균 50, 표준편차 10인 점수 분포로 변환시킨 점수</p>
@@ -702,7 +655,7 @@
               <th>계열</th>
               <th>활용지표</th>
               <th>내 환산점수</th>
-              <th>지원가능점수</th>
+              <th>지원가능 점수</th>
               <th>차이</th>
               <th>지원 구간</th>
             </tr>

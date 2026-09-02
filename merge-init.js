@@ -142,7 +142,7 @@
     });
 
     activateTakenExam(scoresMockPanel, selectedExamMonth);
-    if (view === "subject") refreshSubjectOverview();
+    if (view === "exam") refreshExamOverview();
     if (view === "strategy") refreshStrategySubject();
   }
 
@@ -218,6 +218,11 @@
     const summary = analysisPanel?.querySelector("[data-exam-summary]");
     if (summary) {
       summary.innerHTML = window.MegaReportData?.renderExamSummary?.(month, subject) || "";
+    }
+
+    const result = analysisPanel?.querySelector("[data-subject-result]");
+    if (result) {
+      result.innerHTML = window.MegaReportData?.renderSubjectResultSummary?.(month, subject) || "";
     }
 
     const review = analysisPanel?.querySelector("[data-exam-review]");
@@ -298,40 +303,19 @@
 
   let selectedSubject = "국어";
   let selectedExamMonth = "3";
-  let selectedTrendSubject = "전체";
-  let selectedStrategySubject = "전체";
+  let selectedTrendSubject = "국수탐";
+  let selectedStrategySubject = "국어";
 
-  function refreshSubjectOverview() {
+  function refreshExamOverview() {
     const overview = scoresMockPanel?.querySelector("[data-subject-overview]");
     if (overview) {
-      overview.innerHTML = window.MegaReportData?.renderSubjectOverview?.(selectedExamMonth, selectedSubject) || "";
+      overview.innerHTML = window.MegaReportData?.renderSubjectOverview?.(selectedExamMonth, "전체") || "";
     }
 
     const accuracy = scoresMockPanel?.querySelector("[data-subject-accuracy]");
     if (accuracy) {
-      accuracy.innerHTML = window.MegaReportData?.renderSubjectAccuracy?.(selectedExamMonth, selectedSubject) || "";
+      accuracy.innerHTML = window.MegaReportData?.renderSubjectAccuracy?.(selectedExamMonth, "전체") || "";
     }
-
-    const areas = scoresMockPanel?.querySelector("[data-subject-areas]");
-    if (areas) {
-      areas.innerHTML = window.MegaReportData?.renderSubjectAreas?.(selectedExamMonth, selectedSubject) || "";
-    }
-
-    const questions = scoresMockPanel?.querySelector("[data-subject-questions]");
-    if (questions) {
-      questions.innerHTML = window.MegaReportData?.renderSubjectQuestions?.(selectedExamMonth, selectedSubject) || "";
-    }
-
-    const result = scoresMockPanel?.querySelector("[data-subject-result]");
-    if (result) {
-      result.innerHTML = window.MegaReportData?.renderSubjectResultSummary?.(selectedExamMonth, selectedSubject) || "";
-    }
-
-    scoresMockPanel?.querySelectorAll("[data-subject-chip]").forEach((chip) => {
-      const isActive = chip.dataset.subjectChip === selectedSubject;
-      chip.classList.toggle("active", isActive);
-      chip.setAttribute("aria-selected", isActive ? "true" : "false");
-    });
   }
 
   function refreshPercentileReport(month) {
@@ -344,7 +328,7 @@
 
     const summary = scoresMockPanel?.querySelector("[data-score-summary]");
     if (summary) summary.innerHTML = window.MegaReportData?.renderScoreSummary?.(month) || "";
-    refreshSubjectOverview();
+    refreshExamOverview();
   }
 
   function resetMypageView() {
@@ -407,8 +391,8 @@
   function resetScoreAnalysisView() {
     selectedSubject = "국어";
     selectedExamMonth = "3";
-    selectedTrendSubject = "전체";
-    selectedStrategySubject = "전체";
+    selectedTrendSubject = "국수탐";
+    selectedStrategySubject = "국어";
     activateScoreView("exam");
     activateTakenExam(scoresMockPanel, "3");
     refreshPercentileReport("3");
@@ -599,33 +583,6 @@
 
   window.AdmissionRegular?.initCustomSelects(scoresMockPanel);
   window.AdmissionRegular?.initCustomSelects(regularPanel);
-
-  scoresMockPanel?.querySelectorAll("[data-open-score]").forEach((button) => {
-    button.addEventListener("click", () => {
-      activateScoreView(button.dataset.openScore);
-      scrollToMainTop();
-    });
-  });
-
-  scoresMockPanel?.querySelectorAll("[data-open-analysis]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const month = selectedExamMonth;
-      const subject = selectedSubject;
-      activate("analysis", button.dataset.openAnalysis || "questions");
-      selectedExamMonth = month;
-      activateTakenExam(analysisPanel, month);
-      activateTakenExam(scoresMockPanel, month);
-      activateAnalysisSubject(subject);
-      scrollToMainTop();
-    });
-  });
-
-  scoresMockPanel?.querySelectorAll("[data-subject-chip]").forEach((chip) => {
-    chip.addEventListener("click", () => {
-      selectedSubject = chip.dataset.subjectChip;
-      refreshSubjectOverview();
-    });
-  });
 
   scoresMockPanel?.querySelectorAll("[data-trend-subject]").forEach((tab) => {
     tab.addEventListener("click", () => {

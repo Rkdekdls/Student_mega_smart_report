@@ -338,8 +338,7 @@
       </span>`;
 
     return `
-      <div class="pct-meta">
-        <strong>${data.overall}<small>점</small></strong>
+      <div class="pct-meta pct-meta--legend">
         <div class="pct-legend" aria-label="백분위 비교 범례">
           <span class="is-mine">나</span>
           <span class="is-avg">평균</span>
@@ -433,7 +432,7 @@
   }
 
   function renderTrendSubject(subject) {
-    const isOverall = !subject || subject === "전체";
+    const isOverall = !subject || subject === "전체" || subject === "국수탐";
     return renderTrendChart({
       showTitle: false,
       variant: "full",
@@ -600,63 +599,44 @@
       .map((name) => ({ name, value: subjectPercentile(month, name) }))
       .filter((item) => item.value != null);
 
-    let strengthTitle = "-";
-    let strengthText = "비교할 과목 성적이 없어요.";
-    if (prev) {
-      const growth = scores
-        .map((item) => {
-          const before = subjectPercentile(prev, item.name);
-          return before == null ? null : { ...item, delta: item.value - before };
-        })
-        .filter(Boolean)
-        .sort((a, b) => b.delta - a.delta)[0];
-      if (growth) {
-        strengthTitle = growth.name;
-        strengthText = `직전 시험보다 백분위가 ${formatPoint(growth.delta)}점 ${growth.delta >= 0 ? "올랐어요." : "낮아졌어요."}`;
-      }
-    } else {
-      const strongest = [...scores].sort((a, b) => b.value - a.value)[0];
-      if (strongest) {
-        strengthTitle = strongest.name;
-        strengthText = `백분위 ${formatPoint(strongest.value)}점으로 가장 높아요.`;
-      }
-    }
+    const strongest = [...scores].sort((a, b) => b.value - a.value)[0];
+    const weakest = [...scores].sort((a, b) => a.value - b.value)[0];
 
     const currentAvg = Number(mockAveragePercentile(month));
-    let changeTitle = "첫 성적 기준이 생겼어요";
     let changeText = "첫 응시 시험 결과예요.";
     if (String(month) === "3") {
-      changeTitle = "직전보다 좋아졌어요";
-      changeText = "직전 응시 시험보다 3.8점 올랐어요.";
+      changeText = "직전 시험보다 3.8점 올랐어요.";
     } else if (prev) {
       const diff = Number((currentAvg - Number(mockAveragePercentile(prev))).toFixed(1));
-      changeTitle = diff > 0.5 ? "직전보다 좋아졌어요" : diff < -0.5 ? "조금 더 점검이 필요해요" : "비슷한 흐름을 유지했어요";
-      changeText = `직전 응시 시험보다 ${formatPoint(diff)}점 ${diff >= 0 ? "올랐어요." : "낮아졌어요."}`;
+      changeText = `직전 시험보다 ${formatPoint(diff)}점 ${diff >= 0 ? "올랐어요." : "낮아졌어요."}`;
     }
 
-    const weakness = weaknessByMonth[month] || weaknessByMonth[3];
-    const topGaps = scores.map((item) => {
-      const compared = compareScores(item.value);
-      return { name: item.name, gap: Math.max(0, compared.top - compared.mine) };
-    });
-    const topGap =
-      String(month) === "3"
-        ? topGaps.find((item) => item.name === "수학") || topGaps[0]
-        : [...topGaps].sort((a, b) => b.gap - a.gap)[0];
+    const accuracy = averageAccuracy(month);
+    let positionText = "비교할 정답률이 없어요.";
+    if (accuracy) {
+      const gap = accuracy.mine - accuracy.avg;
+      if (gap === 0) positionText = "평균과 같아요.";
+      else positionText = `평균보다 ${formatPoint(gap)}% ${gap > 0 ? "높아요." : "낮아요."}`;
+    }
 
     const cards = [
-      { type: "strength", label: "강점 과목", title: strengthTitle, text: strengthText },
-      { type: "change", label: "주요 성적 변화", title: changeTitle, text: changeText },
-      { type: "weak", label: "보완 필요 영역", title: weakness.area, text: `${weakness.wrong}문항에서 ${weakness.lost}점을 잃었어요.` },
+      { type: "change", label: "성적 변화", title: "국수탐 평균", text: changeText },
+      { type: "position", label: "성적 위치", title: "전체 정답률", text: positionText },
       {
-        type: "top",
-        label: "상위 30% 비교",
-        title: topGap ? `${topGap.name} 백분위` : "-",
-        text: !topGap
-          ? "비교할 성적이 없어요."
-          : topGap.gap > 0
-            ? `상위 30% 평균보다 ${formatPoint(topGap.gap)}점 낮아요.`
-            : "상위 30% 평균 수준을 유지하고 있어요."
+        type: "strength",
+        label: "강점 과목",
+        title: strongest?.name || "-",
+        text: strongest
+          ? `백분위 ${formatPoint(strongest.value)}점으로 가장 높아요.`
+          : "비교할 과목 성적이 없어요."
+      },
+      {
+        type: "weak",
+        label: "약점 과목",
+        title: weakest?.name || "-",
+        text: weakest
+          ? `백분위 ${formatPoint(weakest.value)}점으로 가장 낮아요.`
+          : "비교할 과목 성적이 없어요."
       }
     ];
 
@@ -679,54 +659,82 @@
     return (mockSamples[month] || []).find((item) => item[1] === name) || null;
   }
 
-  function renderSubjectOverview(month, subject) {
+  const subjectOrder = ["국어", "수학", "영어", "한국사", "통합사회", "통합과학"];
+
+  function subjectChangeHtml(month, subject) {
     const row = getSubjectRow(month, subject);
-    if (!row) return "";
+    if (!row) return `<span class="is-same">—</span>`;
 
-    const raw = row[2];
-    const standard = row[3] === "-" || row[3] == null ? "-" : row[3];
-    const percentile = typeof row[4] === "number" ? row[4] : "-";
-    const grade = row[5];
     const prev = previousExamMonth(month);
-    let change = `<span class="is-same">—</span>`;
-
     if (String(month) === "3") {
-      change = `<span class="is-up">▲ 2</span>`;
-    } else if (prev) {
-      const prevRow = getSubjectRow(prev, subject);
-      if (prevRow) {
-        const current = typeof row[4] === "number" ? row[4] : Number(raw);
-        const before = typeof prevRow[4] === "number" ? prevRow[4] : Number(prevRow[2]);
-        const diff = Number(current) - Number(before);
-        if (Number.isFinite(diff)) {
-          if (diff > 0) change = `<span class="is-up">▲ ${formatPoint(diff)}</span>`;
-          else if (diff < 0) change = `<span class="is-down">▼ ${formatPoint(diff)}</span>`;
-          else change = `<span class="is-same">■ 0</span>`;
-        }
-      }
+      return `<span class="is-up">▲ 2</span>`;
     }
+    if (!prev) return `<span class="is-same">—</span>`;
+
+    const prevRow = getSubjectRow(prev, subject);
+    if (!prevRow) return `<span class="is-same">—</span>`;
+
+    const current = typeof row[4] === "number" ? row[4] : Number(row[2]);
+    const before = typeof prevRow[4] === "number" ? prevRow[4] : Number(prevRow[2]);
+    const diff = Number(current) - Number(before);
+    if (!Number.isFinite(diff)) return `<span class="is-same">—</span>`;
+    if (diff > 0) return `<span class="is-up">▲ ${formatPoint(diff)}</span>`;
+    if (diff < 0) return `<span class="is-down">▼ ${formatPoint(diff)}</span>`;
+    return `<span class="is-same">■ 0</span>`;
+  }
+
+  function subjectOverviewCells(month, subject) {
+    const row = getSubjectRow(month, subject);
+    if (!row) return null;
+
+    return {
+      area: row[0],
+      name: row[1],
+      raw: row[2],
+      standard: row[3] === "-" || row[3] == null ? "-" : row[3],
+      percentile: typeof row[4] === "number" ? row[4] : "-",
+      grade: row[5],
+      change: subjectChangeHtml(month, subject)
+    };
+  }
+
+  function renderSubjectOverview(month, subject) {
+    const isOverall = !subject || subject === "전체";
+    const names = isOverall ? subjectOrder : [subject];
+    const rows = names
+      .map((name) => {
+        const item = subjectOverviewCells(month, name);
+        if (!item) return "";
+        return `
+          <tr>
+            <th>${item.area}</th>
+            <td>${item.name}</td>
+            <td>${item.raw}</td>
+            <td>${item.standard}</td>
+            <td>${item.percentile}</td>
+            <td>${item.grade}</td>
+            <td>${item.change}</td>
+          </tr>`;
+      })
+      .join("");
+
+    if (!rows) return "";
 
     return `
       <div class="diag-table-scroll subject-overview">
         <table class="diag-table diag-table-define">
           <thead>
             <tr>
-              <th>백분위</th>
+              <th>영역</th>
+              <th>과목</th>
               <th>원점수</th>
               <th>표준점수</th>
+              <th>백분위</th>
               <th>등급</th>
               <th>직전 시험 대비</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>${percentile}</td>
-              <td>${raw}</td>
-              <td>${standard}</td>
-              <td>${grade}</td>
-              <td>${change}</td>
-            </tr>
-          </tbody>
+          <tbody>${rows}</tbody>
         </table>
       </div>`;
   }
@@ -820,17 +828,31 @@
       <div class="pct-meta pct-meta--legend">
         <div class="pct-legend" aria-label="${label}">
           <span class="is-mine">나</span>
-          <span class="is-avg">전체 평균</span>
+          <span class="is-avg">평균</span>
           <span class="is-top">상위 30%</span>
         </div>
       </div>`;
   }
 
-  function renderSubjectAccuracy(month, subject) {
-    const row = getSubjectRow(month, subject);
-    if (!row) return "";
+  function averageAccuracy(month) {
+    const rows = mockSamples[month] || [];
+    if (!rows.length) return null;
+    const accs = rows.map(accuracyOf);
+    const avgOf = (key) => Math.round(accs.reduce((sum, item) => sum + item[key], 0) / accs.length);
+    return { mine: avgOf("mine"), avg: avgOf("avg"), top: avgOf("top") };
+  }
 
-    const { mine, avg, top } = accuracyOf(row);
+  function renderSubjectAccuracy(month, subject) {
+    const scores =
+      !subject || subject === "전체"
+        ? averageAccuracy(month)
+        : (() => {
+            const row = getSubjectRow(month, subject);
+            return row ? accuracyOf(row) : null;
+          })();
+    if (!scores) return "";
+
+    const { mine, avg, top } = scores;
     const bar = (cls, value, label) => `
       <div class="pct-group">
         <div class="pct-bars">
@@ -844,10 +866,10 @@
 
     return `
       ${subjectAccuracyLegend("정답률 비교 범례")}
-      <div class="pct-chart pct-chart--triple" role="img" aria-label="${subject} 정답률 비교">
+      <div class="pct-chart pct-chart--triple" role="img" aria-label="${!subject || subject === "전체" ? "전체" : subject} 정답률 비교">
         <div class="pct-y" aria-hidden="true"><span>100</span><span>75</span><span>50</span><span>25</span><span>0</span></div>
         ${bar("is-mine", mine, "나")}
-        ${bar("is-avg", avg, "전체 평균")}
+        ${bar("is-avg", avg, "평균")}
         ${bar("is-top", top, "상위 30%")}
       </div>`;
   }
@@ -892,26 +914,23 @@
     return (last - 0xac00) % 28 === 0 ? "를" : "을";
   }
 
+  function subjectParticle(word) {
+    const last = word.charCodeAt(word.length - 1);
+    if (last < 0xac00 || last > 0xd7a3) return "가";
+    return (last - 0xac00) % 28 === 0 ? "가" : "이";
+  }
+
   function renderStrategySummary(subject, month) {
     const exam = month || "3";
-    const isOverall = !subject || subject === "전체";
-    let focus = "국어 독서";
-    let description = "최근 응시한 시험의 정답률, 평균과 비교한 결과와 반복 오답을 함께 분석했습니다.";
-
-    if (isOverall) {
-      const top = getStrategyRanks(exam)[0];
-      if (top) focus = `${top.name} ${top.area}`;
-    } else {
-      const weakest = [...getSubjectAreaRows(exam, subject)].sort(
-        (a, b) => a.mine - a.avg - (b.mine - b.avg) || a.mine - b.mine
-      )[0];
-      if (weakest?.area) focus = weakest.area;
-      description = `최근 응시한 시험의 ${subject} 정답률, 평균과 비교한 결과와 반복 오답을 함께 분석했습니다.`;
-    }
+    const name = subject && subject !== "전체" ? subject : "국어";
+    const weakest = [...getSubjectAreaRows(exam, name)].sort(
+      (a, b) => a.mine - a.avg - (b.mine - b.avg) || a.mine - b.mine
+    )[0];
+    const focus = weakest?.area || name;
 
     return `
       <strong>지금은 <em>${focus}</em>${objectParticle(focus)} 먼저 보완할 때예요.</strong>
-      <p>${description}</p>`;
+      <p>선택한 시험의 ${name} 정답률을 평균과 비교하고, 반복 오답을 함께 분석했습니다.</p>`;
   }
 
   const strategySubjects = ["국어", "영어", "한국사", "수학", "통합사회", "통합과학"];
@@ -1018,69 +1037,30 @@
   }
 
   function getStrategyTaskItems(subject, month) {
-    const exam = month || "3";
-    const isOverall = !subject || subject === "전체";
-
-    if (isOverall) {
-      return getStrategyRanks(exam)
-        .filter((item) => item.name !== "한국사")
-        .slice(0, 3);
-    }
-
-    return getAreaRanks(exam, subject).slice(0, 3);
+    return getAreaRanks(month || "3", subject || "국어").slice(0, 3);
   }
 
-  function strategyTaskCopy(items, index, isOverall) {
-    const item = items[index];
-    if (!item) return { title: "-", text: "" };
-
-    if (!isOverall) {
-      const action = (subjectActionMap[item.subjectName] || ["개념 확인", "조건 해석"])[1];
-      const first = items[0]?.area || item.area;
-      const second = items[1]?.area || item.area;
-      const templates = [
-        {
-          title: `${first} 오답 다시 풀기`,
-          text: "틀린 문항의 근거를 표시한 뒤 제한 시간 안에 다시 풀어보세요."
-        },
-        {
-          title: `${action} 해결 과정 점검하기`,
-          text: "문제를 풀기 전에 필요한 조건과 해결 순서를 직접 적어보세요."
-        },
-        {
-          title: `${second} 제한 시간 훈련하기`,
-          text: "같은 유형 문항을 묶어 풀고 풀이 시간을 함께 기록해 보세요."
-        }
-      ];
-      return templates[index] || templates[0];
-    }
-
-    const label = `${item.name} ${item.area}`;
-    const templates = [
-      {
-        title: `${label} 오답 다시 풀기`,
-        text: "틀린 문항의 근거를 표시한 뒤 제한 시간 안에 다시 풀어보세요."
-      },
-      {
-        title: `${label} 개념 점검하기`,
-        text: "문제를 풀기 전에 필요한 조건과 해결 순서를 직접 적어보세요."
-      },
-      {
-        title: `${label} 유형 집중 학습`,
-        text: "같은 유형 문항을 묶어 풀고 정답과 오답의 차이를 적어보세요."
-      }
+  function strategyTaskCopy(item, index) {
+    const verbs = ["오답 복기", "개념 정리", "실전 확인"];
+    const texts = [
+      "틀린 문항의 근거를 표시한 뒤 다시 풀어보세요.",
+      "필요한 개념과 조건을 짧게 정리해 보세요.",
+      "제한 시간 안에 같은 유형 문항을 풀어 확인해 보세요."
     ];
-    return templates[index] || templates[0];
+    if (!item) return { title: "-", text: "" };
+    return {
+      title: `${item.area} ${verbs[index] || verbs[0]}`,
+      text: texts[index] || texts[0]
+    };
   }
 
   function renderStrategyTasks(subject, month) {
-    const isOverall = !subject || subject === "전체";
     const items = getStrategyTaskItems(subject, month);
     return `
       <div class="strategy-task-grid">
         ${items
           .map((item, index) => {
-            const copy = strategyTaskCopy(items, index, isOverall);
+            const copy = strategyTaskCopy(item, index);
             return `
               <article class="summary-card">
                 <span>${String(index + 1).padStart(2, "0")}</span>
@@ -1194,7 +1174,7 @@
       .map((area) => {
         const wrong = Math.max(0, area.total - area.correct);
         const lost = totalWrong ? Math.round((wrong / totalWrong) * lostTotal) : 0;
-        return { name: area.area, wrong, lost, rate: area.mine };
+        return { name: area.area, total: area.total, wrong, lost, rate: area.mine };
       })
       .filter((item) => item.wrong > 0)
       .sort((a, b) => b.lost - a.lost || b.wrong - a.wrong || a.rate - b.rate)
@@ -1216,7 +1196,7 @@
               <li>
                 <em>${index + 1}</em>
                 <b>${item.name}</b>
-                <p>${item.wrong}문항 · 손실 ${item.lost}점</p>
+                <p>${item.total}문항 중 ${item.wrong}문항 오답</p>
                 <span class="adm-tier ${reviewTagTier(tag)}">${tag}</span>
               </li>`;
           })
@@ -1687,7 +1667,7 @@
                 <li class="${item.no === current.no ? "is-active" : ""}" data-wrong-note-no="${item.no}">
                   <em>${item.no}</em>
                   <b>${item.area}</b>
-                  <p>정답률 ${item.avg}% · ${item.points}점 · ${item.cause}</p>
+                  <p>정답률 ${item.avg}% · ${item.points}점</p>
                   <span class="adm-tier ${noteStatusClass(item.status)}">${item.status}</span>
                 </li>`
                 )
@@ -1712,7 +1692,7 @@
               <article class="exam-summary-card"><span>오답 원인</span><strong class="is-text">${current.cause}</strong></article>
             </div>
             <div class="wrong-note-block">
-              <h3>문항 내용</h3>
+              <h3>문제 내용</h3>
               <div class="wrong-note-stem">
                 <p class="wrong-note-q">${current.stem}</p>
                 <p class="wrong-note-mine">내 답: ${current.markedLabel}</p>
@@ -1818,7 +1798,7 @@
     return `
       <section class="cumulative-wrong-block">
         <div class="diag-result-head">
-          <h2 class="diag-section-title">누적 오답 요약</h2>
+          <h2 class="diag-section-title">오답 개요</h2>
         </div>
         <div class="exam-summary-grid cumulative-wrong-kpis">
           <article class="exam-summary-card"><span>분석 시험</span><strong>${months.length}<small>회차</small></strong></article>
@@ -1828,17 +1808,17 @@
         </div>
         <section class="cumulative-wrong-share">
           <div class="diag-result-head">
-            <h2 class="diag-section-title">누적 정답·오답 비중</h2>
+            <h2 class="diag-section-title">정답 및 오답 비중</h2>
           </div>
           ${renderExamShareChart(subject)}
         </section>
         <div class="score-overview wrong-area-overview cumulative-wrong-lists">
           <section class="percentile-block wrong-area-block">
             <div class="diag-result-head">
-              <h2 class="diag-section-title">누적 내용 영역 오답</h2>
+              <h2 class="diag-section-title">내용 영역 오답</h2>
             </div>
             <article class="summary-card">
-              <span>내용 영역 취약점</span>
+              <span>우선 보완</span>
               <strong>${weakArea?.name || "-"}</strong>
               <p>오답률 ${weakArea ? weakArea.rate : 0}%로 가장 높아요.</p>
             </article>
@@ -1846,10 +1826,10 @@
           </section>
           <section class="trend-mini-block wrong-area-block">
             <div class="diag-result-head">
-              <h2 class="diag-section-title">누적 행동 영역 오답</h2>
+              <h2 class="diag-section-title">행동 영역 오답</h2>
             </div>
             <article class="summary-card">
-              <span>행동 영역 취약점</span>
+              <span>우선 보완</span>
               <strong>${weakAction?.name || "-"}</strong>
               <p>오답률 ${weakAction ? weakAction.rate : 0}%로 가장 높아요.</p>
             </article>
@@ -1901,7 +1881,7 @@
             <span class="is-wrong">오답</span>
           </div>
         </div>
-        <div class="exam-share-chart" role="img" aria-label="누적 정답·오답 비중">
+        <div class="exam-share-chart" role="img" aria-label="정답 및 오답 비중">
           ${items
             .map(
               (item) => `
@@ -1962,12 +1942,14 @@
     const strongest = ranked[0];
     const weakest = ranked[ranked.length - 1];
     const wrong = questions.filter((question) => !question.correct);
-    const actionCounts = new Map();
-    wrong.forEach((question) => {
-      actionCounts.set(question.action, (actionCounts.get(question.action) || 0) + 1);
+    const causeNames = ["개념 부족", "해석 오류", "시간 부족"];
+    const causeCounts = Object.fromEntries(causeNames.map((name) => [name, 0]));
+    wrong.forEach((_, index) => {
+      causeCounts[causeNames[index % causeNames.length]] += 1;
     });
-    const weakAction = [...actionCounts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] || "오답 문항";
-    const priority = wrong.filter((question) => question.action === weakAction).slice(0, 4);
+    const topCause = causeNames
+      .map((name) => ({ name, count: causeCounts[name] }))
+      .sort((a, b) => b.count - a.count)[0];
     const overallTitle =
       overallRate >= 80 ? "전체적으로 안정적이에요" : overallRate >= 65 ? "기본 성취를 잘 쌓고 있어요" : "핵심 개념부터 점검해 보세요";
 
@@ -1976,31 +1958,31 @@
         type: "overall",
         label: "전체 성취",
         title: overallTitle,
-        text: `${questions.length}문항 중 ${totalCorrect}문항을 맞혀 정답률은 ${overallRate}%예요.`
+        text: `전체 ${questions.length}문항 중 ${totalCorrect}문항을 맞혀 정답률은 ${overallRate}%예요.`
       },
       {
         type: "strength",
         label: "강점 영역",
         title: strongest ? `${strongest.area}에 강해요` : "-",
         text: strongest
-          ? `${strongest.total}문항 중 ${strongest.correct}문항을 맞혀 ${strongest.mine}%를 기록했어요.`
+          ? `${strongest.total}문항 중 ${strongest.correct}문항을 맞혀 정답률은 ${strongest.mine}%예요.`
           : "비교할 영역이 없어요."
       },
       {
         type: "weak",
-        label: "보완 필요 영역",
-        title: weakest ? `${weakest.area}을 보완해 보세요` : "-",
+        label: "약점 영역",
+        title: weakest ? `${weakest.area}${objectParticle(weakest.area)} 보완해 보세요` : "-",
         text: weakest
-          ? `${weakest.total}문항 중 ${weakest.correct}문항을 맞혔어요. 전체 평균은 ${weakest.avg}%예요.`
+          ? `${weakest.total}문항 중 ${Math.max(0, weakest.total - weakest.correct)}문항을 틀려 정답률은 ${weakest.mine}%예요.`
           : "비교할 영역이 없어요."
       },
       {
-        type: "action",
-        label: "다음 학습 제안",
-        title: `${weakAction}부터 복습해 보세요`,
-        text: priority.length
-          ? `${priority.map((question) => `${question.no}번`).join(" · ")} 문항을 먼저 확인해 보세요.`
-          : "틀린 문항의 풀이 과정을 다시 확인해 보세요."
+        type: "cause",
+        label: "오답 원인",
+        title: wrong.length && topCause?.count ? `${topCause.name}${subjectParticle(topCause.name)} 가장 많아요` : "틀린 문항이 없어요",
+        text: wrong.length && topCause?.count
+          ? `오답 ${wrong.length}문항 중 ${topCause.count}문항이에요.`
+          : "이번 시험에서 틀린 문항이 없어요."
       }
     ];
 
@@ -2024,7 +2006,7 @@
     if (!questions.length) return "";
 
     return `
-      <div class="question-strip" role="list" aria-label="${subject} 문항별 정오 현황">
+      <div class="question-strip" role="list" aria-label="${subject} 정오 현황">
         ${questions
           .map(
             (question) => `
@@ -2092,7 +2074,7 @@
     });
 
     document.querySelectorAll("[data-trend-subject-chart]").forEach((el) => {
-      el.innerHTML = renderTrendSubject("전체");
+      el.innerHTML = renderTrendSubject("국수탐");
     });
 
     document.querySelectorAll("[data-accuracy-compare]").forEach((el) => {
@@ -2104,15 +2086,11 @@
     });
 
     document.querySelectorAll("[data-subject-overview]").forEach((el) => {
-      el.innerHTML = renderSubjectOverview("3", "국어");
+      el.innerHTML = renderSubjectOverview("3", "전체");
     });
 
     document.querySelectorAll("[data-subject-accuracy]").forEach((el) => {
-      el.innerHTML = renderSubjectAccuracy("3", "국어");
-    });
-
-    document.querySelectorAll("[data-subject-areas]").forEach((el) => {
-      el.innerHTML = renderSubjectAreas("3", "국어");
+      el.innerHTML = renderSubjectAccuracy("3", "전체");
     });
 
     document.querySelectorAll("[data-subject-questions]").forEach((el) => {
@@ -2156,19 +2134,19 @@
     });
 
     document.querySelectorAll("[data-strategy-summary]").forEach((el) => {
-      el.innerHTML = renderStrategySummary("전체", "3");
+      el.innerHTML = renderStrategySummary("국어", "3");
     });
 
     document.querySelectorAll("[data-strategy-priority]").forEach((el) => {
-      el.innerHTML = renderStrategyPriority("3");
+      el.innerHTML = renderStrategyPriority("3", "국어");
     });
 
     document.querySelectorAll("[data-strategy-ratio]").forEach((el) => {
-      el.innerHTML = renderStrategyRatio("3");
+      el.innerHTML = renderStrategyRatio("3", "국어");
     });
 
     document.querySelectorAll("[data-strategy-tasks]").forEach((el) => {
-      el.innerHTML = renderStrategyTasks("전체", "3");
+      el.innerHTML = renderStrategyTasks("국어", "3");
     });
   }
 

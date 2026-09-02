@@ -229,7 +229,7 @@
         </div>
         <div class="adm-target-cards" data-adm-target-cards></div>
 
-        <h2 class="diag-section-title">모집단위별 지원 가능점수</h2>
+        <h2 class="diag-section-title">지원 가능점수</h2>
 
         <div class="content-tabs adm-list-tabs" role="tablist" aria-label="모집단위 목록">
           <button type="button" class="content-tab active" data-adm-list-tab="all" role="tab" aria-selected="true">전체 모집단위</button>
@@ -283,7 +283,7 @@
                 <th>수능 반영영역</th>
                 <th>활용지표</th>
                 <th>내 환산점수</th>
-                <th>지원가능점수</th>
+                <th>지원가능 점수</th>
                 <th>차이</th>
                 <th>지원 구간</th>
                 <th>관심</th>
@@ -566,7 +566,7 @@
                 </strong>
               </div>
               <div class="adm-score-box is-cutoff">
-                <span class="adm-score-label">지원가능점수</span>
+                <span class="adm-score-label">지원가능 점수</span>
                 <strong class="adm-score-value">${target.cutoff}</strong>
               </div>
             </div>
@@ -721,7 +721,7 @@
         <strong class="adm-detail-score-value">${row.myScore}</strong>
       </div>
       <div class="adm-detail-score-box">
-        <span class="adm-detail-score-label">지원가능점수</span>
+        <span class="adm-detail-score-label">지원가능 점수</span>
         <strong class="adm-detail-score-value">${row.cutoff}</strong>
       </div>
       <div class="adm-detail-score-box">

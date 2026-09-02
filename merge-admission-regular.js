@@ -62,18 +62,11 @@
     }
   };
 
-  const REGION_OPTIONS = [
-    { value: "all", label: "지역 전체" },
-    { value: "서울", label: "서울" },
-    { value: "인천·경기", label: "인천·경기" },
-    { value: "강원", label: "강원" },
-    { value: "대전·세종·충남", label: "대전·세종·충남" },
-    { value: "충북", label: "충북" },
-    { value: "광주·전남", label: "광주·전남" },
-    { value: "전북", label: "전북" },
-    { value: "대구·경북", label: "대구·경북" },
-    { value: "부산·울산·경남", label: "부산·울산·경남" },
-    { value: "제주", label: "제주" }
+  const TRACK_OPTIONS = [
+    { value: "all", label: "계열 전체" },
+    { value: "인문", label: "인문" },
+    { value: "자연", label: "자연" },
+    { value: "예체능", label: "예체능" }
   ];
 
   const SIM_SUBJECT_ORDER = ["국어", "수학", "영어", "한국사", "통합사회", "통합과학"];
@@ -246,9 +239,6 @@
               </svg>
             </button>
           </div>
-          <select class="adm-select adm-select--inline" data-adm-region-filter aria-label="지역">
-            ${REGION_OPTIONS.map((region) => `<option value="${region.value}">${region.label}</option>`).join("")}
-          </select>
           <select class="adm-select adm-select--inline" data-adm-group-filter aria-label="모집 군">
             <option value="all">군 전체</option>
             <option value="가군">가군</option>
@@ -256,10 +246,7 @@
             <option value="다군">다군</option>
           </select>
           <select class="adm-select adm-select--inline" data-adm-track-filter aria-label="계열">
-            <option value="all">계열 전체</option>
-            <option value="인문">인문</option>
-            <option value="자연">자연</option>
-            <option value="예체능">예체능</option>
+            ${TRACK_OPTIONS.map((track) => `<option value="${track.value}">${track.label}</option>`).join("")}
           </select>
           <select class="adm-select adm-select--inline" data-adm-tier-filter aria-label="지원 구간">
             <option value="all">지원 구간 전체</option>
@@ -362,7 +349,6 @@
       }
     });
 
-    panel.querySelector("[data-adm-region-filter]")?.addEventListener("change", () => renderList(panel, state));
     panel.querySelector("[data-adm-group-filter]")?.addEventListener("change", () => renderList(panel, state));
     panel.querySelector("[data-adm-track-filter]")?.addEventListener("change", () => renderList(panel, state));
     panel.querySelector("[data-adm-tier-filter]")?.addEventListener("change", () => renderList(panel, state));
@@ -586,11 +572,9 @@
     const track = panel.querySelector("[data-adm-track-filter]")?.value || "all";
     const tierFilter = panel.querySelector("[data-adm-tier-filter]")?.value || "all";
     const group = panel.querySelector("[data-adm-group-filter]")?.value || "all";
-    const region = panel.querySelector("[data-adm-region-filter]")?.value || "all";
 
     const filtered = rows.filter((row) => {
       if (state.listFilter.listTab === "fav" && !state.favorites.has(row.id)) return false;
-      if (region !== "all" && row.region !== region) return false;
       if (group !== "all" && row.group !== group) return false;
       if (track !== "all" && row.track !== track) return false;
       if (tierFilter !== "all" && row.tier.className !== tierFilter) return false;
@@ -624,7 +608,7 @@
               ${scoreChanged ? `<em>${formatDiff(row.myScore - originalRow.myScore)}</em>` : ""}
             </td>
             <td><strong>${row.cutoff}</strong></td>
-            <td>${formatDiff(row.diff)}</td>
+            <td class="${row.diff >= 0 ? "is-up" : "is-down"}">${formatDiff(row.diff)}</td>
             <td><span class="adm-tier ${row.tier.className}">${row.tier.label}</span></td>
             <td>
               <button type="button" class="adm-fav-btn${state.favorites.has(row.id) ? " is-active" : ""}" data-adm-fav-toggle="${row.id}">
@@ -695,7 +679,11 @@
   }
 
   function updateBodyModalState() {
-    const isOpen = (modal && !modal.hidden) || (detailModal && !detailModal.hidden);
+    const isOpen =
+      (modal && !modal.hidden) ||
+      (detailModal && !detailModal.hidden) ||
+      (document.getElementById("admEarlyTargetModal") && !document.getElementById("admEarlyTargetModal").hidden) ||
+      (document.getElementById("admEarlyDetailModal") && !document.getElementById("admEarlyDetailModal").hidden);
     document.body.classList.toggle("adm-modal-open", isOpen);
   }
 
@@ -709,6 +697,7 @@
     if (!row || !detailModal) return;
 
     const diff = formatDiff(row.diff);
+    const diffClass = row.diff >= 0 ? "is-up" : "is-down";
 
     detailModal.querySelector("[data-adm-detail-badges]").innerHTML = `
       <span class="adm-detail-badge is-group">${row.group}</span>
@@ -726,7 +715,7 @@
       </div>
       <div class="adm-detail-score-box">
         <span class="adm-detail-score-label">점수 차이</span>
-        <strong class="adm-detail-score-value adm-detail-diff-value">${diff}</strong>
+        <strong class="adm-detail-score-value adm-detail-diff-value ${diffClass}">${diff}</strong>
       </div>`;
 
     detailModal.querySelector("[data-adm-detail-result-body]").innerHTML = `
@@ -737,7 +726,7 @@
         <td>${row.metric}</td>
         <td><strong>${row.myScore}</strong></td>
         <td><strong>${row.cutoff}</strong></td>
-        <td class="adm-detail-diff">${diff}</td>
+        <td class="adm-detail-diff ${diffClass}">${diff}</td>
         <td>${renderDetailTierBadge(row.tier)}</td>
       </tr>`;
   }
@@ -951,7 +940,8 @@
       activePanel = document.querySelector(`.regular-month-panel[data-regular-month="${month}"]`);
     },
     resetPanelState,
-    initCustomSelects
+    initCustomSelects,
+    TRACK_OPTIONS
   };
 
   init();

@@ -43,7 +43,7 @@
               <button type="button" class="nav-mega-title" data-panel="admission">합격 예측</button>
               <div class="nav-mega-links">
                 <button type="button" class="nav-dropdown-link" data-panel="admission" data-admission="regular">정시</button>
-                <button type="button" class="nav-dropdown-link is-disabled" data-panel="admission" data-admission="early" disabled>수시</button>
+                <button type="button" class="nav-dropdown-link" data-panel="admission" data-admission="early">수시</button>
               </div>
             </div>
           </div>
@@ -290,8 +290,138 @@
 
     <section class="panel" data-panel="admission">
       <div class="sub-panel" data-admission="early">
-        <div class="content-empty">
-          <p>수시 지원 가능성을 확인하는 영역입니다.</p>
+        <div class="content-tabs" role="tablist" aria-label="수시 합격 예측">
+          <button type="button" class="content-tab active" data-admission-view="precise" role="tab" aria-selected="true">정밀 예측</button>
+          <button type="button" class="content-tab" data-admission-view="simple" role="tab" aria-selected="false">간편 예측</button>
+        </div>
+
+        <div class="content-tab-panel active" data-admission-view="precise" role="tabpanel">
+          <div class="diag-result-head">
+            <h2 class="diag-section-title">목표 모집단위</h2>
+          </div>
+          <div class="adm-target-cards" data-early-target-cards></div>
+
+          <div class="diag-result-head">
+            <h2 class="diag-section-title">지원가능 점수</h2>
+          </div>
+          <div class="content-tabs adm-list-tabs" role="tablist" aria-label="수시 모집단위 목록">
+            <button type="button" class="content-tab active" data-early-list-tab="all" role="tab" aria-selected="true">전체 모집단위</button>
+            <button type="button" class="content-tab" data-early-list-tab="fav" role="tab" aria-selected="false">관심 모집단위</button>
+          </div>
+          <div class="adm-filter-row">
+            <div class="adm-search-wrap">
+              <input type="text" class="adm-search" placeholder="대학·모집단위 검색" data-early-search autocomplete="off">
+              <button type="button" class="adm-search-btn" data-early-search-submit aria-label="검색">
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                  <circle cx="10.5" cy="10.5" r="5.75" fill="none" stroke="currentColor" stroke-width="2.25"></circle>
+                  <path d="M15.2 15.2 19 19" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round"></path>
+                </svg>
+              </button>
+            </div>
+            <select class="adm-select adm-select--inline" data-early-category-filter aria-label="유형">
+              <option value="all">유형 전체</option>
+              <option value="종합">종합</option>
+              <option value="교과">교과</option>
+              <option value="논술">논술</option>
+              <option value="실기">실기</option>
+            </select>
+            <select class="adm-select adm-select--inline" data-early-track-filter aria-label="계열"></select>
+            <select class="adm-select adm-select--inline" data-early-tier-filter aria-label="지원 구간">
+              <option value="all">지원 구간 전체</option>
+              <option value="is-safe">안정</option>
+              <option value="is-fit">적정</option>
+              <option value="is-reach">상향</option>
+            </select>
+          </div>
+          <div class="diag-table-scroll">
+            <table class="diag-table adm-list-table adm-early-list-table">
+              <thead>
+                <tr>
+                  <th>전형유형</th>
+                  <th>대학</th>
+                  <th>전형명</th>
+                  <th>계열</th>
+                  <th>모집단위</th>
+                  <th>모집인원</th>
+                  <th>전년도 경쟁률</th>
+                  <th>내 환산점수</th>
+                  <th>지원가능 점수</th>
+                  <th>차이</th>
+                  <th>지원 구간</th>
+                  <th>관심</th>
+                  <th>관련 상세</th>
+                </tr>
+              </thead>
+              <tbody data-early-list-body></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="content-tab-panel" data-admission-view="simple" role="tabpanel">
+          <div class="diag-result-head adm-simple-predict-head">
+            <div class="adm-simple-predict-row">
+              <label class="adm-grade-field">
+                <input type="text" inputmode="decimal" value="2.31" data-early-simple-grade aria-label="내신 입력" autocomplete="off">
+                <span class="adm-grade-unit">등급</span>
+              </label>
+              <button type="button" class="adm-simple-predict-btn" data-early-simple-submit>분석하기</button>
+            </div>
+          </div>
+          <div class="adm-target-cards" data-early-target-cards></div>
+
+          <div class="diag-result-head">
+            <h2 class="diag-section-title">지원가능 등급</h2>
+          </div>
+          <div class="content-tabs adm-list-tabs" role="tablist" aria-label="수시 모집단위 목록">
+            <button type="button" class="content-tab active" data-early-list-tab="all" role="tab" aria-selected="true">전체 모집단위</button>
+            <button type="button" class="content-tab" data-early-list-tab="fav" role="tab" aria-selected="false">관심 모집단위</button>
+          </div>
+          <div class="adm-filter-row">
+            <div class="adm-search-wrap">
+              <input type="text" class="adm-search" placeholder="대학·모집단위 검색" data-early-search autocomplete="off">
+              <button type="button" class="adm-search-btn" data-early-search-submit aria-label="검색">
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                  <circle cx="10.5" cy="10.5" r="5.75" fill="none" stroke="currentColor" stroke-width="2.25"></circle>
+                  <path d="M15.2 15.2 19 19" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round"></path>
+                </svg>
+              </button>
+            </div>
+            <select class="adm-select adm-select--inline" data-early-category-filter aria-label="유형">
+              <option value="all">유형 전체</option>
+              <option value="종합">종합</option>
+              <option value="교과">교과</option>
+              <option value="논술">논술</option>
+              <option value="실기">실기</option>
+            </select>
+            <select class="adm-select adm-select--inline" data-early-track-filter aria-label="계열"></select>
+            <select class="adm-select adm-select--inline" data-early-tier-filter aria-label="지원 구간">
+              <option value="all">지원 구간 전체</option>
+              <option value="is-safe">안정</option>
+              <option value="is-fit">적정</option>
+              <option value="is-reach">상향</option>
+            </select>
+          </div>
+          <div class="diag-table-scroll">
+            <table class="diag-table adm-list-table adm-early-list-table adm-early-simple-list-table">
+              <thead>
+                <tr>
+                  <th>전형유형</th>
+                  <th>대학</th>
+                  <th>전형명</th>
+                  <th>계열</th>
+                  <th>모집단위</th>
+                  <th>모집인원</th>
+                  <th>전년도 경쟁률</th>
+                  <th>내 등급 위치</th>
+                  <th>지원가능 등급</th>
+                  <th>수능 최저</th>
+                  <th>지원 구간</th>
+                  <th>관심</th>
+                </tr>
+              </thead>
+              <tbody data-early-list-body></tbody>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -706,6 +836,106 @@
       <div class="adm-modal-footer">
         <button type="button" class="btn-adm-outline" data-adm-target-reset>초기화</button>
         <button type="button" class="btn-adm-primary" data-adm-target-save>저장</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="adm-modal" id="admEarlyTargetModal" hidden>
+    <div class="adm-modal-backdrop" data-early-modal-close></div>
+    <div class="adm-modal-dialog adm-target-dialog" role="dialog" aria-modal="true" aria-labelledby="admEarlyTargetModalTitle">
+      <div class="adm-modal-header">
+        <h2 class="adm-modal-title" id="admEarlyTargetModalTitle">목표 모집단위</h2>
+        <button type="button" class="adm-modal-close" data-early-modal-close aria-label="닫기">✕</button>
+      </div>
+      <div class="adm-modal-body">
+        <table class="diag-table adm-target-form-table">
+          <thead>
+            <tr>
+              <th>순위</th>
+              <th>대학</th>
+              <th>전형유형</th>
+              <th>전형명</th>
+              <th>모집단위</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>1</th>
+              <td><select class="adm-select" data-early-target-field="e1-univ"></select></td>
+              <td><select class="adm-select" data-early-target-field="e1-category"></select></td>
+              <td><select class="adm-select" data-early-target-field="e1-type"></select></td>
+              <td><select class="adm-select" data-early-target-field="e1-major"></select></td>
+            </tr>
+            <tr>
+              <th>2</th>
+              <td><select class="adm-select" data-early-target-field="e2-univ"></select></td>
+              <td><select class="adm-select" data-early-target-field="e2-category"></select></td>
+              <td><select class="adm-select" data-early-target-field="e2-type"></select></td>
+              <td><select class="adm-select" data-early-target-field="e2-major"></select></td>
+            </tr>
+            <tr>
+              <th>3</th>
+              <td><select class="adm-select" data-early-target-field="e3-univ"></select></td>
+              <td><select class="adm-select" data-early-target-field="e3-category"></select></td>
+              <td><select class="adm-select" data-early-target-field="e3-type"></select></td>
+              <td><select class="adm-select" data-early-target-field="e3-major"></select></td>
+            </tr>
+            <tr>
+              <th>4</th>
+              <td><select class="adm-select" data-early-target-field="e4-univ"></select></td>
+              <td><select class="adm-select" data-early-target-field="e4-category"></select></td>
+              <td><select class="adm-select" data-early-target-field="e4-type"></select></td>
+              <td><select class="adm-select" data-early-target-field="e4-major"></select></td>
+            </tr>
+            <tr>
+              <th>5</th>
+              <td><select class="adm-select" data-early-target-field="e5-univ"></select></td>
+              <td><select class="adm-select" data-early-target-field="e5-category"></select></td>
+              <td><select class="adm-select" data-early-target-field="e5-type"></select></td>
+              <td><select class="adm-select" data-early-target-field="e5-major"></select></td>
+            </tr>
+            <tr>
+              <th>6</th>
+              <td><select class="adm-select" data-early-target-field="e6-univ"></select></td>
+              <td><select class="adm-select" data-early-target-field="e6-category"></select></td>
+              <td><select class="adm-select" data-early-target-field="e6-type"></select></td>
+              <td><select class="adm-select" data-early-target-field="e6-major"></select></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="adm-modal-footer">
+        <button type="button" class="btn-adm-outline" data-early-target-reset>초기화</button>
+        <button type="button" class="btn-adm-primary" data-early-target-save>저장</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="adm-modal" id="admEarlyDetailModal" hidden>
+    <div class="adm-modal-backdrop" data-early-detail-close></div>
+    <div class="adm-modal-dialog adm-detail-dialog" role="dialog" aria-modal="true" aria-labelledby="admEarlyDetailModalTitle">
+      <div class="adm-modal-header adm-detail-header">
+        <span class="adm-detail-header-spacer" aria-hidden="true"></span>
+        <button type="button" class="adm-modal-close" data-early-detail-close aria-label="닫기">✕</button>
+      </div>
+      <div class="adm-modal-body adm-detail-body">
+        <div class="adm-detail-badges" data-early-detail-badges></div>
+        <h2 class="adm-detail-title" id="admEarlyDetailModalTitle" data-early-detail-title></h2>
+        <div class="adm-detail-scores" data-early-detail-scores></div>
+        <table class="diag-table adm-target-form-table adm-detail-form-table adm-detail-result-form-table adm-early-detail-result-table">
+          <thead>
+            <tr>
+              <th>전형유형</th>
+              <th>전형명</th>
+              <th>계열</th>
+              <th data-early-detail-my-label>내 환산점수</th>
+              <th data-early-detail-cutoff-label>지원가능 점수</th>
+              <th>차이</th>
+              <th>지원 구간</th>
+            </tr>
+          </thead>
+          <tbody data-early-detail-result-body></tbody>
+        </table>
       </div>
     </div>
   </div>

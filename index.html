@@ -20,7 +20,7 @@
               <button type="button" class="nav-mega-title" data-panel="scores">성적 분석</button>
               <div class="nav-mega-links">
                 <button type="button" class="nav-dropdown-link" data-panel="scores" data-scores="mock">모의고사</button>
-                <button type="button" class="nav-dropdown-link is-disabled" data-panel="scores" data-scores="school" disabled>내신</button>
+                <button type="button" class="nav-dropdown-link" data-panel="scores" data-scores="school">내신</button>
               </div>
             </div>
           </div>
@@ -92,9 +92,7 @@
 
     <section class="panel active" data-panel="scores">
       <div class="sub-panel" data-scores="school">
-        <div class="content-empty">
-          <p>내신 성적과 추이를 확인하는 영역입니다.</p>
-        </div>
+        <div data-school-analysis></div>
       </div>
 
       <div class="sub-panel active" data-scores="mock">

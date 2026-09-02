@@ -3274,6 +3274,41 @@ button.question-cell {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.school-gpa-kpis {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.school-analysis-block > .diag-result-head {
+  margin: 0 0 24px;
+}
+
+.school-analysis-block .content-tabs {
+  margin-bottom: 24px;
+}
+
+.school-analysis-block + .school-analysis-block {
+  margin-top: 28px;
+}
+
+.school-trend-box {
+  display: flex;
+  flex-direction: column;
+  min-height: 480px;
+  padding: 24px 28px 20px;
+  border: 1px solid var(--line);
+  background: var(--white);
+}
+
+.school-trend-box .trend-mini-x {
+  align-items: flex-start;
+  padding-top: 16px;
+}
+
+.school-trend-box .trend-mini-x span {
+  white-space: normal;
+  word-break: keep-all;
+}
+
 .cumulative-wrong-lists > .percentile-block > .diag-result-head,
 .cumulative-wrong-lists > .trend-mini-block > .diag-result-head {
   margin: 24px 0;
@@ -3687,7 +3722,8 @@ button.question-cell {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 
-  .exam-summary-grid.cumulative-wrong-kpis {
+  .exam-summary-grid.cumulative-wrong-kpis,
+  .exam-summary-grid.school-gpa-kpis {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
@@ -3767,7 +3803,8 @@ button.question-cell {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 
-  .exam-summary-grid.cumulative-wrong-kpis {
+  .exam-summary-grid.cumulative-wrong-kpis,
+  .exam-summary-grid.school-gpa-kpis {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 

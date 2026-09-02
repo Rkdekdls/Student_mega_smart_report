@@ -34,8 +34,7 @@
           ["수학", "공통수학1", 4, 88, 68.2, "A", 2, 284],
           ["영어", "공통영어1", 4, 94, 72.1, "A", 1, 284],
           ["사회", "통합사회1", 3, 86, 70.5, "B", 2, 284],
-          ["과학", "통합과학1", 3, 90, 69.8, "A", 1, 284],
-          ["한국사", "한국사1", 3, 84, 73.4, "B", 2, 284]
+          ["과학", "통합과학1", 3, 90, 69.8, "A", 1, 284]
         ]
       },
       {
@@ -45,8 +44,7 @@
           ["수학", "공통수학2", 4, 85, 67.5, "A", 2, 284],
           ["영어", "공통영어2", 4, 91, 71.8, "A", 1, 284],
           ["사회", "통합사회2", 3, 83, 69.4, "B", 3, 284],
-          ["과학", "통합과학2", 3, 88, 68.9, "A", 2, 284],
-          ["한국사", "한국사2", 3, 82, 72.0, "B", 3, 284]
+          ["과학", "통합과학2", 3, 88, 68.9, "A", 2, 284]
         ]
       }
     ],
@@ -58,8 +56,7 @@
           ["수학", "수학Ⅰ", 4, 86, 65.8, "A", 3, 276],
           ["영어", "영어Ⅰ", 4, 93, 70.4, "A", 1, 276],
           ["사회", "사회·문화", 3, 84, 68.7, "B", 2, 276],
-          ["과학", "물리학Ⅰ", 3, 87, 66.2, "A", 2, 276],
-          ["한국사", "한국지리", 3, 81, 71.0, "B", 3, 276]
+          ["과학", "물리학Ⅰ", 3, 87, 66.2, "A", 2, 276]
         ]
       },
       {
@@ -69,8 +66,7 @@
           ["수학", "수학Ⅱ", 4, 83, 64.9, "A", 3, 276],
           ["영어", "영어Ⅱ", 4, 90, 69.6, "A", 2, 276],
           ["사회", "정치와법", 3, 82, 67.8, "B", 3, 276],
-          ["과학", "화학Ⅰ", 3, 85, 65.5, "A", 2, 276],
-          ["한국사", "세계지리", 3, 80, 70.2, "B", 3, 276]
+          ["과학", "화학Ⅰ", 3, 85, 65.5, "A", 2, 276]
         ]
       }
     ],
@@ -82,8 +78,7 @@
           ["수학", "미적분", 4, 84, 63.5, "A", 3, 268],
           ["영어", "영어Ⅰ", 4, 92, 71.2, "A", 1, 268],
           ["사회", "생활과윤리", 3, 88, 69.1, "A", 2, 268],
-          ["과학", "화학Ⅱ", 3, 86, 64.7, "A", 2, 268],
-          ["한국사", "동아시아사", 3, 85, 72.5, "B", 2, 268]
+          ["과학", "화학Ⅱ", 3, 86, 64.7, "A", 2, 268]
         ]
       },
       {
@@ -93,8 +88,7 @@
           ["수학", "확률과통계", 4, 82, 62.8, "A", 3, 268],
           ["영어", "영어Ⅱ", 4, 90, 70.3, "A", 2, 268],
           ["사회", "윤리와사상", 3, 86, 68.4, "B", 2, 268],
-          ["과학", "생명과학Ⅱ", 3, 84, 63.9, "A", 3, 268],
-          ["한국사", "세계사", 3, 83, 71.8, "B", 3, 268]
+          ["과학", "생명과학Ⅱ", 3, 84, 63.9, "A", 3, 268]
         ]
       }
     ]
@@ -228,6 +222,204 @@
           </div>`
       )
       .join("");
+  }
+
+  const schoolMajorSubjects = ["국어", "수학", "영어", "사회", "과학"];
+  const schoolComboDefs = [
+    { key: "all", label: "전교과", subjects: null },
+    { key: "kemss", label: "국영수사과", subjects: schoolMajorSubjects },
+    { key: "kems", label: "국영수사", subjects: ["국어", "영어", "수학", "사회"] },
+    { key: "kemsc", label: "국영수과", subjects: ["국어", "영어", "수학", "과학"] }
+  ];
+
+  function schoolCourseRows() {
+    const items = [];
+    [1, 2, 3].forEach((grade) => {
+      (schoolSamples[grade] || []).forEach((semester, index) => {
+        semester.rows.forEach((row) => {
+          items.push({
+            grade,
+            semester: index + 1,
+            title: semester.title,
+            subject: row[0],
+            credit: Number(row[2]) || 0,
+            rank: Number(row[6]) || 0
+          });
+        });
+      });
+    });
+    return items;
+  }
+
+  function schoolWeightedRank(rows) {
+    const credits = rows.reduce((sum, row) => sum + row.credit, 0);
+    if (!credits) return 0;
+    return rows.reduce((sum, row) => sum + row.rank * row.credit, 0) / credits;
+  }
+
+  function formatSchoolRank(value) {
+    return Number(value).toFixed(2);
+  }
+
+  function schoolMatchCombo(row, subjects) {
+    return !subjects || subjects.includes(row.subject);
+  }
+
+  function schoolTrendSeries(subject) {
+    const courses = schoolCourseRows();
+    const matched =
+      !subject || subject === "전교과"
+        ? courses
+        : subject === "주요교과"
+          ? courses.filter((row) => schoolMajorSubjects.includes(row.subject))
+          : courses.filter((row) => row.subject === subject);
+    const semesterTitles = [];
+    courses.forEach((row) => {
+      if (!semesterTitles.includes(row.title)) semesterTitles.push(row.title);
+    });
+    return {
+      series: semesterTitles.map((title) => ({
+        label: title,
+        full: title,
+        score: schoolWeightedRank(matched.filter((row) => row.title === title))
+      }))
+    };
+  }
+
+  function renderSchoolTrendChart(subject) {
+    const { series } = schoolTrendSeries(subject || "전교과");
+    return renderSchoolTrend(series, subject || "전교과");
+  }
+
+  function renderSchoolTrend(series, subject) {
+    const width = 400;
+    const height = 200;
+    const yMin = 1;
+    const yMax = 9;
+    const coords = series.map((item, index) => {
+      const x = ((index + 0.5) / series.length) * width;
+      const y = ((Number(item.score) - yMin) / (yMax - yMin)) * height;
+      return { ...item, x, y };
+    });
+    const line = coords
+      .map((point, index) => `${index ? "L" : "M"}${point.x.toFixed(1)},${point.y.toFixed(1)}`)
+      .join(" ");
+    const last = coords[coords.length - 1];
+    const first = coords[0];
+    const area = `${line} L${last.x.toFixed(1)},${height} L${first.x.toFixed(1)},${height} Z`;
+
+    return `
+      <div class="school-trend-box">
+        <div class="trend-mini-chart is-full" role="img" aria-label="${subject || "전교과"} 학기별 등급 추이">
+          <div class="trend-mini-y" aria-hidden="true"><span>1.00</span><span>3.00</span><span>5.00</span><span>7.00</span><span>9.00</span></div>
+          <div class="trend-mini-plot">
+            <svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" class="trend-mini-svg" aria-hidden="true">
+              <path class="trend-mini-area" d="${area}"></path>
+              <path class="trend-mini-line" d="${line}" fill="none"></path>
+            </svg>
+            <div class="trend-mini-points">
+              ${coords
+                .map(
+                  (point) =>
+                    `<i style="left:${((point.x / width) * 100).toFixed(2)}%;top:${((point.y / height) * 100).toFixed(2)}%" title="${point.full} ${formatSchoolRank(point.score)}등급"><b>${formatSchoolRank(point.score)}</b></i>`
+                )
+                .join("")}
+            </div>
+          </div>
+          <div class="trend-mini-x" aria-hidden="true">
+            ${series.map((item) => `<span>${item.label}</span>`).join("")}
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function renderSchoolAnalysis() {
+    const courses = schoolCourseRows();
+    if (!courses.length) return "";
+
+    const allRank = schoolWeightedRank(courses);
+    const majorRank = schoolWeightedRank(courses.filter((row) => schoolMajorSubjects.includes(row.subject)));
+    const courseCount = courses.length;
+    const creditTotal = courses.reduce((sum, row) => sum + row.credit, 0);
+
+    const comboRows = schoolComboDefs.map((combo) => {
+      const matched = courses.filter((row) => schoolMatchCombo(row, combo.subjects));
+      const byGrade = [1, 2, 3].map((grade) => schoolWeightedRank(matched.filter((row) => row.grade === grade)));
+      return {
+        ...combo,
+        grades: byGrade,
+        overall: schoolWeightedRank(matched)
+      };
+    });
+    return `
+      <section class="school-analysis-block">
+        <div class="diag-result-head">
+          <h2 class="diag-section-title">내신 현황</h2>
+        </div>
+        <div class="exam-summary-grid school-gpa-kpis">
+          <article class="exam-summary-card">
+            <span>전교과 평균</span>
+            <strong>${formatSchoolRank(allRank)}<small>등급</small></strong>
+          </article>
+          <article class="exam-summary-card">
+            <span>주요교과 평균</span>
+            <strong>${formatSchoolRank(majorRank)}<small>등급</small></strong>
+          </article>
+          <article class="exam-summary-card">
+            <span>분석 과목 수</span>
+            <strong>${courseCount}<small>과목</small></strong>
+          </article>
+          <article class="exam-summary-card">
+            <span>총 이수 학점</span>
+            <strong>${creditTotal}<small>학점</small></strong>
+          </article>
+        </div>
+      </section>
+      <section class="school-analysis-block">
+        <div class="diag-result-head">
+          <h2 class="diag-section-title">교과 조합별 비교</h2>
+        </div>
+        <div class="diag-table-scroll">
+          <table class="diag-table diag-table-define school-combo-table">
+            <thead>
+              <tr>
+                <th>교과 조합</th>
+                <th>전 학년</th>
+                <th>1학년</th>
+                <th>2학년</th>
+                <th>3학년</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${comboRows
+                .map(
+                  (row) => `
+                    <tr>
+                      <th>${row.label}</th>
+                      <td>${formatSchoolRank(row.overall)}</td>
+                      ${row.grades.map((value) => `<td>${formatSchoolRank(value)}</td>`).join("")}
+                    </tr>`
+                )
+                .join("")}
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="school-analysis-block">
+        <div class="diag-result-head">
+          <h2 class="diag-section-title">학기별 등급 추이</h2>
+        </div>
+        <div class="content-tabs" role="tablist" aria-label="학기별 등급 추이 과목">
+          <button type="button" class="content-tab active" data-school-trend-subject="전교과" role="tab" aria-selected="true">전교과</button>
+          <button type="button" class="content-tab" data-school-trend-subject="주요교과" role="tab" aria-selected="false">주요교과</button>
+          <button type="button" class="content-tab" data-school-trend-subject="국어" role="tab" aria-selected="false">국어</button>
+          <button type="button" class="content-tab" data-school-trend-subject="영어" role="tab" aria-selected="false">영어</button>
+          <button type="button" class="content-tab" data-school-trend-subject="수학" role="tab" aria-selected="false">수학</button>
+          <button type="button" class="content-tab" data-school-trend-subject="사회" role="tab" aria-selected="false">사회</button>
+          <button type="button" class="content-tab" data-school-trend-subject="과학" role="tab" aria-selected="false">과학</button>
+        </div>
+        <div data-school-trend-chart>${renderSchoolTrendChart("전교과")}</div>
+      </section>`;
   }
 
   function renderMockMonth(month, { withReportSuffix = false } = {}) {
@@ -2039,6 +2231,8 @@
     renderTrendFull,
     renderTrendSubject,
     renderTrendExamTable,
+    renderSchoolAnalysis,
+    renderSchoolTrendChart,
     renderStrategySummary,
     renderStrategyPriority,
     renderStrategyRatio,
@@ -2048,6 +2242,10 @@
   function initMypageSamples() {
     document.querySelectorAll("[data-school-render]").forEach((el) => {
       el.innerHTML = renderSchoolGrade(el.dataset.schoolRender);
+    });
+
+    document.querySelectorAll("[data-school-analysis]").forEach((el) => {
+      el.innerHTML = renderSchoolAnalysis();
     });
 
     document.querySelectorAll("[data-mock-render]").forEach((el) => {

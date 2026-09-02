@@ -10,6 +10,7 @@
   const mypagePanel = document.querySelector('.panel[data-panel="mypage"]');
   const regularPanel = document.querySelector('.sub-panel[data-admission="regular"]');
   const scoresMockPanel = document.querySelector('.sub-panel[data-scores="mock"]');
+  const scoresSchoolPanel = document.querySelector('.sub-panel[data-scores="school"]');
   const analysisPanel = document.querySelector('.panel[data-panel="analysis"]');
   const contentTabs = mypagePanel ? [...mypagePanel.querySelectorAll(".content-tab[data-mypage]")] : [];
   const schoolGradeChips = mypagePanel ? [...mypagePanel.querySelectorAll(".month-chip[data-school-grade]")] : [];
@@ -305,6 +306,7 @@
   let selectedExamMonth = "3";
   let selectedTrendSubject = "국수탐";
   let selectedStrategySubject = "국어";
+  let selectedSchoolTrendSubject = "전교과";
 
   function refreshExamOverview() {
     const overview = scoresMockPanel?.querySelector("[data-subject-overview]");
@@ -341,6 +343,19 @@
     activateTakenExam(regularPanel, "3");
     activateRegularMonth("3");
     window.AdmissionRegular?.resetAll();
+  }
+
+  function refreshSchoolTrend() {
+    const target = scoresSchoolPanel?.querySelector("[data-school-trend-chart]");
+    if (target) {
+      target.innerHTML = window.MegaReportData?.renderSchoolTrendChart?.(selectedSchoolTrendSubject) || "";
+    }
+
+    scoresSchoolPanel?.querySelectorAll("[data-school-trend-subject]").forEach((tab) => {
+      const isActive = tab.dataset.schoolTrendSubject === selectedSchoolTrendSubject;
+      tab.classList.toggle("active", isActive);
+      tab.setAttribute("aria-selected", isActive ? "true" : "false");
+    });
   }
 
   function refreshTrendSubject() {
@@ -583,6 +598,13 @@
 
   window.AdmissionRegular?.initCustomSelects(scoresMockPanel);
   window.AdmissionRegular?.initCustomSelects(regularPanel);
+
+  scoresSchoolPanel?.addEventListener("click", (event) => {
+    const tab = event.target.closest("[data-school-trend-subject]");
+    if (!tab || !scoresSchoolPanel.contains(tab)) return;
+    selectedSchoolTrendSubject = tab.dataset.schoolTrendSubject;
+    refreshSchoolTrend();
+  });
 
   scoresMockPanel?.querySelectorAll("[data-trend-subject]").forEach((tab) => {
     tab.addEventListener("click", () => {

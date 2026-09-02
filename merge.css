@@ -78,7 +78,9 @@ a {
   letter-spacing: -0.04em;
   line-height: 1;
   white-space: nowrap;
-  cursor: pointer;
+  cursor: default;
+  user-select: none;
+  pointer-events: none;
 }
 
 .logo span {

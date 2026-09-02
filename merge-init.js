@@ -84,6 +84,14 @@
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }
 
+  if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+  }
+
+  window.addEventListener("pageshow", () => {
+    scrollToMainTop();
+  });
+
   function keepWindowScroll(run) {
     const y = window.scrollY;
     const html = document.documentElement;
@@ -106,11 +114,6 @@
     if (event.target.closest(".content-tab, .month-chip, [data-taken-exam], [data-wrong-cause]")) {
       event.preventDefault();
     }
-  });
-
-  document.querySelector(".logo")?.addEventListener("click", (event) => {
-    event.preventDefault();
-    window.location.reload();
   });
 
   function activateMypageTab(name) {

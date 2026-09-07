@@ -3,8 +3,10 @@
   const panels = [...document.querySelectorAll(".panel")];
   const pageTitle = document.querySelector("#pageTitle");
   const dropdownLinks = [...document.querySelectorAll(".nav-dropdown-link")];
-  const navZone = document.querySelector(".header-nav-zone");
-  const megaCols = [...document.querySelectorAll(".nav-mega-col")];
+  const sidebarToggle = document.querySelector(".sidebar-toggle");
+  const sidebarClose = document.querySelector(".sidebar-close");
+  const sidebarDim = document.querySelector("[data-sidebar-dim]");
+  const sidebarCollapse = document.querySelector(".sidebar-collapse");
   const mypageButtons = [...document.querySelectorAll(".btn-mypage")];
   const mypagePanel = document.querySelector('.panel[data-panel="mypage"]');
   const regularPanel = document.querySelector('.sub-panel[data-admission="regular"]');
@@ -66,18 +68,23 @@
     pageTitle.textContent = labels[panelName] || "";
   }
 
-  function closeMenus() {
-    navZone?.classList.add("is-closed");
-    megaCols.forEach((col) => col.classList.remove("is-highlighted"));
-    if (document.activeElement instanceof HTMLElement) {
-      document.activeElement.blur();
-    }
+  function setSidebarOpen(open) {
+    document.body.classList.toggle("is-sidebar-open", open);
+    sidebarToggle?.setAttribute("aria-expanded", open ? "true" : "false");
+    sidebarToggle?.setAttribute("aria-label", open ? "메뉴 닫기" : "메뉴 열기");
   }
 
-  function highlightMegaCol(panelName) {
-    megaCols.forEach((col) => {
-      col.classList.toggle("is-highlighted", col.dataset.panel === panelName);
-    });
+  function setSidebarCollapsed(collapsed) {
+    document.body.classList.toggle("is-sidebar-collapsed", collapsed);
+    sidebarCollapse?.setAttribute("aria-expanded", collapsed ? "false" : "true");
+    sidebarCollapse?.setAttribute("aria-label", collapsed ? "메뉴 펼치기" : "메뉴 접기");
+  }
+
+  function closeMenus() {
+    setSidebarOpen(false);
+    if (document.activeElement instanceof HTMLElement && document.activeElement.closest(".global-header, .sidebar-toggle")) {
+      document.activeElement.blur();
+    }
   }
 
   function scrollToMainTop() {
@@ -476,6 +483,7 @@
 
   function openMypage() {
     resetMypageView();
+    tabs.forEach((tab) => tab.classList.remove("active"));
     panels.forEach((panel) => panel.classList.toggle("active", panel.dataset.panel === "mypage"));
     if (pageTitle) pageTitle.textContent = "마이페이지";
     closeMenus();
@@ -503,27 +511,22 @@
     setPageTitle(panelName);
   }
 
-  if (navZone) {
-    navZone.addEventListener("mouseenter", () => {
-      navZone.classList.remove("is-closed");
-    });
+  sidebarToggle?.addEventListener("click", () => {
+    setSidebarOpen(!document.body.classList.contains("is-sidebar-open"));
+  });
 
-    navZone.addEventListener("mouseleave", () => {
-      megaCols.forEach((col) => col.classList.remove("is-highlighted"));
-      if (document.activeElement instanceof HTMLElement && navZone.contains(document.activeElement)) {
-        document.activeElement.blur();
-      }
-    });
-  }
+  sidebarClose?.addEventListener("click", () => closeMenus());
+  sidebarDim?.addEventListener("click", () => closeMenus());
+
+  sidebarCollapse?.addEventListener("click", () => {
+    setSidebarCollapsed(!document.body.classList.contains("is-sidebar-collapsed"));
+  });
 
   tabs.forEach((tab) => {
-    tab.addEventListener("mouseenter", () => {
-      highlightMegaCol(tab.dataset.panel);
-    });
-
     tab.addEventListener("click", () => {
       const sub = subMap[tab.dataset.panel];
       activate(tab.dataset.panel, sub?.fallback);
+      closeMenus();
       scrollToMainTop();
     });
   });
@@ -1212,5 +1215,5 @@
   });
 
   Object.values(subMap).forEach(({ attr, fallback }) => activateSub(attr, fallback));
-  activate("scores", "mock");
+  activate("analysis", "summary");
 })();

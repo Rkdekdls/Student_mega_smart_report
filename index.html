@@ -7,17 +7,37 @@
   <link rel="stylesheet" href="merge.css">
 </head>
 <body class="is-logged-in">
-  <header class="global-header">
+  <button type="button" class="sidebar-toggle" aria-label="메뉴 열기" aria-controls="globalSidebar" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <div class="sidebar-dim" data-sidebar-dim></div>
+  <header class="global-header" id="globalSidebar">
     <div class="global-header-inner">
-      <span class="logo"><span>MEGA</span> SMART REPORT</span>
+      <div class="sidebar-brand">
+        <span class="logo">
+          <span class="logo-mark" aria-hidden="true">M</span>
+          <span class="logo-mega">MEGA</span>
+          <span class="logo-sub">SMART REPORT</span>
+        </span>
+        <button type="button" class="sidebar-close" aria-label="메뉴 닫기">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
 
       <div class="header-nav-zone">
-        <div class="nav-mega-backdrop" aria-hidden="true"></div>
         <nav class="header-nav" aria-label="메인 메뉴">
           <div class="nav-item" data-panel="scores">
-            <button type="button" class="nav-link active" data-panel="scores">성적 분석</button>
+            <button type="button" class="nav-link" data-panel="scores">
+              <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 20V10"/>
+                <path d="M12 20V4"/>
+                <path d="M19 20v-7"/>
+              </svg>
+              <span>성적 분석</span>
+            </button>
             <div class="nav-mega-col" data-panel="scores">
-              <span class="nav-mega-title">성적 분석</span>
               <div class="nav-mega-links">
                 <button type="button" class="nav-dropdown-link" data-panel="scores" data-scores="mock">모의고사</button>
                 <button type="button" class="nav-dropdown-link" data-panel="scores" data-scores="school">내신</button>
@@ -26,11 +46,18 @@
           </div>
 
           <div class="nav-item" data-panel="analysis">
-            <button type="button" class="nav-link" data-panel="analysis">문항분석 및 오답노트</button>
+            <button type="button" class="nav-link active" data-panel="analysis">
+              <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8 3h7l5 5v13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/>
+                <path d="M15 3v6h6"/>
+                <path d="M10 13h6"/>
+                <path d="M10 17h4"/>
+              </svg>
+              <span>문항분석 및 오답노트</span>
+            </button>
             <div class="nav-mega-col" data-panel="analysis">
-              <span class="nav-mega-title">문항분석 및 오답노트</span>
               <div class="nav-mega-links">
-                <button type="button" class="nav-dropdown-link" data-panel="analysis" data-analysis-view="summary">시험 요약</button>
+                <button type="button" class="nav-dropdown-link active" data-panel="analysis" data-analysis-view="summary">시험 요약</button>
                 <button type="button" class="nav-dropdown-link" data-panel="analysis" data-analysis-view="questions">문항 분석</button>
                 <button type="button" class="nav-dropdown-link" data-panel="analysis" data-analysis-view="notes">오답 노트</button>
               </div>
@@ -38,9 +65,15 @@
           </div>
 
           <div class="nav-item" data-panel="admission">
-            <button type="button" class="nav-link" data-panel="admission">합격 예측</button>
+            <button type="button" class="nav-link" data-panel="admission">
+              <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M22 10 12 5 2 10l10 5 10-5z"/>
+                <path d="M6 12v5c2.5 2.2 9.5 2.2 12 0v-5"/>
+                <path d="M22 10v6"/>
+              </svg>
+              <span>합격 예측</span>
+            </button>
             <div class="nav-mega-col" data-panel="admission">
-              <span class="nav-mega-title">합격 예측</span>
               <div class="nav-mega-links">
                 <button type="button" class="nav-dropdown-link" data-panel="admission" data-admission="regular">정시</button>
                 <button type="button" class="nav-dropdown-link" data-panel="admission" data-admission="early">수시</button>
@@ -49,9 +82,15 @@
           </div>
 
           <div class="nav-item" data-panel="diagnostic">
-            <button type="button" class="nav-link" data-panel="diagnostic">학습종합진단검사</button>
+            <button type="button" class="nav-link" data-panel="diagnostic">
+              <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="13" r="8"/>
+                <path d="M12 9v4l2.5 1.5"/>
+                <path d="M9 3h6"/>
+              </svg>
+              <span>학습종합진단검사</span>
+            </button>
             <div class="nav-mega-col" data-panel="diagnostic">
-              <span class="nav-mega-title">학습종합진단검사</span>
               <div class="nav-mega-links">
                 <button type="button" class="nav-dropdown-link" data-panel="diagnostic" data-diagnostic="guide">검사 소개</button>
                 <button type="button" class="nav-dropdown-link" data-panel="diagnostic" data-diagnostic="result">검사 결과</button>
@@ -76,21 +115,27 @@
             </span>
             <span class="user-label">
               <span class="user-name">김메가 학생</span>
-              <span class="user-divider" aria-hidden="true">·</span>
-              <span class="user-academy">러셀 강남학원</span>
+              <span class="user-academy">메가스터디 러셀 강남</span>
             </span>
           </div>
-          <button type="button" class="btn-mypage">마이페이지</button>
-          <button type="button" class="btn-logout">로그아웃</button>
+          <div class="header-auth-actions">
+            <button type="button" class="btn-mypage">마이페이지</button>
+            <button type="button" class="btn-logout">로그아웃</button>
+          </div>
         </div>
       </div>
     </div>
+    <button type="button" class="sidebar-collapse" aria-label="메뉴 접기" aria-expanded="true" aria-controls="globalSidebar">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M14.5 6.5 9 12l5.5 5.5"/>
+      </svg>
+    </button>
   </header>
 
   <main class="main-shell">
-    <h1 class="page-title" id="pageTitle">모의고사</h1>
+    <h1 class="page-title" id="pageTitle">시험 요약</h1>
 
-    <section class="panel active" data-panel="scores">
+    <section class="panel" data-panel="scores">
       <div class="sub-panel" data-scores="school">
         <div data-school-analysis></div>
       </div>
@@ -206,7 +251,7 @@
       </div>
     </section>
 
-    <section class="panel" data-panel="analysis">
+    <section class="panel active" data-panel="analysis">
       <div class="diag-result-head taken-exam-head">
         <h2 class="diag-section-title">응시 시험</h2>
       </div>
@@ -565,19 +610,21 @@
                 <span>낮음</span>
               </div>
               <div class="diag-chart-main">
-                <svg viewBox="0 0 220 140" class="diag-mini-svg" role="img" aria-label="학업스트레스 차트">
-                  <rect x="0" y="0" width="220" height="56" fill="#f3f0f0"/>
-                  <rect x="0" y="56" width="220" height="28" fill="#ececec"/>
-                  <rect x="0" y="84" width="220" height="56" fill="#f0f2f4"/>
-                  <polyline fill="none" stroke="#9a4a4a" stroke-width="2.5"
-                    points="30,89.3 80,81.8 130,58.8 180,87.1"/>
-                  <g fill="#9a4a4a" stroke="#0c1b33" stroke-width="1">
-                    <rect x="24" y="83.3" width="12" height="12"/>
-                    <rect x="74" y="75.8" width="12" height="12"/>
-                    <rect x="124" y="52.8" width="12" height="12"/>
-                    <rect x="174" y="81.1" width="12" height="12"/>
-                  </g>
-                </svg>
+                <div class="diag-chart-plot">
+                  <svg viewBox="0 0 220 140" preserveAspectRatio="none" class="diag-mini-svg" role="img" aria-label="학업스트레스 차트">
+                    <rect x="0" y="0" width="220" height="56" fill="#f3f0f0"/>
+                    <rect x="0" y="56" width="220" height="28" fill="#ececec"/>
+                    <rect x="0" y="84" width="220" height="56" fill="#f0f2f4"/>
+                    <polyline fill="none" stroke="#9a4a4a" stroke-width="2.5"
+                      points="27.5,89.3 82.5,81.8 137.5,58.8 192.5,87.1"/>
+                  </svg>
+                  <div class="diag-chart-points" style="color:#9a4a4a" aria-hidden="true">
+                    <i style="left:calc(100% * 1 / 8);top:calc(100% * 89.3 / 140)"></i>
+                    <i style="left:calc(100% * 3 / 8);top:calc(100% * 81.8 / 140)"></i>
+                    <i style="left:calc(100% * 5 / 8);top:calc(100% * 58.8 / 140)"></i>
+                    <i style="left:calc(100% * 7 / 8);top:calc(100% * 87.1 / 140)"></i>
+                  </div>
+                </div>
                 <div class="diag-x-axis" aria-hidden="true">
                   <span>성적</span>
                   <span>시험</span>
@@ -597,18 +644,20 @@
                 <span>낮음</span>
               </div>
               <div class="diag-chart-main">
-                <svg viewBox="0 0 220 140" class="diag-mini-svg" role="img" aria-label="자기결정동기 차트">
-                  <rect x="0" y="0" width="220" height="56" fill="#f3f0f0"/>
-                  <rect x="0" y="56" width="220" height="28" fill="#ececec"/>
-                  <rect x="0" y="84" width="220" height="56" fill="#f0f2f4"/>
-                  <polyline fill="none" stroke="#4a7a5c" stroke-width="2.5"
-                    points="45,64.5 100,68.3 155,66.1"/>
-                  <g fill="#4a7a5c" stroke="#0c1b33" stroke-width="1">
-                    <rect x="39" y="58.5" width="12" height="12"/>
-                    <rect x="94" y="62.3" width="12" height="12"/>
-                    <rect x="149" y="60.1" width="12" height="12"/>
-                  </g>
-                </svg>
+                <div class="diag-chart-plot">
+                  <svg viewBox="0 0 220 140" preserveAspectRatio="none" class="diag-mini-svg" role="img" aria-label="자기결정동기 차트">
+                    <rect x="0" y="0" width="220" height="56" fill="#f3f0f0"/>
+                    <rect x="0" y="56" width="220" height="28" fill="#ececec"/>
+                    <rect x="0" y="84" width="220" height="56" fill="#f0f2f4"/>
+                    <polyline fill="none" stroke="#4a7a5c" stroke-width="2.5"
+                      points="36.6667,64.5 110,68.3 183.3333,66.1"/>
+                  </svg>
+                  <div class="diag-chart-points" style="color:#4a7a5c" aria-hidden="true">
+                    <i style="left:calc(100% * 1 / 6);top:calc(100% * 64.5 / 140)"></i>
+                    <i style="left:calc(100% * 3 / 6);top:calc(100% * 68.3 / 140)"></i>
+                    <i style="left:calc(100% * 5 / 6);top:calc(100% * 66.1 / 140)"></i>
+                  </div>
+                </div>
                 <div class="diag-x-axis" aria-hidden="true">
                   <span>무동기</span>
                   <span>외적동기</span>
@@ -627,18 +676,20 @@
                 <span>낮음</span>
               </div>
               <div class="diag-chart-main">
-                <svg viewBox="0 0 220 140" class="diag-mini-svg" role="img" aria-label="학습문제해결전략 차트">
-                  <rect x="0" y="0" width="220" height="56" fill="#f3f0f0"/>
-                  <rect x="0" y="56" width="220" height="28" fill="#ececec"/>
-                  <rect x="0" y="84" width="220" height="56" fill="#f0f2f4"/>
-                  <polyline fill="none" stroke="#5a5280" stroke-width="2.5"
-                    points="45,71.1 100,68.2 155,71.8"/>
-                  <g fill="#5a5280" stroke="#0c1b33" stroke-width="1">
-                    <rect x="39" y="65.1" width="12" height="12"/>
-                    <rect x="94" y="62.2" width="12" height="12"/>
-                    <rect x="149" y="65.8" width="12" height="12"/>
-                  </g>
-                </svg>
+                <div class="diag-chart-plot">
+                  <svg viewBox="0 0 220 140" preserveAspectRatio="none" class="diag-mini-svg" role="img" aria-label="학습문제해결전략 차트">
+                    <rect x="0" y="0" width="220" height="56" fill="#f3f0f0"/>
+                    <rect x="0" y="56" width="220" height="28" fill="#ececec"/>
+                    <rect x="0" y="84" width="220" height="56" fill="#f0f2f4"/>
+                    <polyline fill="none" stroke="#5a5280" stroke-width="2.5"
+                      points="36.6667,71.1 110,68.2 183.3333,71.8"/>
+                  </svg>
+                  <div class="diag-chart-points" style="color:#5a5280" aria-hidden="true">
+                    <i style="left:calc(100% * 1 / 6);top:calc(100% * 71.1 / 140)"></i>
+                    <i style="left:calc(100% * 3 / 6);top:calc(100% * 68.2 / 140)"></i>
+                    <i style="left:calc(100% * 5 / 6);top:calc(100% * 71.8 / 140)"></i>
+                  </div>
+                </div>
                 <div class="diag-x-axis" aria-hidden="true">
                   <span>문항풀기</span>
                   <span>문항분석</span>

@@ -101,8 +101,7 @@
     6: "평가원",
     7: "전대실모",
     8: "전대실모",
-    9: "평가원",
-    10: "전대실모"
+    9: "평가원"
   };
 
   const mockSamples = {
@@ -161,14 +160,6 @@
       ["한국사", "한국사", 46, "-", "-", 1],
       ["탐구", "통합사회", 43, 66, 91, 2],
       ["탐구", "통합과학", 46, 69, 94, 2]
-    ],
-    10: [
-      ["국어", "국어", 87, 130, 91, 2],
-      ["수학", "수학", 94, 137, 98, 1],
-      ["영어", "영어", 93, "-", "-", 1],
-      ["한국사", "한국사", 49, "-", "-", 1],
-      ["탐구", "통합사회", 46, 69, 95, 1],
-      ["탐구", "통합과학", 50, 73, 99, 1]
     ]
   };
 
@@ -265,74 +256,6 @@
     return !subjects || subjects.includes(row.subject);
   }
 
-  function schoolTrendSeries(subject) {
-    const courses = schoolCourseRows();
-    const matched =
-      !subject || subject === "전교과"
-        ? courses
-        : subject === "주요교과"
-          ? courses.filter((row) => schoolMajorSubjects.includes(row.subject))
-          : courses.filter((row) => row.subject === subject);
-    const semesterTitles = [];
-    courses.forEach((row) => {
-      if (!semesterTitles.includes(row.title)) semesterTitles.push(row.title);
-    });
-    return {
-      series: semesterTitles.map((title) => ({
-        label: title,
-        full: title,
-        score: schoolWeightedRank(matched.filter((row) => row.title === title))
-      }))
-    };
-  }
-
-  function renderSchoolTrendChart(subject) {
-    const { series } = schoolTrendSeries(subject || "전교과");
-    return renderSchoolTrend(series, subject || "전교과");
-  }
-
-  function renderSchoolTrend(series, subject) {
-    const width = 400;
-    const height = 200;
-    const yMin = 1;
-    const yMax = 9;
-    const coords = series.map((item, index) => {
-      const x = ((index + 0.5) / series.length) * width;
-      const y = ((Number(item.score) - yMin) / (yMax - yMin)) * height;
-      return { ...item, x, y };
-    });
-    const line = coords
-      .map((point, index) => `${index ? "L" : "M"}${point.x.toFixed(1)},${point.y.toFixed(1)}`)
-      .join(" ");
-    const last = coords[coords.length - 1];
-    const first = coords[0];
-    const area = `${line} L${last.x.toFixed(1)},${height} L${first.x.toFixed(1)},${height} Z`;
-
-    return `
-      <div class="school-trend-box">
-        <div class="trend-mini-chart is-full" role="img" aria-label="${subject || "전교과"} 학기별 등급 추이">
-          <div class="trend-mini-y" aria-hidden="true"><span>1.00</span><span>3.00</span><span>5.00</span><span>7.00</span><span>9.00</span></div>
-          <div class="trend-mini-plot">
-            <svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" class="trend-mini-svg" aria-hidden="true">
-              <path class="trend-mini-area" d="${area}"></path>
-              <path class="trend-mini-line" d="${line}" fill="none"></path>
-            </svg>
-            <div class="trend-mini-points">
-              ${coords
-                .map(
-                  (point) =>
-                    `<i style="left:${((point.x / width) * 100).toFixed(2)}%;top:${((point.y / height) * 100).toFixed(2)}%" title="${point.full} ${formatSchoolRank(point.score)}등급"><b>${formatSchoolRank(point.score)}</b></i>`
-                )
-                .join("")}
-            </div>
-          </div>
-          <div class="trend-mini-x" aria-hidden="true">
-            ${series.map((item) => `<span>${item.label}</span>`).join("")}
-          </div>
-        </div>
-      </div>`;
-  }
-
   function renderSchoolAnalysis() {
     const courses = schoolCourseRows();
     if (!courses.length) return "";
@@ -404,21 +327,6 @@
             </tbody>
           </table>
         </div>
-      </section>
-      <section class="school-analysis-block">
-        <div class="diag-result-head">
-          <h2 class="diag-section-title">학기별 등급 추이</h2>
-        </div>
-        <div class="content-tabs" role="tablist" aria-label="학기별 등급 추이 과목">
-          <button type="button" class="content-tab active" data-school-trend-subject="전교과" role="tab" aria-selected="true">전교과</button>
-          <button type="button" class="content-tab" data-school-trend-subject="주요교과" role="tab" aria-selected="false">주요교과</button>
-          <button type="button" class="content-tab" data-school-trend-subject="국어" role="tab" aria-selected="false">국어</button>
-          <button type="button" class="content-tab" data-school-trend-subject="영어" role="tab" aria-selected="false">영어</button>
-          <button type="button" class="content-tab" data-school-trend-subject="수학" role="tab" aria-selected="false">수학</button>
-          <button type="button" class="content-tab" data-school-trend-subject="사회" role="tab" aria-selected="false">사회</button>
-          <button type="button" class="content-tab" data-school-trend-subject="과학" role="tab" aria-selected="false">과학</button>
-        </div>
-        <div data-school-trend-chart>${renderSchoolTrendChart("전교과")}</div>
       </section>`;
   }
 
@@ -446,8 +354,7 @@
     6: "2026. 06. 04",
     7: "2026. 07. 09",
     8: "2026. 08. 13",
-    9: "2026. 09. 02",
-    10: "2026. 10. 14"
+    9: "2026. 09. 02"
   };
 
   function mockAveragePercentile(month) {
@@ -483,83 +390,31 @@
       </div>`;
   }
 
-  function compareScores(mine) {
-    const value = Number(mine);
-    if (!Number.isFinite(value)) return { mine: "-", avg: "-", top: "-" };
-    return {
-      mine: Number.isInteger(value) ? value : Number(value.toFixed(1)),
-      avg: Math.max(0, Math.round(value * 0.87)),
-      top: Math.min(100, Math.round(value * 1.04))
-    };
+  function numericCell(row, index) {
+    const value = row?.[index];
+    return typeof value === "number" ? value : null;
   }
 
-  function getPercentileGroups(month) {
-    const rows = mockSamples[month] || [];
-    const pick = (name) => {
-      const row = rows.find((item) => item[1] === name);
-      return typeof row?.[4] === "number" ? row[4] : null;
-    };
-
-    const korean = pick("국어");
-    const math = pick("수학");
-    const social = pick("통합사회");
-    const science = pick("통합과학");
+  function getKstExamScores(month) {
+    const korean = numericCell(getSubjectRow(month, "국어"), 4);
+    const math = numericCell(getSubjectRow(month, "수학"), 4);
+    const social = numericCell(getSubjectRow(month, "통합사회"), 4);
+    const science = numericCell(getSubjectRow(month, "통합과학"), 4);
+    const inquiry =
+      social != null && science != null ? Number(((social + science) / 2).toFixed(1)) : null;
     const values = [korean, math, social, science].filter((value) => value != null);
-    const overall = values.length
-      ? Number((values.reduce((sum, value) => sum + value, 0) / values.length).toFixed(1))
-      : 0;
-
-    return {
-      overall,
-      groups: [
-        { name: "국수탐 평균", highlight: true, ...compareScores(overall) },
-        { name: "국어", ...compareScores(korean) },
-        { name: "수학", ...compareScores(math) },
-        { name: "통합사회", ...compareScores(social) },
-        { name: "통합과학", ...compareScores(science) }
-      ]
-    };
-  }
-
-  function renderPercentileReport(month) {
-    const data = getPercentileGroups(month);
-    const bar = (cls, value) => `
-      <span class="pct-bar ${cls}" style="--v:${typeof value === "number" ? value : 0}">
-        <b>${value}</b>
-        <i></i>
-      </span>`;
-
-    return `
-      <div class="pct-meta pct-meta--legend">
-        <div class="pct-legend" aria-label="백분위 비교 범례">
-          <span class="is-mine">나</span>
-          <span class="is-avg">평균</span>
-          <span class="is-top">상위 30%</span>
-        </div>
-      </div>
-      <div class="pct-chart" role="img" aria-label="과목별 백분위 비교">
-        <div class="pct-y" aria-hidden="true"><span>100</span><span>75</span><span>50</span><span>25</span><span>0</span></div>
-        ${data.groups
-          .map(
-            (group) => `
-          <div class="pct-group${group.highlight ? " is-overall" : ""}">
-            <div class="pct-bars">
-              ${bar("is-mine", group.mine)}
-              ${bar("is-avg", group.avg)}
-              ${bar("is-top", group.top)}
-            </div>
-            <em>${group.name}</em>
-          </div>`
-          )
-          .join("")}
-      </div>`;
+    const sum =
+      values.length === 4 ? Number(values.reduce((total, value) => total + value, 0).toFixed(1)) : null;
+    return { korean, math, social, science, inquiry, sum };
   }
 
   function getTrendItems(subject) {
     const months = Object.keys(mockMeta);
     return months.map((month) => {
       let score;
-      if (!subject) {
+      if (subject === "국수탐") {
+        score = Number(getKstExamScores(month).sum || 0);
+      } else if (!subject) {
         score = Number(mockAveragePercentile(month));
       } else {
         const row = getSubjectRow(month, subject);
@@ -572,16 +427,15 @@
     });
   }
 
-  function renderTrendChart({ showTitle = false, variant = "mini", items } = {}) {
+  function renderTrendChart({ showTitle = false, items, yMax = 100 } = {}) {
     const series = items || getTrendItems();
     const width = 400;
     const height = 200;
-    const isFull = variant === "full";
-    const isSubject = variant === "subject";
-    const showValues = isFull || isSubject;
+    const yLabels =
+      yMax === 400 ? ["400", "300", "200", "100", "0"] : ["100", "75", "50", "25", "0"];
     const coords = series.map((item, index) => {
       const x = ((index + 0.5) / series.length) * width;
-      const y = height - (Number(item.score) / 100) * height;
+      const y = height - (Number(item.score) / yMax) * height;
       return { ...item, x, y };
     });
     const line = coords
@@ -593,8 +447,8 @@
 
     return `
       ${showTitle ? `<div class="pct-meta"><strong class="trend-mini-title">백분위</strong></div>` : ""}
-      <div class="trend-mini-chart${isFull ? " is-full" : ""}${isSubject ? " is-subject" : ""}" role="img" aria-label="응시 시험 성적 추이">
-        <div class="trend-mini-y" aria-hidden="true"><span>100</span><span>75</span><span>50</span><span>25</span><span>0</span></div>
+      <div class="trend-mini-chart" role="img" aria-label="응시 시험 성적 추이">
+        <div class="trend-mini-y" aria-hidden="true">${yLabels.map((label) => `<span>${label}</span>`).join("")}</div>
         <div class="trend-mini-plot">
           <svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" class="trend-mini-svg" aria-hidden="true">
             <path class="trend-mini-area" d="${area}"></path>
@@ -604,7 +458,7 @@
             ${coords
               .map(
                 (point) =>
-                  `<i style="left:${((point.x / width) * 100).toFixed(2)}%;top:${((point.y / height) * 100).toFixed(2)}%" title="${point.score}점">${showValues ? `<b>${point.score}</b>` : ""}</i>`
+                  `<i style="left:${((point.x / width) * 100).toFixed(2)}%;top:${((point.y / height) * 100).toFixed(2)}%" title="${point.score}점"></i>`
               )
               .join("")}
           </div>
@@ -616,20 +470,7 @@
   }
 
   function renderTrendMini() {
-    return renderTrendChart({ showTitle: true, variant: "mini" });
-  }
-
-  function renderTrendFull() {
-    return renderTrendChart({ showTitle: false, variant: "full" });
-  }
-
-  function renderTrendSubject(subject) {
-    const isOverall = !subject || subject === "전체" || subject === "국수탐";
-    return renderTrendChart({
-      showTitle: false,
-      variant: "full",
-      items: getTrendItems(isOverall ? null : subject)
-    });
+    return renderTrendChart({ showTitle: true });
   }
 
   function formatExamScore(value) {
@@ -639,38 +480,22 @@
     return Number.isInteger(n) ? String(n) : n.toFixed(1);
   }
 
-  function numericCell(row, index) {
-    const value = row?.[index];
-    return typeof value === "number" ? value : null;
-  }
-
   function renderTrendExamTable() {
     const months = Object.keys(mockMeta);
     const body = months
       .map((month) => {
-        const korean = numericCell(getSubjectRow(month, "국어"), 4);
-        const math = numericCell(getSubjectRow(month, "수학"), 4);
-        const social = numericCell(getSubjectRow(month, "통합사회"), 4);
-        const science = numericCell(getSubjectRow(month, "통합과학"), 4);
+        const { korean, math, social, science, sum } = getKstExamScores(month);
         const englishGrade = getSubjectRow(month, "영어")?.[5] ?? "-";
         const historyGrade = getSubjectRow(month, "한국사")?.[5] ?? "-";
-        const inquiry =
-          social != null && science != null ? Number(((social + science) / 2).toFixed(1)) : null;
-        const sum =
-          korean != null && math != null && inquiry != null
-            ? Number((korean + math + inquiry).toFixed(1))
-            : null;
-        const avg = sum != null ? Number((sum / 3).toFixed(1)) : null;
 
         return `
           <tr>
-            <th>${mockExamDates[month] || "-"}</th>
             <th>${month}월 ${mockMeta[month]}</th>
             <td>${formatExamScore(korean)}</td>
             <td>${formatExamScore(math)}</td>
-            <td>${formatExamScore(inquiry)}</td>
-            <td class="is-strong">${formatExamScore(sum)}</td>
-            <td class="is-strong">${formatExamScore(avg)}</td>
+            <td>${formatExamScore(social)}</td>
+            <td>${formatExamScore(science)}</td>
+            <td>${formatExamScore(sum)}</td>
             <td>${englishGrade}</td>
             <td>${historyGrade}</td>
           </tr>`;
@@ -682,7 +507,6 @@
         <table class="diag-table diag-table-score diag-table-exam">
           <thead>
             <tr>
-              <th rowspan="2" class="diag-col-label">응시일</th>
               <th rowspan="2" class="diag-col-label">시험명</th>
               <th colspan="5" class="cat-stress">백분위 기준</th>
               <th colspan="2" class="cat-motive">등급 기준</th>
@@ -690,9 +514,9 @@
             <tr>
               <th class="cat-stress">국어</th>
               <th class="cat-stress">수학</th>
-              <th class="cat-stress">탐구 평균</th>
+              <th class="cat-stress">통합사회</th>
+              <th class="cat-stress">통합과학</th>
               <th class="cat-stress">국수탐 합</th>
-              <th class="cat-stress">국수탐 평균</th>
               <th class="cat-motive">영어</th>
               <th class="cat-motive">한국사</th>
             </tr>
@@ -702,233 +526,8 @@
       </div>`;
   }
 
-  function accuracyOf(row) {
-    const name = row[1];
-    const raw = Number(row[2]);
-    const percentile = row[4];
-    let mine;
-
-    if (typeof percentile === "number") {
-      mine = Math.max(0, Math.min(100, Math.round(percentile * 0.93)));
-    } else if (name === "한국사") {
-      mine = Math.max(0, Math.min(100, Math.round(raw * 2)));
-    } else {
-      mine = Math.max(0, Math.min(100, raw));
-    }
-
-    return {
-      mine,
-      avg: Math.max(0, Math.round(mine * 0.87)),
-      top: Math.min(100, Math.round(mine * 1.08))
-    };
-  }
-
-  function renderAccuracyCompare(month) {
-    const rows = mockSamples[month] || [];
-    const order = ["국어", "수학", "영어", "한국사", "통합사회", "통합과학"];
-    const subjects = order
-      .map((name) => {
-        const row = rows.find((item) => item[1] === name);
-        return row ? { name, ...accuracyOf(row) } : null;
-      })
-      .filter(Boolean);
-
-    const line = (cls, label, value) => `
-      <div class="acc-row ${cls}">
-        <b>${label}</b>
-        <span class="acc-track"><i style="width:${value}%"></i></span>
-        <em>${value}%</em>
-      </div>`;
-
-    return `
-      <div class="acc-grid">
-        ${subjects
-          .map(
-            (subject) => `
-          <article class="acc-card">
-            <h3>${subject.name}</h3>
-            ${line("is-mine", "나", subject.mine)}
-            ${line("is-avg", "평균", subject.avg)}
-            ${line("is-top", "상위 30%", subject.top)}
-          </article>`
-          )
-          .join("")}
-      </div>`;
-  }
-
-  const weaknessByMonth = {
-    3: { area: "국어 독서", wrong: 3, lost: 8 },
-    4: { area: "통합과학 시스템", wrong: 4, lost: 10 },
-    5: { area: "영어 빈칸 추론", wrong: 3, lost: 8 },
-    6: { area: "국어 독서", wrong: 4, lost: 10 },
-    7: { area: "국어 독서", wrong: 3, lost: 8 },
-    8: { area: "통합과학 변화와 다양성", wrong: 3, lost: 7 },
-    9: { area: "국어 독서", wrong: 4, lost: 10 },
-    10: { area: "수학 미적분", wrong: 3, lost: 8 }
-  };
-
-  function formatPoint(value) {
-    const n = Math.abs(Number(value));
-    if (!Number.isFinite(n)) return "-";
-    return Number.isInteger(n) ? String(n) : n.toFixed(1);
-  }
-
-  function subjectPercentile(month, name) {
-    const row = (mockSamples[month] || []).find((item) => item[1] === name);
-    return typeof row?.[4] === "number" ? row[4] : null;
-  }
-
-  function previousExamMonth(month) {
-    const months = Object.keys(mockMeta);
-    const index = months.indexOf(String(month));
-    return index > 0 ? months[index - 1] : null;
-  }
-
-  function renderScoreSummary(month) {
-    const names = ["국어", "수학", "통합사회", "통합과학"];
-    const prev = previousExamMonth(month);
-    const scores = names
-      .map((name) => ({ name, value: subjectPercentile(month, name) }))
-      .filter((item) => item.value != null);
-
-    const strongest = [...scores].sort((a, b) => b.value - a.value)[0];
-    const weakest = [...scores].sort((a, b) => a.value - b.value)[0];
-
-    const currentAvg = Number(mockAveragePercentile(month));
-    let changeText = "첫 응시 시험 결과예요.";
-    if (String(month) === "3") {
-      changeText = "직전 시험보다 3.8점 올랐어요.";
-    } else if (prev) {
-      const diff = Number((currentAvg - Number(mockAveragePercentile(prev))).toFixed(1));
-      changeText = `직전 시험보다 ${formatPoint(diff)}점 ${diff >= 0 ? "올랐어요." : "낮아졌어요."}`;
-    }
-
-    const accuracy = averageAccuracy(month);
-    let positionText = "비교할 정답률이 없어요.";
-    if (accuracy) {
-      const gap = accuracy.mine - accuracy.avg;
-      if (gap === 0) positionText = "평균과 같아요.";
-      else positionText = `평균보다 ${formatPoint(gap)}% ${gap > 0 ? "높아요." : "낮아요."}`;
-    }
-
-    const cards = [
-      { type: "change", label: "성적 변화", title: "국수탐 평균", text: changeText },
-      { type: "position", label: "성적 위치", title: "전체 정답률", text: positionText },
-      {
-        type: "strength",
-        label: "강점 과목",
-        title: strongest?.name || "-",
-        text: strongest
-          ? `백분위 ${formatPoint(strongest.value)}점으로 가장 높아요.`
-          : "비교할 과목 성적이 없어요."
-      },
-      {
-        type: "weak",
-        label: "약점 과목",
-        title: weakest?.name || "-",
-        text: weakest
-          ? `백분위 ${formatPoint(weakest.value)}점으로 가장 낮아요.`
-          : "비교할 과목 성적이 없어요."
-      }
-    ];
-
-    return `
-      <div class="summary-grid">
-        ${cards
-          .map(
-            (card) => `
-          <article class="summary-card is-${card.type}">
-            <span>${card.label}</span>
-            <strong>${card.title}</strong>
-            <p>${card.text}</p>
-          </article>`
-          )
-          .join("")}
-      </div>`;
-  }
-
   function getSubjectRow(month, name) {
     return (mockSamples[month] || []).find((item) => item[1] === name) || null;
-  }
-
-  const subjectOrder = ["국어", "수학", "영어", "한국사", "통합사회", "통합과학"];
-
-  function subjectChangeHtml(month, subject) {
-    const row = getSubjectRow(month, subject);
-    if (!row) return `<span class="is-same">—</span>`;
-
-    const prev = previousExamMonth(month);
-    if (String(month) === "3") {
-      return `<span class="is-up">▲ 2</span>`;
-    }
-    if (!prev) return `<span class="is-same">—</span>`;
-
-    const prevRow = getSubjectRow(prev, subject);
-    if (!prevRow) return `<span class="is-same">—</span>`;
-
-    const current = typeof row[4] === "number" ? row[4] : Number(row[2]);
-    const before = typeof prevRow[4] === "number" ? prevRow[4] : Number(prevRow[2]);
-    const diff = Number(current) - Number(before);
-    if (!Number.isFinite(diff)) return `<span class="is-same">—</span>`;
-    if (diff > 0) return `<span class="is-up">▲ ${formatPoint(diff)}</span>`;
-    if (diff < 0) return `<span class="is-down">▼ ${formatPoint(diff)}</span>`;
-    return `<span class="is-same">■ 0</span>`;
-  }
-
-  function subjectOverviewCells(month, subject) {
-    const row = getSubjectRow(month, subject);
-    if (!row) return null;
-
-    return {
-      area: row[0],
-      name: row[1],
-      raw: row[2],
-      standard: row[3] === "-" || row[3] == null ? "-" : row[3],
-      percentile: typeof row[4] === "number" ? row[4] : "-",
-      grade: row[5],
-      change: subjectChangeHtml(month, subject)
-    };
-  }
-
-  function renderSubjectOverview(month, subject) {
-    const isOverall = !subject || subject === "전체";
-    const names = isOverall ? subjectOrder : [subject];
-    const rows = names
-      .map((name) => {
-        const item = subjectOverviewCells(month, name);
-        if (!item) return "";
-        return `
-          <tr>
-            <th>${item.area}</th>
-            <td>${item.name}</td>
-            <td>${item.raw}</td>
-            <td>${item.standard}</td>
-            <td>${item.percentile}</td>
-            <td>${item.grade}</td>
-            <td>${item.change}</td>
-          </tr>`;
-      })
-      .join("");
-
-    if (!rows) return "";
-
-    return `
-      <div class="diag-table-scroll subject-overview">
-        <table class="diag-table diag-table-define">
-          <thead>
-            <tr>
-              <th>영역</th>
-              <th>과목</th>
-              <th>원점수</th>
-              <th>표준점수</th>
-              <th>백분위</th>
-              <th>등급</th>
-              <th>직전 시험 대비</th>
-            </tr>
-          </thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>`;
   }
 
   const subjectAreaMap = {
@@ -969,16 +568,16 @@
       ["장문 독해", 5, 4, 76, 88]
     ],
     한국사: [
-      ["선사·고대", 2, 2, 86, 96],
+      ["선사·고대", 2, 1, 86, 96],
       ["고려", 2, 2, 83, 94],
       ["조선 전기", 2, 2, 82, 93],
       ["조선 후기", 2, 2, 80, 92],
       ["개항기", 2, 2, 78, 90],
       ["일제강점기", 2, 2, 81, 92],
       ["대한민국 수립", 2, 2, 79, 91],
-      ["민주주의 발전", 2, 2, 76, 88],
+      ["민주주의 발전", 2, 1, 76, 88],
       ["경제·사회 변화", 2, 2, 77, 89],
-      ["자료 해석", 2, 2, 74, 87]
+      ["자료 해석", 2, 1, 74, 87]
     ],
     통합사회: [
       ["통합적 관점", 3, 3, 81, 93],
@@ -1026,46 +625,6 @@
       </div>`;
   }
 
-  function averageAccuracy(month) {
-    const rows = mockSamples[month] || [];
-    if (!rows.length) return null;
-    const accs = rows.map(accuracyOf);
-    const avgOf = (key) => Math.round(accs.reduce((sum, item) => sum + item[key], 0) / accs.length);
-    return { mine: avgOf("mine"), avg: avgOf("avg"), top: avgOf("top") };
-  }
-
-  function renderSubjectAccuracy(month, subject) {
-    const scores =
-      !subject || subject === "전체"
-        ? averageAccuracy(month)
-        : (() => {
-            const row = getSubjectRow(month, subject);
-            return row ? accuracyOf(row) : null;
-          })();
-    if (!scores) return "";
-
-    const { mine, avg, top } = scores;
-    const bar = (cls, value, label) => `
-      <div class="pct-group">
-        <div class="pct-bars">
-          <span class="pct-bar ${cls}" style="--v:${value}">
-            <b>${value}%</b>
-            <i></i>
-          </span>
-        </div>
-        <em>${label}</em>
-      </div>`;
-
-    return `
-      ${subjectAccuracyLegend("정답률 비교 범례")}
-      <div class="pct-chart pct-chart--triple" role="img" aria-label="${!subject || subject === "전체" ? "전체" : subject} 정답률 비교">
-        <div class="pct-y" aria-hidden="true"><span>100</span><span>75</span><span>50</span><span>25</span><span>0</span></div>
-        ${bar("is-mine", mine, "나")}
-        ${bar("is-avg", avg, "평균")}
-        ${bar("is-top", top, "상위 30%")}
-      </div>`;
-  }
-
   function getSubjectAreaRows(month, subject) {
     const base = subjectAreaMap[subject] || [];
     const examIndex = Math.max(0, Object.keys(mockMeta).indexOf(String(month)));
@@ -1106,12 +665,6 @@
     return (last - 0xac00) % 28 === 0 ? "를" : "을";
   }
 
-  function subjectParticle(word) {
-    const last = word.charCodeAt(word.length - 1);
-    if (last < 0xac00 || last > 0xd7a3) return "가";
-    return (last - 0xac00) % 28 === 0 ? "가" : "이";
-  }
-
   function renderStrategySummary(subject, month) {
     const exam = month || "3";
     const name = subject && subject !== "전체" ? subject : "국어";
@@ -1122,23 +675,7 @@
 
     return `
       <strong>지금은 <em>${focus}</em>${objectParticle(focus)} 먼저 보완할 때예요.</strong>
-      <p>선택한 시험의 ${name} 정답률을 평균과 비교하고, 반복 오답을 함께 분석했습니다.</p>`;
-  }
-
-  const strategySubjects = ["국어", "영어", "한국사", "수학", "통합사회", "통합과학"];
-  const strategyTags = ["우선 보완", "개념 점검", "유형 훈련", "실전 점검", "유지 훈련", "균형 유지"];
-  const strategyShares = [26, 22, 18, 14, 12, 8];
-
-  function strategyTagTier(tag) {
-    if (tag.includes("보완")) return "is-reach";
-    if (tag.includes("점검")) return "is-fit";
-    return "is-safe";
-  }
-
-  function weakestArea(month, name) {
-    return [...getSubjectAreaRows(month, name)].sort(
-      (a, b) => a.mine - a.avg - (b.mine - b.avg) || a.mine - b.mine
-    )[0];
+      <p>이번 시험에서 틀린 문항을 바탕으로 학습 과제 · 복습 우선 순위 · 오답 원인을 정리했습니다.</p>`;
   }
 
   function getAreaRanks(month, subject) {
@@ -1153,79 +690,6 @@
       }))
       .sort((a, b) => a.gap - b.gap || a.mine - b.mine)
       .slice(0, 6);
-  }
-
-  function getStrategyRanks(month, subject) {
-    if (subject && subject !== "전체") return getAreaRanks(month, subject);
-
-    return strategySubjects
-      .map((name) => {
-        const area = weakestArea(month, name);
-        const row = getSubjectRow(month, name);
-        const overall = row ? accuracyOf(row).mine : 100;
-        const gap = area ? area.mine - area.avg : 0;
-        return {
-          name,
-          area: area?.area || name,
-          subjectName: name,
-          mine: area?.mine ?? 0,
-          gap,
-          overall
-        };
-      })
-      .sort((a, b) => {
-        if (a.name === "한국사") return 1;
-        if (b.name === "한국사") return -1;
-        return a.overall - b.overall || a.gap - b.gap;
-      });
-  }
-
-  function strategyPriorityText(item) {
-    const diff = Math.abs(item.gap);
-    const prefix = item.name === item.area ? "" : `${item.area} `;
-    if (item.gap < -1) {
-      return `${prefix}정답률이 평균보다 ${diff}% 낮아요.`;
-    }
-    if (item.gap > 1) {
-      return `${prefix}정답률이 평균보다 ${diff}% 높아요.`;
-    }
-    return `${prefix}정답률이 평균과 비슷해요.`;
-  }
-
-  function renderStrategyPriority(month, subject) {
-    const ranks = getStrategyRanks(month, subject);
-    return `
-      <ol class="strategy-priority-list">
-        ${ranks
-          .map(
-            (item, index) => `
-              <li>
-                <em>${index + 1}</em>
-                <b>${item.name}</b>
-                <p>${strategyPriorityText(item)}</p>
-                <span class="adm-tier ${strategyTagTier(strategyTags[index])}">${strategyTags[index]}</span>
-              </li>`
-          )
-          .join("")}
-      </ol>`;
-  }
-
-  function renderStrategyRatio(month, subject) {
-    const ranks = getStrategyRanks(month, subject);
-    return `
-      <div class="strategy-ratio-list">
-        ${ranks
-          .map((item, index) => {
-            const share = strategyShares[index];
-            return `
-              <div class="strategy-ratio-row">
-                <span>${item.name}</span>
-                <span class="acc-track"><i style="width:${(share / strategyShares[0]) * 100}%"></i></span>
-                <em>${share}%</em>
-              </div>`;
-          })
-          .join("")}
-      </div>`;
   }
 
   function getStrategyTaskItems(subject, month) {
@@ -1315,39 +779,6 @@
     return subject === "한국사" || subject === "통합사회" || subject === "통합과학" ? 50 : 100;
   }
 
-  function renderExamSummary(month, subject) {
-    const questions = getSubjectQuestions(month, subject);
-    const row = getSubjectRow(month, subject);
-    if (!questions.length || !row) return "";
-
-    const total = questions.length;
-    const correct = questions.filter((question) => question.correct).length;
-    const wrong = total - correct;
-    const correctScore = Number(row[2]) || 0;
-    const wrongScore = Math.max(0, subjectMaxScore(subject) - correctScore);
-
-    const cards = [
-      { label: "전체 문항", value: total, unit: "개" },
-      { label: "정답 문항", value: correct, unit: "개" },
-      { label: "오답·미응답", value: wrong, unit: "개" },
-      { label: "정답 점수 합계", value: correctScore, unit: "점", type: "is-correct" },
-      { label: "오답 점수 합계", value: wrongScore, unit: "점", type: "is-wrong" }
-    ];
-
-    return `
-      <div class="exam-summary-grid">
-        ${cards
-          .map(
-            (card) => `
-          <article class="exam-summary-card${card.type ? ` ${card.type}` : ""}">
-            <span>${card.label}</span>
-            <strong>${card.value}<small>${card.unit}</small></strong>
-          </article>`
-          )
-          .join("")}
-      </div>`;
-  }
-
   const reviewTags = ["최우선", "우선", "점검"];
 
   function reviewTagTier(tag) {
@@ -1426,23 +857,10 @@
   const koreanContentSchema = [
     { zone: "공통", major: "독서", details: ["인문", "사회", "과학", "기술", "예술", "독서이론", "융합"] },
     { zone: "공통", major: "문학", details: ["현대시", "현대소설", "고전시가", "고전소설", "수필", "극", "갈래복합"] },
-    { zone: "선택", major: "화법과 작문", details: ["화법", "작문"] },
-    { zone: "선택", major: "언어와 매체", details: ["언어", "매체"] }
+    { zone: "선택", major: "화작", details: ["화법", "작문"] },
+    { zone: "선택", major: "언매", details: ["언어", "매체"] }
   ];
   const behaviorTypes = ["사실적 이해", "추론적 이해", "비판적 이해", "창의적 이해", "어휘", "어법"];
-
-  function groupWrongQuestions(questions, keyOf) {
-    const groups = new Map();
-    questions.forEach((question, index) => {
-      if (question.correct) return;
-      const name = keyOf(question, index);
-      if (!groups.has(name)) groups.set(name, []);
-      groups.get(name).push(question.no);
-    });
-    return [...groups.entries()]
-      .map(([name, nos]) => ({ name, nos }))
-      .sort((a, b) => b.nos.length - a.nos.length || a.name.localeCompare(b.name, "ko"));
-  }
 
   function renderWrongGroupList(groups) {
     if (!groups.length) {
@@ -1517,33 +935,36 @@
     return value == null || Number.isNaN(Number(value)) ? "-" : `${Number(value).toFixed(1)}%`;
   }
 
-  function typeRateCell(value, kind) {
-    const text = formatTypeRate(value);
-    if (text === "-") return `<td class="is-rate is-${kind}">-</td>`;
-    const pct = Math.max(0, Math.min(100, Number(value)));
-    return `<td class="is-rate is-${kind}" style="--rate:${pct}">${text}</td>`;
+  const cumulCats = ["cat-stress", "cat-motive", "cat-strategy"];
+
+  function cumulCat(index) {
+    return cumulCats[index % cumulCats.length];
   }
 
-  function typeMetricCells(metric) {
-    if (!metric.asked) {
-      return `
-        <td>0</td>
-        <td>-</td>
-        <td class="is-rate is-mine">-</td>
-        <td class="is-rate is-avg">-</td>
-        <td class="is-rate is-top">-</td>
-        <td>-</td>`;
+  function cumulMetricCells(metric, withBar = true) {
+    if (!metric?.asked) {
+      return `<td class="cumul-metric">-</td><td class="cumul-metric">-</td><td class="cumul-metric${withBar ? " is-rate is-mine" : ""}">-</td>`;
     }
+    const rate = formatTypeRate(metric.mine);
+    if (!withBar) {
+      return `<td class="cumul-metric">${metric.asked}</td><td class="cumul-metric">${metric.correct}</td><td class="cumul-metric">${rate}</td>`;
+    }
+    const pct = Math.max(0, Math.min(100, Number(metric.mine)));
+    return `<td class="cumul-metric">${metric.asked}</td><td class="cumul-metric">${metric.correct}</td><td class="cumul-metric is-rate is-mine" style="--rate:${pct}">${rate}</td>`;
+  }
 
-    const gapClass = metric.gap > 0.05 ? "is-up" : metric.gap < -0.05 ? "is-down" : "is-same";
-    const gapText = `${metric.gap > 0 ? "+" : ""}${metric.gap.toFixed(1)}%`;
-    return `
-      <td>${metric.asked}</td>
-      <td>${metric.correct}</td>
-      ${typeRateCell(metric.mine, "mine")}
-      ${typeRateCell(metric.avg, "avg")}
-      ${typeRateCell(metric.top, "top")}
-      <td class="${gapClass}">${gapText}</td>`;
+  function sumTypeMetrics(metrics) {
+    const asked = metrics.reduce((sum, item) => sum + (item?.asked || 0), 0);
+    const correct = metrics.reduce((sum, item) => sum + (item?.correct || 0), 0);
+    if (!asked) return emptyTypeMetric();
+    return {
+      asked,
+      correct,
+      mine: (correct / asked) * 100,
+      avg: null,
+      top: null,
+      gap: null
+    };
   }
 
   function areaLookup(month, subject) {
@@ -1588,7 +1009,61 @@
     return spans;
   }
 
-  function renderTypeSectionRows(section, rows, extraKeys, detailColspan = 1) {
+  function getTypeAnalysisSections(month, subject) {
+    const lookup = areaLookup(month, subject);
+    const areas = getSubjectAreaRows(month, subject);
+    const questions = getSubjectQuestions(month, subject);
+    const areaMap = new Map(areas.map((area) => [area.area, area]));
+
+    const types = subject === "국어" ? behaviorTypes : subjectActionMap[subject] || behaviorTypes;
+    const contentRows = contentTypeRows(month, subject, lookup);
+    const behaviorRows = types.map((detail, index) => {
+      const list = questions.filter((_, questionIndex) => questionIndex % types.length === index);
+      return { zone: "", major: "", detail, metric: typeMetricFromQuestions(list, areaMap) };
+    });
+
+    return { contentRows, behaviorRows };
+  }
+
+  function pivotTypeRows(rowsByMonth, months) {
+    return (rowsByMonth[0] || []).map((row, index) => ({
+      zone: row.zone,
+      major: row.major,
+      detail: row.detail,
+      isTotal: row.isTotal,
+      metricsByMonth: Object.fromEntries(
+        months.map((month, monthIndex) => [month, rowsByMonth[monthIndex][index]?.metric || emptyTypeMetric()])
+      )
+    }));
+  }
+
+  function getCumulContentRows(subject) {
+    const months = Object.keys(mockMeta);
+    const rowsByMonth = months.map((month) => {
+      const rows = getTypeAnalysisSections(month, subject).contentRows;
+      return [
+        {
+          zone: "공통",
+          major: "총계",
+          detail: "",
+          isTotal: true,
+          metric: sumTypeMetrics(rows.map((row) => row.metric))
+        },
+        ...rows
+      ];
+    });
+    return pivotTypeRows(rowsByMonth, months);
+  }
+
+  function getCumulBehaviorRows(subject) {
+    const months = Object.keys(mockMeta);
+    return pivotTypeRows(
+      months.map((month) => getTypeAnalysisSections(month, subject).behaviorRows),
+      months
+    );
+  }
+
+  function renderCumulRows(section, rows, months, extraKeys, detailColspan = 1) {
     const extraSpans = extraKeys.map((key) => groupSpans(rows, key));
     const spanAttr = detailColspan > 1 ? ` colspan="${detailColspan}"` : "";
 
@@ -1596,131 +1071,58 @@
       .map((row, index) => {
         const heads = [];
         if (index === 0) {
-          heads.push(`<th rowspan="${rows.length}">${section}</th>`);
+          heads.push(`<th class="is-vert is-section" rowspan="${rows.length}">${section}</th>`);
         }
         extraKeys.forEach((key, keyIndex) => {
           const span = extraSpans[keyIndex][index];
-          if (span) heads.push(`<th rowspan="${span}">${row[key] || ""}</th>`);
+          if (span) {
+            heads.push(`<th class="is-vert" rowspan="${span}">${row[key] || ""}</th>`);
+          }
         });
-        return `<tr>${heads.join("")}<td class="diag-subfactor"${spanAttr}>${row.detail}</td>${typeMetricCells(row.metric)}</tr>`;
+        const cells = months.map((month) => cumulMetricCells(row.metricsByMonth[month])).join("");
+        return `<tr>${heads.join("")}<th class="diag-subfactor"${spanAttr}>${row.detail}</th>${cells}</tr>`;
       })
       .join("");
   }
 
-  function getTypeAnalysisSections(month, subject) {
-    const lookup = areaLookup(month, subject);
-    const areas = getSubjectAreaRows(month, subject);
-    const questions = getSubjectQuestions(month, subject);
-    const areaMap = new Map(areas.map((area) => [area.area, area]));
-
-    const contentRows = contentTypeRows(month, subject, lookup);
-    const behaviorRows = behaviorTypes.map((detail, index) => {
-      const list = questions.filter((_, questionIndex) => questionIndex % behaviorTypes.length === index);
-      return { zone: "", major: "", detail, metric: typeMetricFromQuestions(list, areaMap) };
-    });
-
-    return { contentRows, behaviorRows };
-  }
-
-  function renderTypeTable(body) {
-    return `
-      <div class="diag-table-scroll">
-        <table class="diag-table diag-table-define diag-table-type">
-          <thead>
-            <tr>
-              <th rowspan="2" class="diag-col-label">구분</th>
-              <th colspan="3" class="diag-col-group">분류</th>
-              <th colspan="2" class="diag-col-group">문항 수</th>
-              <th colspan="3" class="diag-col-group">정답률</th>
-              <th rowspan="2" class="diag-col-label">나-평균 GAP</th>
-            </tr>
-            <tr>
-              <th>영역</th>
-              <th>대분류</th>
-              <th>세부분류</th>
-              <th>출제</th>
-              <th>정답</th>
-              <th>나</th>
-              <th>평균</th>
-              <th>상위 30%</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${body}
-          </tbody>
-        </table>
-      </div>`;
+  function renderCumulTotalRow(row, months) {
+    if (!row) return "";
+    const cells = months.map((month) => cumulMetricCells(row.metricsByMonth[month], false)).join("");
+    return `<tr class="is-total-row"><th class="diag-col-label is-total" colspan="3">총계</th>${cells}</tr>`;
   }
 
   function renderTypeAnalysis(month, subject) {
-    const { contentRows, behaviorRows } = getTypeAnalysisSections(month, subject);
-    return renderTypeTable(`
-      ${renderTypeSectionRows("내용 영역", contentRows, ["zone", "major"])}
-      ${renderTypeSectionRows("행동 영역", behaviorRows, [], 3)}
-    `);
-  }
-
-  function renderItemAnalysis(month, subject) {
-    const questions = getSubjectQuestions(month, subject);
-    const lookup = areaLookup(month, subject);
-    if (!questions.length) return "";
-
-    const rows = questions
-      .map((question, index) => {
-        const area = lookup.get(question.area);
-        const answer = ((question.no * 3 + index) % 5) + 1;
-        const marked = question.correct ? answer : (answer % 5) + 1;
-        const points = question.no % 5 === 0 ? 3 : 2;
-        const behavior = behaviorTypes[index % behaviorTypes.length];
-        const resultClass = question.correct ? "is-up" : "is-down";
-        const resultText = question.correct ? "정답" : "오답";
-        return `
-          <tr>
-            <td class="diag-subfactor">${question.no}번</td>
-            <td class="${resultClass}">${resultText}</td>
-            <td>${marked}</td>
-            <td>${answer}</td>
-            <td>${points}점</td>
-            <td>${question.area}</td>
-            <td>${behavior}</td>
-            ${typeRateCell(area?.avg, "avg")}
-            ${typeRateCell(area?.top, "top")}
-          </tr>`;
-      })
-      .join("");
+    const name = subject || "국어";
+    const months = Object.keys(mockMeta);
+    const contentRows = getCumulContentRows(name);
+    const totalRow = contentRows.find((row) => row.isTotal);
+    const bodyRows = contentRows.filter((row) => !row.isTotal);
+    const monthHeads = months.map((item, index) => `<th colspan="3" class="${cumulCat(index)}">${item}월</th>`).join("");
+    const subHeads = months.map(() => `<th class="cumul-metric">출제</th><th class="cumul-metric">정답</th><th class="cumul-metric is-rate-head">정답률</th>`).join("");
 
     return `
       <div class="diag-table-scroll">
-        <table class="diag-table diag-table-define diag-table-type diag-table-item">
+        <table class="diag-table diag-table-score diag-table-cumul">
           <colgroup>
-            <col>
-            <col>
-            <col class="col-mark">
-            <col class="col-mark">
-            <col>
-            <col>
-            <col>
-            <col class="col-rate">
-            <col class="col-rate">
+            <col class="cumul-col-zone">
+            <col class="cumul-col-major">
+            <col class="cumul-col-detail">
           </colgroup>
           <thead>
             <tr>
-              <th rowspan="2" class="diag-col-label">번호</th>
-              <th rowspan="2" class="diag-col-label">결과</th>
-              <th rowspan="2" class="diag-col-label">마킹한 답</th>
-              <th rowspan="2" class="diag-col-label">정답</th>
-              <th rowspan="2" class="diag-col-label">배점</th>
-              <th rowspan="2" class="diag-col-label">내용 영역</th>
-              <th rowspan="2" class="diag-col-label">행동 영역</th>
-              <th colspan="2" class="diag-col-group">정답률</th>
+              <th rowspan="2" class="diag-col-label">구분</th>
+              <th rowspan="2" class="diag-col-label">대분류</th>
+              <th rowspan="2" class="diag-col-label">세부분류</th>
+              ${monthHeads}
             </tr>
             <tr>
-              <th>전체</th>
-              <th>상위 30%</th>
+              ${subHeads}
             </tr>
           </thead>
           <tbody>
-            ${rows}
+            ${renderCumulTotalRow(totalRow, months)}
+            ${renderCumulRows("내용영역", bodyRows, months, ["major"])}
+            ${renderCumulRows("행동영역", getCumulBehaviorRows(name), months, [], 2)}
           </tbody>
         </table>
       </div>`;
@@ -2110,132 +1512,18 @@
       .slice(0, 5);
   }
 
-  function renderContentWrongs(month, subject) {
-    return renderWrongGroupList(groupWrongQuestions(getSubjectQuestions(month, subject), (question) => question.area));
-  }
-
-  function renderBehaviorWrongs(month, subject) {
-    return renderWrongGroupList(
-      groupWrongQuestions(
-        getSubjectQuestions(month, subject),
-        (_, index) => behaviorTypes[index % behaviorTypes.length]
-      )
-    );
-  }
-
-  function renderSubjectResultSummary(month, subject) {
-    const questions = getSubjectQuestions(month, subject);
-    const areas = getSubjectAreaRows(month, subject);
-    if (!questions.length) return "";
-
-    const totalCorrect = questions.filter((question) => question.correct).length;
-    const overallRate = Math.round((totalCorrect / questions.length) * 100);
-    const ranked = [...areas].sort((a, b) => b.mine - a.mine || a.avg - b.avg);
-    const strongest = ranked[0];
-    const weakest = ranked[ranked.length - 1];
-    const wrong = questions.filter((question) => !question.correct);
-    const causeNames = ["개념 부족", "해석 오류", "시간 부족"];
-    const causeCounts = Object.fromEntries(causeNames.map((name) => [name, 0]));
-    wrong.forEach((_, index) => {
-      causeCounts[causeNames[index % causeNames.length]] += 1;
-    });
-    const topCause = causeNames
-      .map((name) => ({ name, count: causeCounts[name] }))
-      .sort((a, b) => b.count - a.count)[0];
-    const overallTitle =
-      overallRate >= 80 ? "전체적으로 안정적이에요" : overallRate >= 65 ? "기본 성취를 잘 쌓고 있어요" : "핵심 개념부터 점검해 보세요";
-
-    const cards = [
-      {
-        type: "overall",
-        label: "전체 성취",
-        title: overallTitle,
-        text: `전체 ${questions.length}문항 중 ${totalCorrect}문항을 맞혀 정답률은 ${overallRate}%예요.`
-      },
-      {
-        type: "strength",
-        label: "강점 영역",
-        title: strongest ? `${strongest.area}에 강해요` : "-",
-        text: strongest
-          ? `${strongest.total}문항 중 ${strongest.correct}문항을 맞혀 정답률은 ${strongest.mine}%예요.`
-          : "비교할 영역이 없어요."
-      },
-      {
-        type: "weak",
-        label: "약점 영역",
-        title: weakest ? `${weakest.area}${objectParticle(weakest.area)} 보완해 보세요` : "-",
-        text: weakest
-          ? `${weakest.total}문항 중 ${Math.max(0, weakest.total - weakest.correct)}문항을 틀려 정답률은 ${weakest.mine}%예요.`
-          : "비교할 영역이 없어요."
-      },
-      {
-        type: "cause",
-        label: "오답 원인",
-        title: wrong.length && topCause?.count ? `${topCause.name}${subjectParticle(topCause.name)} 가장 많아요` : "틀린 문항이 없어요",
-        text: wrong.length && topCause?.count
-          ? `오답 ${wrong.length}문항 중 ${topCause.count}문항이에요.`
-          : "이번 시험에서 틀린 문항이 없어요."
-      }
-    ];
-
-    return `
-      <div class="summary-grid">
-        ${cards
-          .map(
-            (card) => `
-          <article class="summary-card is-${card.type}">
-            <span>${card.label}</span>
-            <strong>${card.title}</strong>
-            <p>${card.text}</p>
-          </article>`
-          )
-          .join("")}
-      </div>`;
-  }
-
-  function renderSubjectQuestions(month, subject) {
-    const questions = getSubjectQuestions(month, subject);
-    if (!questions.length) return "";
-
-    return `
-      <div class="question-strip" role="list" aria-label="${subject} 정오 현황">
-        ${questions
-          .map(
-            (question) => `
-          <span class="question-cell${question.correct ? "" : " is-wrong"}" role="listitem" title="${question.area} · ${question.correct ? "정답" : "오답"}">${question.no}</span>`
-          )
-          .join("")}
-      </div>`;
-  }
-
   window.MegaReportData = {
     mockMeta,
     mockSamples,
-    renderPercentileReport,
-    renderAccuracyCompare,
-    renderScoreSummary,
-    renderSubjectOverview,
-    renderSubjectAccuracy,
     renderSubjectAreas,
-    renderSubjectQuestions,
-    renderSubjectResultSummary,
-    renderExamSummary,
     renderExamReview,
     renderExamCauses,
     renderTypeAnalysis,
-    renderItemAnalysis,
     renderWrongNote,
     renderCumulativeWrong,
-    renderContentWrongs,
-    renderBehaviorWrongs,
-    renderTrendFull,
-    renderTrendSubject,
     renderTrendExamTable,
     renderSchoolAnalysis,
-    renderSchoolTrendChart,
     renderStrategySummary,
-    renderStrategyPriority,
-    renderStrategyRatio,
     renderStrategyTasks
   };
 
@@ -2257,9 +1545,8 @@
     });
 
     document.querySelectorAll("[data-taken-exams]").forEach((el) => {
-      const kind = el.dataset.takenExams;
       el.innerHTML = renderTakenExams({
-        withScore: !kind
+        withScore: false
       });
     });
 
@@ -2269,38 +1556,6 @@
 
     document.querySelectorAll("[data-trend-exam-table]").forEach((el) => {
       el.innerHTML = renderTrendExamTable();
-    });
-
-    document.querySelectorAll("[data-trend-subject-chart]").forEach((el) => {
-      el.innerHTML = renderTrendSubject("국수탐");
-    });
-
-    document.querySelectorAll("[data-accuracy-compare]").forEach((el) => {
-      el.innerHTML = renderAccuracyCompare("3");
-    });
-
-    document.querySelectorAll("[data-score-summary]").forEach((el) => {
-      el.innerHTML = renderScoreSummary("3");
-    });
-
-    document.querySelectorAll("[data-subject-overview]").forEach((el) => {
-      el.innerHTML = renderSubjectOverview("3", "전체");
-    });
-
-    document.querySelectorAll("[data-subject-accuracy]").forEach((el) => {
-      el.innerHTML = renderSubjectAccuracy("3", "전체");
-    });
-
-    document.querySelectorAll("[data-subject-questions]").forEach((el) => {
-      el.innerHTML = renderSubjectQuestions("3", "국어");
-    });
-
-    document.querySelectorAll("[data-subject-result]").forEach((el) => {
-      el.innerHTML = renderSubjectResultSummary("3", "국어");
-    });
-
-    document.querySelectorAll("[data-exam-summary]").forEach((el) => {
-      el.innerHTML = renderExamSummary("3", "국어");
     });
 
     document.querySelectorAll("[data-exam-review]").forEach((el) => {
@@ -2315,32 +1570,12 @@
       el.innerHTML = renderTypeAnalysis("3", "국어");
     });
 
-    document.querySelectorAll("[data-item-analysis]").forEach((el) => {
-      el.innerHTML = renderItemAnalysis("3", "국어");
-    });
-
     document.querySelectorAll("[data-wrong-note]").forEach((el) => {
       el.innerHTML = renderWrongNote("3", "국어");
     });
 
-    document.querySelectorAll("[data-content-wrongs]").forEach((el) => {
-      el.innerHTML = renderContentWrongs("3", "국어");
-    });
-
-    document.querySelectorAll("[data-behavior-wrongs]").forEach((el) => {
-      el.innerHTML = renderBehaviorWrongs("3", "국어");
-    });
-
     document.querySelectorAll("[data-strategy-summary]").forEach((el) => {
       el.innerHTML = renderStrategySummary("국어", "3");
-    });
-
-    document.querySelectorAll("[data-strategy-priority]").forEach((el) => {
-      el.innerHTML = renderStrategyPriority("3", "국어");
-    });
-
-    document.querySelectorAll("[data-strategy-ratio]").forEach((el) => {
-      el.innerHTML = renderStrategyRatio("3", "국어");
     });
 
     document.querySelectorAll("[data-strategy-tasks]").forEach((el) => {

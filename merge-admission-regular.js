@@ -136,7 +136,7 @@
     return {
       ga: { ...TARGET_OPTIONS.ga.default },
       na: { ...TARGET_OPTIONS.na.default },
-      da: { ...TARGET_OPTIONS.da.default }
+      da: { university: "", type: "", major: "", cutoff: 0 }
     };
   }
 
@@ -152,7 +152,7 @@
       scores,
       adjustments,
       targets: cloneTargets(),
-      analyzed: false,
+      analyzed: true,
       viewMode: "original",
       simSigns: {},
       favorites: new Set(),
@@ -200,15 +200,10 @@
     panel.insertAdjacentHTML(
       "beforeend",
       `
-      <div class="adm-toolbar">
-        <div class="adm-actions">
-          <button type="button" class="btn-adm-outline" data-adm-open-target>목표 모집단위 설정</button>
-          <button type="button" class="btn-adm-primary" data-adm-analyze>분석하기</button>
+      <section class="adm-sim-panel" data-adm-sim-controls>
+        <div class="diag-result-head">
+          <h2 class="diag-section-title">점수 시뮬레이션</h2>
         </div>
-      </div>
-
-      <section class="adm-sim-panel" data-adm-sim-controls hidden>
-        <h2 class="diag-section-title">점수 시뮬레이션</h2>
         <div class="adm-sim-grid" data-adm-sim-grid></div>
         <div class="adm-sim-foot adm-actions">
           <button type="button" class="btn-adm-outline" data-adm-sim-reset>점수 초기화</button>
@@ -216,13 +211,15 @@
         </div>
       </section>
 
-      <section class="adm-result" data-adm-result hidden>
-        <div class="adm-target-head">
-          <h2 class="diag-section-title">목표 모집단위</h2>
-        </div>
-        <div class="adm-target-cards" data-adm-target-cards></div>
+      <div class="diag-result-head adm-target-head">
+        <h2 class="diag-section-title">목표 모집단위</h2>
+      </div>
+      <div class="adm-target-cards" data-adm-target-cards></div>
 
-        <h2 class="diag-section-title">지원 가능점수</h2>
+      <section class="adm-result" data-adm-result>
+        <div class="diag-result-head">
+          <h2 class="diag-section-title">지원 가능점수</h2>
+        </div>
 
         <div class="content-tabs adm-list-tabs" role="tablist" aria-label="모집단위 목록">
           <button type="button" class="content-tab active" data-adm-list-tab="all" role="tab" aria-selected="true">전체 모집단위</button>
@@ -293,15 +290,6 @@
   }
 
   function bindPanelEvents(panel, state) {
-    const month = panel.dataset.regularMonth;
-
-    panel.querySelector("[data-adm-analyze]")?.addEventListener("click", () => {
-      state.analyzed = true;
-      state.viewMode = "original";
-      updateSimControlsVisibility(panel, state);
-      renderPanel(panel, state);
-    });
-
     panel.querySelector("[data-adm-sim-apply]")?.addEventListener("click", () => {
       state.viewMode = "simulation";
       renderPanel(panel, state);
@@ -319,8 +307,10 @@
       renderPanel(panel, state);
     });
 
-    panel.querySelectorAll("[data-adm-open-target]").forEach((button) => {
-      button.addEventListener("click", () => openTargetModal(panel, state));
+    panel.addEventListener("click", (event) => {
+      if (event.target.closest("[data-adm-open-target]")) {
+        openTargetModal(panel, state);
+      }
     });
 
     panel.querySelectorAll("[data-adm-list-tab]").forEach((tab) => {
@@ -543,13 +533,16 @@
     container.innerHTML = keys
       .map((key) => {
         const target = state.targets[key];
+        if (!target.university) {
+          return `<button type="button" class="adm-target-card is-empty" data-adm-open-target aria-label="모집단위 추가">+</button>`;
+        }
         const tier = getTier(myScore, target.cutoff);
         const originalTier = getTier(originalScore, target.cutoff);
         const tierChanged = tier.label !== originalTier.label && state.viewMode === "simulation";
         const scoreChanged = myScore !== originalScore && state.viewMode === "simulation";
 
         return `
-          <article class="adm-target-card">
+          <article class="adm-target-card" data-adm-open-target>
             <div class="adm-target-card-top">
               <span class="adm-target-group">${TARGET_OPTIONS[key].group}</span>
               <h3 class="adm-target-univ">${target.university}</h3>
@@ -642,21 +635,25 @@
     const originalScore = calcConvertedScore(state.scores);
     const myScore = getDisplayScore(state);
 
+    renderTargetCards(panel, state, myScore, originalScore);
+    updateSimControlsVisibility(panel, state);
+
     if (!state.analyzed) {
       result.hidden = true;
-      updateSimControlsVisibility(panel, state);
       return;
     }
 
     result.hidden = false;
-    updateSimControlsVisibility(panel, state);
-
-    renderTargetCards(panel, state, myScore, originalScore);
     renderList(panel, state);
   }
 
-  function fillSelect(select, options, selected) {
-    select.innerHTML = options.map((option) => `<option value="${option}"${option === selected ? " selected" : ""}>${option}</option>`).join("");
+  function fillSelect(select, options, selected, placeholder) {
+    const html = [];
+    if (placeholder) html.push(`<option value="">${placeholder}</option>`);
+    options.forEach((option) => {
+      html.push(`<option value="${option}"${option === selected ? " selected" : ""}>${option}</option>`);
+    });
+    select.innerHTML = html.join("");
   }
 
   function fillTargetModalForm(targets) {
@@ -666,18 +663,24 @@
       const univSelect = modal.querySelector(`[data-target-field="${key}-univ"]`);
       const typeSelect = modal.querySelector(`[data-target-field="${key}-type"]`);
       const majorSelect = modal.querySelector(`[data-target-field="${key}-major"]`);
+      const empty = !target.university;
 
       const universities = Object.keys(config.universities);
-      fillSelect(univSelect, universities, target.university);
+      fillSelect(univSelect, universities, target.university, empty ? "대학 선택" : "");
 
       const types = Object.keys(config.universities[target.university]?.types || {});
-      fillSelect(typeSelect, types, target.type);
+      fillSelect(typeSelect, types, target.type, empty ? "전형명 선택" : "");
 
-      const majors = config.universities[target.university]?.types[target.type] || [];
-      fillSelect(majorSelect, majors, target.major);
+      const majors = config.universities[target.university]?.types?.[target.type] || [];
+      fillSelect(majorSelect, majors, target.major, empty ? "모집단위 선택" : "");
 
       univSelect.onchange = () => {
         const univ = univSelect.value;
+        if (!univ) {
+          fillSelect(typeSelect, [], "", "전형명 선택");
+          fillSelect(majorSelect, [], "", "모집단위 선택");
+          return;
+        }
         const typeKeys = Object.keys(config.universities[univ].types);
         fillSelect(typeSelect, typeKeys, typeKeys[0]);
         const majorList = config.universities[univ].types[typeKeys[0]];
@@ -686,6 +689,10 @@
 
       typeSelect.onchange = () => {
         const univ = univSelect.value;
+        if (!univ) {
+          fillSelect(majorSelect, [], "", "모집단위 선택");
+          return;
+        }
         const majorList = config.universities[univ].types[typeSelect.value] || [];
         fillSelect(majorSelect, majorList, majorList[0]);
       };
@@ -780,17 +787,16 @@
 
     ["ga", "na", "da"].forEach((key) => {
       const config = TARGET_OPTIONS[key];
-      state.targets[key] = {
-        ...state.targets[key],
-        university: modal.querySelector(`[data-target-field="${key}-univ"]`).value,
-        type: modal.querySelector(`[data-target-field="${key}-type"]`).value,
-        major: modal.querySelector(`[data-target-field="${key}-major"]`).value,
-        cutoff: config.default.cutoff
-      };
+      const university = modal.querySelector(`[data-target-field="${key}-univ"]`).value;
+      const type = modal.querySelector(`[data-target-field="${key}-type"]`).value;
+      const major = modal.querySelector(`[data-target-field="${key}-major"]`).value;
+      state.targets[key] = university
+        ? { university, type, major, cutoff: config.default.cutoff }
+        : { university: "", type: "", major: "", cutoff: 0 };
     });
 
     closeTargetModal();
-    if (state.analyzed) renderPanel(modalPanel, state);
+    renderPanel(modalPanel, state);
   }
 
   function resetPanelState(month) {

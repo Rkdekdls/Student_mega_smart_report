@@ -11,29 +11,23 @@
   const mypagePanel = document.querySelector('.panel[data-panel="mypage"]');
   const regularPanel = document.querySelector('.sub-panel[data-admission="regular"]');
   const earlyPanel = document.querySelector('.sub-panel[data-admission="early"]');
-  const scoresMockPanel = document.querySelector('.sub-panel[data-scores="mock"]');
-  const scoresSchoolPanel = document.querySelector('.sub-panel[data-scores="school"]');
+  const scoresPanel = document.querySelector('.panel[data-panel="scores"]');
   const analysisPanel = document.querySelector('.panel[data-panel="analysis"]');
   const contentTabs = mypagePanel ? [...mypagePanel.querySelectorAll(".content-tab[data-mypage]")] : [];
   const schoolGradeChips = mypagePanel ? [...mypagePanel.querySelectorAll(".month-chip[data-school-grade]")] : [];
   const mockMonthChips = mypagePanel ? [...mypagePanel.querySelectorAll(".month-chip[data-mock-month]")] : [];
   const regularMonthTabs = regularPanel ? [...regularPanel.querySelectorAll(".content-tab[data-regular-month]")] : [];
-  const scoreViewTabs = scoresMockPanel ? [...scoresMockPanel.querySelectorAll(".content-tab[data-score-view]")] : [];
   const admissionViewTabs = earlyPanel ? [...earlyPanel.querySelectorAll(".content-tab[data-admission-view]")] : [];
-  const questionViewTabs = analysisPanel ? [...analysisPanel.querySelectorAll(".content-tab[data-question-view]")] : [];
 
   const labels = {
     scores: "성적 분석",
-    analysis: "문항분석 및 오답노트",
+    analysis: "오답 분석",
     admission: "합격 예측",
     diagnostic: "학습종합진단검사"
   };
 
   const subMap = {
-    scores: { attr: "data-scores", fallback: "mock" },
-    analysis: { attr: "data-analysis-view", fallback: "summary" },
-    admission: { attr: "data-admission", fallback: "regular" },
-    diagnostic: { attr: "data-diagnostic", fallback: "guide" }
+    admission: { attr: "data-admission", fallback: "regular" }
   };
 
   function getActiveSubLink(attr, fallback) {
@@ -183,58 +177,8 @@
     });
   }
 
-  function activateScoreView(view) {
-    scoreViewTabs.forEach((tab) => {
-      const isActive = tab.dataset.scoreView === view;
-      tab.classList.toggle("active", isActive);
-      tab.setAttribute("aria-selected", isActive ? "true" : "false");
-    });
-
-    scoresMockPanel?.querySelectorAll(".content-tab-panel[data-score-view]").forEach((panel) => {
-      panel.classList.toggle("active", panel.dataset.scoreView === view);
-    });
-
-    activateTakenExam(scoresMockPanel, selectedExamMonth);
-    if (view === "exam") refreshExamOverview();
-    if (view === "strategy") refreshStrategySubject();
-  }
-
-  let selectedAnalysisView = "summary";
-
-  function activateAnalysisView(view) {
-    selectedAnalysisView = view;
-
-    dropdownLinks.forEach((link) => {
-      if (!link.hasAttribute("data-analysis-view")) return;
-      link.classList.toggle("active", link.dataset.analysisView === view);
-    });
-
-    analysisPanel?.querySelectorAll(".content-tab-panel[data-analysis-view]").forEach((panel) => {
-      panel.classList.toggle("active", panel.dataset.analysisView === view);
-    });
-
-    activateTakenExam(analysisPanel, selectedExamMonth);
-    syncNoteScopeView();
-  }
-
-  function activateQuestionView(view) {
-    questionViewTabs.forEach((tab) => {
-      const isActive = tab.dataset.questionView === view;
-      tab.classList.toggle("active", isActive);
-      tab.setAttribute("aria-selected", isActive ? "true" : "false");
-    });
-
-    analysisPanel?.querySelectorAll(".content-tab-panel[data-question-view]").forEach((panel) => {
-      panel.classList.toggle("active", panel.dataset.questionView === view);
-    });
-  }
-
   let selectedWrongNo = null;
   let selectedNoteScope = "selected";
-
-  function isAnalysisNotesView() {
-    return selectedAnalysisView === "notes";
-  }
 
   function activateNoteScope(scope) {
     selectedNoteScope = scope;
@@ -268,51 +212,6 @@
     const month = selectedExamMonth;
     const subject = selectedSubject;
 
-    const summary = analysisPanel?.querySelector("[data-exam-summary]");
-    if (summary) {
-      summary.innerHTML = window.MegaReportData?.renderExamSummary?.(month, subject) || "";
-    }
-
-    const result = analysisPanel?.querySelector("[data-subject-result]");
-    if (result) {
-      result.innerHTML = window.MegaReportData?.renderSubjectResultSummary?.(month, subject) || "";
-    }
-
-    const review = analysisPanel?.querySelector("[data-exam-review]");
-    if (review) {
-      review.innerHTML = window.MegaReportData?.renderExamReview?.(month, subject) || "";
-    }
-
-    const causes = analysisPanel?.querySelector("[data-exam-causes]");
-    if (causes) {
-      causes.innerHTML = window.MegaReportData?.renderExamCauses?.(month, subject) || "";
-    }
-
-    const questions = analysisPanel?.querySelector("[data-subject-questions]");
-    if (questions) {
-      questions.innerHTML = window.MegaReportData?.renderSubjectQuestions?.(month, subject) || "";
-    }
-
-    const typeAnalysis = analysisPanel?.querySelector("[data-type-analysis]");
-    if (typeAnalysis) {
-      typeAnalysis.innerHTML = window.MegaReportData?.renderTypeAnalysis?.(month, subject) || "";
-    }
-
-    const itemAnalysis = analysisPanel?.querySelector("[data-item-analysis]");
-    if (itemAnalysis) {
-      itemAnalysis.innerHTML = window.MegaReportData?.renderItemAnalysis?.(month, subject) || "";
-    }
-
-    const contentWrongs = analysisPanel?.querySelector("[data-content-wrongs]");
-    if (contentWrongs) {
-      contentWrongs.innerHTML = window.MegaReportData?.renderContentWrongs?.(month, subject) || "";
-    }
-
-    const behaviorWrongs = analysisPanel?.querySelector("[data-behavior-wrongs]");
-    if (behaviorWrongs) {
-      behaviorWrongs.innerHTML = window.MegaReportData?.renderBehaviorWrongs?.(month, subject) || "";
-    }
-
     const wrongNote = analysisPanel?.querySelector("[data-wrong-note]");
     if (wrongNote) {
       wrongNote.innerHTML = window.MegaReportData?.renderWrongNote?.(month, subject, selectedWrongNo) || "";
@@ -322,7 +221,7 @@
   }
 
   function syncNoteScopeView() {
-    const isAll = selectedNoteScope === "all" && isAnalysisNotesView();
+    const isAll = selectedNoteScope === "all";
     const note = analysisPanel?.querySelector("[data-wrong-note]");
     const all = analysisPanel?.querySelector("[data-wrong-note-all]");
     if (note) note.hidden = isAll;
@@ -334,7 +233,9 @@
   }
 
   function activateTakenExam(root, month) {
-    const selectAll = root === analysisPanel && selectedNoteScope === "all" && isAnalysisNotesView();
+    const selectAll =
+      (root === analysisPanel && selectedNoteScope === "all") ||
+      (root === scoresPanel && selectedScoreScope === "all");
     root?.querySelectorAll("[data-taken-exam]").forEach((cell) => {
       const isActive = selectAll || cell.dataset.takenExam === String(month);
       cell.classList.toggle("active", isActive);
@@ -358,34 +259,8 @@
 
   let selectedSubject = "국어";
   let selectedExamMonth = "3";
-  let selectedTrendSubject = "국수탐";
   let selectedStrategySubject = "국어";
-  let selectedSchoolTrendSubject = "전교과";
-
-  function refreshExamOverview() {
-    const overview = scoresMockPanel?.querySelector("[data-subject-overview]");
-    if (overview) {
-      overview.innerHTML = window.MegaReportData?.renderSubjectOverview?.(selectedExamMonth, "전체") || "";
-    }
-
-    const accuracy = scoresMockPanel?.querySelector("[data-subject-accuracy]");
-    if (accuracy) {
-      accuracy.innerHTML = window.MegaReportData?.renderSubjectAccuracy?.(selectedExamMonth, "전체") || "";
-    }
-  }
-
-  function refreshPercentileReport(month) {
-    if (month) selectedExamMonth = String(month);
-    const target = scoresMockPanel?.querySelector("[data-percentile-report]");
-    if (target) target.innerHTML = window.MegaReportData?.renderPercentileReport?.(month) || "";
-
-    const accuracy = scoresMockPanel?.querySelector("[data-accuracy-compare]");
-    if (accuracy) accuracy.innerHTML = window.MegaReportData?.renderAccuracyCompare?.(month) || "";
-
-    const summary = scoresMockPanel?.querySelector("[data-score-summary]");
-    if (summary) summary.innerHTML = window.MegaReportData?.renderScoreSummary?.(month) || "";
-    refreshExamOverview();
-  }
+  let selectedScoreScope = "selected";
 
   function resetMypageView() {
     activateMypageTab("mock");
@@ -403,79 +278,81 @@
     activateAdmissionView("precise");
   }
 
-  function refreshSchoolTrend() {
-    const target = scoresSchoolPanel?.querySelector("[data-school-trend-chart]");
-    if (target) {
-      target.innerHTML = window.MegaReportData?.renderSchoolTrendChart?.(selectedSchoolTrendSubject) || "";
-    }
-
-    scoresSchoolPanel?.querySelectorAll("[data-school-trend-subject]").forEach((tab) => {
-      const isActive = tab.dataset.schoolTrendSubject === selectedSchoolTrendSubject;
+  function refreshScoreSubjectTabs() {
+    scoresPanel?.querySelectorAll("[data-score-subject]").forEach((tab) => {
+      const isActive = tab.dataset.scoreSubject === selectedStrategySubject;
       tab.classList.toggle("active", isActive);
       tab.setAttribute("aria-selected", isActive ? "true" : "false");
     });
   }
 
-  function refreshTrendSubject() {
-    const target = scoresMockPanel?.querySelector("[data-trend-subject-chart]");
-    if (target) {
-      target.innerHTML = window.MegaReportData?.renderTrendSubject?.(selectedTrendSubject) || "";
-    }
+  function activateScoreSubject(name) {
+    selectedStrategySubject = name;
+    refreshScoreSubjectTabs();
+    refreshStrategySubject();
+  }
 
-    scoresMockPanel?.querySelectorAll("[data-trend-subject]").forEach((tab) => {
-      const isActive = tab.dataset.trendSubject === selectedTrendSubject;
-      tab.classList.toggle("active", isActive);
-      tab.setAttribute("aria-selected", isActive ? "true" : "false");
+  function activateScoreScope(scope) {
+    selectedScoreScope = scope;
+
+    scoresPanel?.querySelectorAll(".month-chip[data-score-scope]").forEach((chip) => {
+      const isActive = chip.dataset.scoreScope === scope;
+      chip.classList.toggle("active", isActive);
+      chip.setAttribute("aria-selected", isActive ? "true" : "false");
     });
+
+    scoresPanel?.querySelectorAll(".content-tab-panel[data-score-scope]").forEach((panel) => {
+      panel.classList.toggle("active", panel.dataset.scoreScope === scope);
+    });
+
+    activateTakenExam(scoresPanel, selectedExamMonth);
+    refreshStrategySubject();
   }
 
   function refreshStrategySubject() {
-    scoresMockPanel?.querySelectorAll("[data-strategy-subject]").forEach((tab) => {
-      const isActive = tab.dataset.strategySubject === selectedStrategySubject;
-      tab.classList.toggle("active", isActive);
-      tab.setAttribute("aria-selected", isActive ? "true" : "false");
-    });
+    refreshScoreSubjectTabs();
 
-    const summary = scoresMockPanel?.querySelector("[data-strategy-summary]");
+    const summary = scoresPanel?.querySelector("[data-strategy-summary]");
     if (summary) {
       summary.innerHTML =
         window.MegaReportData?.renderStrategySummary?.(selectedStrategySubject, selectedExamMonth) || "";
     }
 
-    const priority = scoresMockPanel?.querySelector("[data-strategy-priority]");
-    if (priority) {
-      priority.innerHTML =
-        window.MegaReportData?.renderStrategyPriority?.(selectedExamMonth, selectedStrategySubject) || "";
-    }
-
-    const ratio = scoresMockPanel?.querySelector("[data-strategy-ratio]");
-    if (ratio) {
-      ratio.innerHTML =
-        window.MegaReportData?.renderStrategyRatio?.(selectedExamMonth, selectedStrategySubject) || "";
-    }
-
-    const tasks = scoresMockPanel?.querySelector("[data-strategy-tasks]");
+    const tasks = scoresPanel?.querySelector("[data-strategy-tasks]");
     if (tasks) {
       tasks.innerHTML =
         window.MegaReportData?.renderStrategyTasks?.(selectedStrategySubject, selectedExamMonth) || "";
+    }
+
+    const examReview = scoresPanel?.querySelector("[data-exam-review]");
+    if (examReview) {
+      examReview.innerHTML =
+        window.MegaReportData?.renderExamReview?.(selectedExamMonth, selectedStrategySubject) || "";
+    }
+
+    const examCauses = scoresPanel?.querySelector("[data-exam-causes]");
+    if (examCauses) {
+      examCauses.innerHTML =
+        window.MegaReportData?.renderExamCauses?.(selectedExamMonth, selectedStrategySubject) || "";
+    }
+
+    const typeAnalysis = scoresPanel?.querySelector("[data-type-analysis]");
+    if (typeAnalysis) {
+      typeAnalysis.innerHTML =
+        window.MegaReportData?.renderTypeAnalysis?.(selectedExamMonth, selectedStrategySubject) || "";
     }
   }
 
   function resetScoreAnalysisView() {
     selectedSubject = "국어";
     selectedExamMonth = "3";
-    selectedTrendSubject = "국수탐";
     selectedStrategySubject = "국어";
-    activateScoreView("exam");
-    activateTakenExam(scoresMockPanel, "3");
-    refreshPercentileReport("3");
-    refreshTrendSubject();
+    activateScoreScope("selected");
+    activateTakenExam(scoresPanel, "3");
     refreshStrategySubject();
   }
 
   function resetAnalysisView() {
-    activateAnalysisView("summary");
-    activateQuestionView("type");
     activateAnalysisSubject("국어");
     activateNoteScope("selected");
     activateTakenExam(analysisPanel, selectedExamMonth);
@@ -503,7 +380,6 @@
     if (sub) {
       const name = subName || getActiveSubLink(sub.attr, sub.fallback)?.getAttribute(sub.attr) || sub.fallback;
       activateSub(sub.attr, name);
-      if (panelName === "analysis") activateAnalysisView(name);
       setPageTitle(panelName, name);
       return;
     }
@@ -583,21 +459,9 @@
     });
   });
 
-  scoreViewTabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      keepWindowScroll(() => activateScoreView(tab.dataset.scoreView));
-    });
-  });
-
   admissionViewTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
       keepWindowScroll(() => activateAdmissionView(tab.dataset.admissionView));
-    });
-  });
-
-  questionViewTabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      keepWindowScroll(() => activateQuestionView(tab.dataset.questionView));
     });
   });
 
@@ -630,11 +494,10 @@
     });
   });
 
-  bindTakenExamPicker(scoresMockPanel, (month) => {
+  bindTakenExamPicker(scoresPanel, (month) => {
     selectedExamMonth = month;
     selectedWrongNo = null;
     activateTakenExam(analysisPanel, month);
-    refreshPercentileReport(month);
     refreshStrategySubject();
     refreshAnalysisSummary();
   });
@@ -645,37 +508,22 @@
   bindTakenExamPicker(analysisPanel, (month) => {
     selectedExamMonth = month;
     selectedWrongNo = null;
-    activateTakenExam(scoresMockPanel, month);
+    activateTakenExam(scoresPanel, month);
     refreshAnalysisSummary();
   });
 
-  window.AdmissionRegular?.initCustomSelects(scoresMockPanel);
+  window.AdmissionRegular?.initCustomSelects(scoresPanel);
   window.AdmissionRegular?.initCustomSelects(regularPanel);
 
-  scoresSchoolPanel?.addEventListener("click", (event) => {
-    const tab = event.target.closest("[data-school-trend-subject]");
-    if (!tab || !scoresSchoolPanel.contains(tab)) return;
-    keepWindowScroll(() => {
-      selectedSchoolTrendSubject = tab.dataset.schoolTrendSubject;
-      refreshSchoolTrend();
+  scoresPanel?.querySelectorAll("[data-score-subject]").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      keepWindowScroll(() => activateScoreSubject(tab.dataset.scoreSubject));
     });
   });
 
-  scoresMockPanel?.querySelectorAll("[data-trend-subject]").forEach((tab) => {
-    tab.addEventListener("click", () => {
-      keepWindowScroll(() => {
-        selectedTrendSubject = tab.dataset.trendSubject;
-        refreshTrendSubject();
-      });
-    });
-  });
-
-  scoresMockPanel?.querySelectorAll("[data-strategy-subject]").forEach((tab) => {
-    tab.addEventListener("click", () => {
-      keepWindowScroll(() => {
-        selectedStrategySubject = tab.dataset.strategySubject;
-        refreshStrategySubject();
-      });
+  scoresPanel?.querySelectorAll(".month-chip[data-score-scope]").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      keepWindowScroll(() => activateScoreScope(chip.dataset.scoreScope));
     });
   });
 
@@ -1215,5 +1063,5 @@
   });
 
   Object.values(subMap).forEach(({ attr, fallback }) => activateSub(attr, fallback));
-  activate("analysis", "summary");
+  activate("scores");
 })();

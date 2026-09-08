@@ -261,6 +261,7 @@
   let selectedExamMonth = "3";
   let selectedStrategySubject = "국어";
   let selectedScoreScope = "selected";
+  let selectedTrendSubject = "국수탐";
 
   function resetMypageView() {
     activateMypageTab("mock");
@@ -309,6 +310,19 @@
     refreshStrategySubject();
   }
 
+  function refreshTrendSubject() {
+    const target = scoresPanel?.querySelector("[data-trend-subject-chart]");
+    if (target) {
+      target.innerHTML = window.MegaReportData?.renderTrendSubject?.(selectedTrendSubject) || "";
+    }
+
+    scoresPanel?.querySelectorAll("[data-trend-subject]").forEach((tab) => {
+      const isActive = tab.dataset.trendSubject === selectedTrendSubject;
+      tab.classList.toggle("active", isActive);
+      tab.setAttribute("aria-selected", isActive ? "true" : "false");
+    });
+  }
+
   function refreshStrategySubject() {
     refreshScoreSubjectTabs();
 
@@ -347,9 +361,11 @@
     selectedSubject = "국어";
     selectedExamMonth = "3";
     selectedStrategySubject = "국어";
+    selectedTrendSubject = "국수탐";
     activateScoreScope("selected");
     activateTakenExam(scoresPanel, "3");
     refreshStrategySubject();
+    refreshTrendSubject();
   }
 
   function resetAnalysisView() {
@@ -518,6 +534,15 @@
   scoresPanel?.querySelectorAll("[data-score-subject]").forEach((tab) => {
     tab.addEventListener("click", () => {
       keepWindowScroll(() => activateScoreSubject(tab.dataset.scoreSubject));
+    });
+  });
+
+  scoresPanel?.querySelectorAll("[data-trend-subject]").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      keepWindowScroll(() => {
+        selectedTrendSubject = tab.dataset.trendSubject;
+        refreshTrendSubject();
+      });
     });
   });
 

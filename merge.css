@@ -3126,8 +3126,66 @@ body.adm-modal-open {
   margin: 0 0 24px;
 }
 
-.trend-exam-block + .type-analysis-block {
+.trend-exam-block + .trend-full-block,
+.trend-full-block + .type-analysis-block {
   margin-top: 24px;
+}
+
+.trend-full-block .diag-result-head {
+  margin: 0 0 24px;
+}
+
+.trend-full-block .content-tabs {
+  margin-bottom: 24px;
+}
+
+.trend-full-block [data-trend-subject-chart] {
+  display: flex;
+  flex-direction: column;
+  min-height: 480px;
+  padding: 24px 28px 20px;
+  border: 1px solid var(--line);
+  background: var(--white);
+}
+
+.trend-mini-chart.is-full {
+  flex: 1 1 auto;
+  height: 440px;
+  min-height: 440px;
+  padding-top: 28px;
+  overflow: visible;
+}
+
+.trend-mini-chart.is-full::before {
+  top: 28px;
+}
+
+.trend-mini-chart.is-full .trend-mini-plot,
+.trend-mini-chart.is-full .trend-mini-points {
+  overflow: visible;
+}
+
+.trend-mini-chart.is-full .trend-mini-line {
+  stroke-width: 2.5;
+}
+
+.trend-mini-chart.is-full .trend-mini-points i {
+  width: 12px;
+  height: 12px;
+}
+
+.trend-mini-chart.is-full .trend-mini-points i b {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 6px);
+  color: #2f5f96;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  white-space: nowrap;
+  transform: translateX(-50%);
 }
 
 .score-subject-block .content-tab-panel[data-score-scope="all"] .type-analysis-block .diag-result-head {

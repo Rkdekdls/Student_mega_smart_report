@@ -427,10 +427,11 @@
     });
   }
 
-  function renderTrendChart({ showTitle = false, items, yMax = 100 } = {}) {
+  function renderTrendChart({ showTitle = false, variant = "mini", items, yMax = 100 } = {}) {
     const series = items || getTrendItems();
     const width = 400;
     const height = 200;
+    const showValues = variant === "full" || variant === "subject";
     const yLabels =
       yMax === 400 ? ["400", "300", "200", "100", "0"] : ["100", "75", "50", "25", "0"];
     const coords = series.map((item, index) => {
@@ -447,7 +448,7 @@
 
     return `
       ${showTitle ? `<div class="pct-meta"><strong class="trend-mini-title">백분위</strong></div>` : ""}
-      <div class="trend-mini-chart" role="img" aria-label="응시 시험 성적 추이">
+      <div class="trend-mini-chart${showValues ? " is-full" : ""}" role="img" aria-label="응시 시험 성적 추이">
         <div class="trend-mini-y" aria-hidden="true">${yLabels.map((label) => `<span>${label}</span>`).join("")}</div>
         <div class="trend-mini-plot">
           <svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" class="trend-mini-svg" aria-hidden="true">
@@ -458,7 +459,7 @@
             ${coords
               .map(
                 (point) =>
-                  `<i style="left:${((point.x / width) * 100).toFixed(2)}%;top:${((point.y / height) * 100).toFixed(2)}%" title="${point.score}점"></i>`
+                  `<i style="left:${((point.x / width) * 100).toFixed(2)}%;top:${((point.y / height) * 100).toFixed(2)}%" title="${point.score}점">${showValues ? `<b>${point.score}</b>` : ""}</i>`
               )
               .join("")}
           </div>
@@ -471,6 +472,16 @@
 
   function renderTrendMini() {
     return renderTrendChart({ showTitle: true });
+  }
+
+  function renderTrendSubject(subject) {
+    const isSum = !subject || subject === "전체" || subject === "국수탐";
+    return renderTrendChart({
+      showTitle: false,
+      variant: "full",
+      yMax: isSum ? 400 : 100,
+      items: getTrendItems(isSum ? "국수탐" : subject)
+    });
   }
 
   function formatExamScore(value) {
@@ -1522,6 +1533,7 @@
     renderWrongNote,
     renderCumulativeWrong,
     renderTrendExamTable,
+    renderTrendSubject,
     renderSchoolAnalysis,
     renderStrategySummary,
     renderStrategyTasks
@@ -1556,6 +1568,10 @@
 
     document.querySelectorAll("[data-trend-exam-table]").forEach((el) => {
       el.innerHTML = renderTrendExamTable();
+    });
+
+    document.querySelectorAll("[data-trend-subject-chart]").forEach((el) => {
+      el.innerHTML = renderTrendSubject("국수탐");
     });
 
     document.querySelectorAll("[data-exam-review]").forEach((el) => {

@@ -3790,24 +3790,18 @@ body.adm-modal-open {
   margin: 0 0 24px;
 }
 
-.exam-share-legend .is-correct::before {
+.exam-share-legend .diag-dot.is-correct {
   background: var(--cat-motive);
 }
 
-.exam-share-legend .is-wrong::before {
+.exam-share-legend .diag-dot.is-wrong {
   background: var(--cat-stress);
 }
 
 .exam-share-box {
-  padding: 0 24px 16px;
+  padding: 24px 24px 16px;
   border: 1px solid var(--line);
   background: var(--white);
-}
-
-.exam-share-box .pct-meta--legend {
-  justify-content: flex-end;
-  min-height: 0;
-  margin: 20px 0;
 }
 
 .exam-share-chart {

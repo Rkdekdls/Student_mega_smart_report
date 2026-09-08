@@ -1414,6 +1414,10 @@
         <section class="cumulative-wrong-share">
           <div class="diag-result-head">
             <h2 class="diag-section-title">정답 및 오답 비중</h2>
+            <div class="diag-chart-legend exam-share-legend" aria-label="정답 오답 범례">
+              <span class="diag-legend-item"><i class="diag-dot is-correct"></i>정답</span>
+              <span class="diag-legend-item"><i class="diag-dot is-wrong"></i>오답</span>
+            </div>
           </div>
           ${renderExamShareChart(subject)}
         </section>
@@ -1480,12 +1484,6 @@
 
     return `
       <div class="exam-share-box">
-        <div class="pct-meta pct-meta--legend">
-          <div class="pct-legend exam-share-legend" aria-label="정답 오답 범례">
-            <span class="is-correct">정답</span>
-            <span class="is-wrong">오답</span>
-          </div>
-        </div>
         <div class="exam-share-chart" role="img" aria-label="정답 및 오답 비중">
           ${items
             .map(

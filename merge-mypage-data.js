@@ -686,7 +686,7 @@
 
     return `
       <strong>지금은 <em>${focus}</em>${objectParticle(focus)} 먼저 보완할 때예요.</strong>
-      <p>이번 시험에서 틀린 문항을 바탕으로 학습 과제 · 복습 우선 순위 · 오답 원인을 정리했습니다.</p>`;
+      <p>이번 시험에서 틀린 문항을 바탕으로 학습 과제·복습 우선 순위·오답 원인을 정리했습니다.</p>`;
   }
 
   function getAreaRanks(month, subject) {

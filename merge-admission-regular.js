@@ -271,7 +271,6 @@
                 <th>차이</th>
                 <th>지원 구간</th>
                 <th>관심</th>
-                <th>관련 상세</th>
               </tr>
             </thead>
             <tbody data-adm-list-body></tbody>
@@ -358,12 +357,6 @@
     panel.querySelector("[data-adm-tier-filter]")?.addEventListener("change", () => renderList(panel, state));
 
     panel.querySelector("[data-adm-list-body]")?.addEventListener("click", (event) => {
-      const detailButton = event.target.closest("[data-adm-detail-open]");
-      if (detailButton) {
-        openDetailModal(panel, state, Number(detailButton.dataset.admDetailOpen));
-        return;
-      }
-
       const button = event.target.closest("[data-adm-fav-toggle]");
       if (!button) return;
       const id = Number(button.dataset.admFavToggle);
@@ -621,9 +614,6 @@
               <button type="button" class="adm-fav-btn${state.favorites.has(row.id) ? " is-active" : ""}" data-adm-fav-toggle="${row.id}">
                 ${state.favorites.has(row.id) ? "저장됨" : "저장"}
               </button>
-            </td>
-            <td>
-              <button type="button" class="adm-detail-btn" data-adm-detail-open="${row.id}">상세</button>
             </td>
           </tr>`;
       })

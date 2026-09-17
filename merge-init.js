@@ -23,6 +23,8 @@
     scores: "성적 분석",
     analysis: "오답 분석",
     admission: "합격 예측",
+    insight: "입시 인사이트",
+    qna: "입시 전문가 Q&A",
     diagnostic: "학습종합진단검사"
   };
 
@@ -326,6 +328,12 @@
   function refreshStrategySubject() {
     refreshScoreSubjectTabs();
 
+    const report = scoresPanel?.querySelector("[data-score-report]");
+    if (report) {
+      report.innerHTML =
+        window.MegaReportData?.renderSubjectReport?.(selectedExamMonth, selectedStrategySubject) || "";
+    }
+
     const summary = scoresPanel?.querySelector("[data-strategy-summary]");
     if (summary) {
       summary.innerHTML =
@@ -562,42 +570,47 @@
   };
   const EARLY_UNIVERSITIES = {
     고려대학교: {
-      학생부종합: { 계열적합전형: ["기계공학부", "경영학과"], 학업우수형: ["경영학과", "컴퓨터학과"] }
-    },
-    한양대학교: {
-      학생부교과: { 추천형: ["기계공학부", "컴퓨터소프트웨어학부"] },
-      학생부종합: { 일반전형: ["컴퓨터소프트웨어학부", "기계공학부"] }
-    },
-    연세대학교: {
-      학생부종합: { 활동우수형: ["경영학과", "컴퓨터과학과"] }
+      학생부교과: { 학교추천전형: ["자연계열", "인문계열"] }
     },
     성균관대학교: {
-      학생부종합: { 학과모집: ["소프트웨어학과", "경영학과"] }
+      학생부교과: { 학교장추천전형: ["자연계열", "인문계열"] }
+    },
+    건국대학교: {
+      학생부교과: { KU지역균형: ["기계·로봇·자동차공학부", "경영학과"] }
+    },
+    인하대학교: {
+      학생부교과: { 학생부교과: ["기계공학과", "컴퓨터공학과"] }
+    },
+    단국대학교: {
+      학생부교과: { DKU학생부교과: ["기계공학과", "경영학부"] }
+    },
+    한양대학교: {
+      학생부교과: { "학생부교과(추천)": ["기계공학부", "컴퓨터소프트웨어학부"] }
     },
     중앙대학교: {
-      학생부교과: { 교과전형: ["소프트웨어학부", "경영학부"] }
+      학생부교과: { "학생부교과(지역균형)": ["경영학부", "소프트웨어학부"] }
     },
     경희대학교: {
-      학생부종합: { 네오르네상스전형: ["컴퓨터공학과", "경영학과"] }
+      학생부교과: { 지역균형전형: ["공과계열", "경영학과"] }
     }
   };
   const EARLY_TARGET_DEFAULTS = {
-    e1: { university: "고려대학교", category: "학생부종합", type: "계열적합전형", major: "기계공학부", cutoff: 93.5 },
-    e2: { university: "한양대학교", category: "학생부교과", type: "추천형", major: "기계공학부", cutoff: 90.8 },
+    e1: { university: "고려대학교", category: "학생부교과", type: "학교추천전형", major: "자연계열", cutoff: 93.5 },
+    e2: { university: "한양대학교", category: "학생부교과", type: "학생부교과(추천)", major: "기계공학부", cutoff: 90.8 },
     e3: { university: "", category: "", type: "", major: "", cutoff: 0 },
     e4: { university: "", category: "", type: "", major: "", cutoff: 0 },
     e5: { university: "", category: "", type: "", major: "", cutoff: 0 },
     e6: { university: "", category: "", type: "", major: "", cutoff: 0 }
   };
   const EARLY_LIST_ROWS = [
-    { id: 1, region: "서울", university: "고려대학교", category: "종합", type: "계열적합전형", major: "기계공학부", quota: 18, rate: 8.4, myScore: "89.1", cutoff: "92.4", diff: -3.3, csat: "none", track: "자연", tier: { label: "상향", className: "is-reach" }, gradeMin: 1.28, gradeMax: 1.72 },
-    { id: 2, region: "서울", university: "성균관대학교", category: "종합", type: "탐구형", major: "기계공학부", quota: 25, rate: 10.7, myScore: "842", cutoff: "850.5", diff: -8.5, csat: "met", track: "자연", tier: { label: "상향", className: "is-reach" }, gradeMin: 1.35, gradeMax: 1.85 },
-    { id: 3, region: "서울", university: "건국대학교", category: "종합", type: "KU자기추천", major: "기계항공공학부", quota: 32, rate: 12.3, myScore: "704.8", cutoff: "700", diff: 4.8, csat: "fail", track: "자연", tier: { label: "안정", className: "is-safe" }, gradeMin: 2.45, gradeMax: 2.90 },
-    { id: 4, region: "인천·경기", university: "인하대학교", category: "종합", type: "인하미래인재", major: "기계공학과", quota: 29, rate: 9.8, myScore: "1,007.5", cutoff: "1,000", diff: 7.5, csat: "met", track: "자연", tier: { label: "안정", className: "is-safe" }, gradeMin: 2.55, gradeMax: 3.10 },
-    { id: 5, region: "인천·경기", university: "단국대학교", category: "종합", type: "DKU인재", major: "기계공학과", quota: 24, rate: 7.6, myScore: "817.2", cutoff: "800", diff: 17.2, csat: "none", track: "자연", tier: { label: "안정", className: "is-safe" }, gradeMin: 2.70, gradeMax: 3.25 },
-    { id: 6, region: "서울", university: "한양대학교", category: "교과", type: "추천형", major: "기계공학부", quota: 22, rate: 9.1, myScore: "89.1", cutoff: "90.8", diff: -1.7, csat: "met", track: "자연", tier: { label: "적정", className: "is-fit" }, gradeMin: 1.62, gradeMax: 2.05 },
-    { id: 7, region: "서울", university: "중앙대학교", category: "교과", type: "교과전형", major: "경영학부", quota: 26, rate: 8.2, myScore: "701.5", cutoff: "698.2", diff: 3.3, csat: "fail", track: "인문", tier: { label: "안정", className: "is-safe" }, gradeMin: 2.40, gradeMax: 2.88 },
-    { id: 8, region: "서울", university: "경희대학교", category: "종합", type: "네오르네상스전형", major: "컴퓨터공학과", quota: 20, rate: 7.4, myScore: "86.5", cutoff: "88.0", diff: -1.5, csat: "none", track: "자연", tier: { label: "적정", className: "is-fit" }, gradeMin: 1.90, gradeMax: 2.50 }
+    { id: 1, region: "서울", university: "고려대학교", category: "교과", type: "학교추천전형", major: "자연계열", quota: 18, rate: 8.4, myScore: "89.1", cutoff: "92.4", diff: -3.3, csat: "3개 합 7", csatMet: "미충족", track: "자연", tier: { label: "상향", className: "is-reach" }, gradeMin: 1.28, gradeMax: 1.72 },
+    { id: 2, region: "서울", university: "성균관대학교", category: "교과", type: "학교장추천전형", major: "자연계열", quota: 25, rate: 10.7, myScore: "842", cutoff: "850.5", diff: -8.5, csat: "3개 합 7", csatMet: "미충족", track: "자연", tier: { label: "상향", className: "is-reach" }, gradeMin: 1.35, gradeMax: 1.85 },
+    { id: 3, region: "서울", university: "건국대학교", category: "교과", type: "KU지역균형", major: "기계·로봇·자동차공학부", quota: 32, rate: 12.3, myScore: "704.8", cutoff: "700", diff: 4.8, csat: "없음", csatMet: "해당없음", track: "자연", tier: { label: "안정", className: "is-safe" }, gradeMin: 2.45, gradeMax: 2.90 },
+    { id: 4, region: "인천·경기", university: "인하대학교", category: "교과", type: "학생부교과", major: "기계공학과", quota: 29, rate: 9.8, myScore: "1,007.5", cutoff: "1,000", diff: 7.5, csat: "3개 합 7", csatMet: "충족", track: "자연", tier: { label: "안정", className: "is-safe" }, gradeMin: 2.55, gradeMax: 3.10 },
+    { id: 5, region: "인천·경기", university: "단국대학교", category: "교과", type: "DKU학생부교과", major: "기계공학과", quota: 24, rate: 7.6, myScore: "817.2", cutoff: "800", diff: 17.2, csat: "없음", csatMet: "해당없음", track: "자연", tier: { label: "안정", className: "is-safe" }, gradeMin: 2.70, gradeMax: 3.25 },
+    { id: 6, region: "서울", university: "한양대학교", category: "교과", type: "학생부교과(추천)", major: "기계공학부", quota: 22, rate: 9.1, myScore: "89.1", cutoff: "90.8", diff: -1.7, csat: "3개 합 7", csatMet: "충족", track: "자연", tier: { label: "적정", className: "is-fit" }, gradeMin: 1.62, gradeMax: 2.05 },
+    { id: 7, region: "서울", university: "중앙대학교", category: "교과", type: "학생부교과(지역균형)", major: "경영학부", quota: 26, rate: 8.2, myScore: "701.5", cutoff: "698.2", diff: 3.3, csat: "3개 합 7", csatMet: "미충족", track: "인문", tier: { label: "안정", className: "is-safe" }, gradeMin: 2.40, gradeMax: 2.88 },
+    { id: 8, region: "서울", university: "경희대학교", category: "교과", type: "지역균형전형", major: "공과계열", quota: 20, rate: 7.4, myScore: "86.5", cutoff: "88.0", diff: -1.5, csat: "2개 합 5", csatMet: "충족", track: "자연", tier: { label: "적정", className: "is-fit" }, gradeMin: 1.90, gradeMax: 2.50 }
   ];
   const EARLY_GRADE_SCALE = { min: 1, max: 4.5 };
 
@@ -731,50 +744,46 @@
   }
 
   function renderEarlyListFor(root) {
-    const tbody = root.querySelector("[data-early-list-body]");
-    if (!tbody) return;
+    const tbodies = [...root.querySelectorAll("[data-early-list-body]")];
+    if (!tbodies.length) return;
 
-    const isSimple = root.dataset.admissionView === "simple";
-    const myGrade = isSimple ? readEarlySimpleGrade() : null;
     const category = root.querySelector("[data-early-category-filter]")?.value || "all";
     const track = root.querySelector("[data-early-track-filter]")?.value || "all";
     const tierFilter = root.querySelector("[data-early-tier-filter]")?.value || "all";
     const listTab = root.querySelector("[data-early-list-tab].active")?.dataset.earlyListTab || "all";
     const search = root.querySelector("[data-early-search]")?.value.trim().toLowerCase() || "";
-
     const favorites = earlyFavoritesFor(root);
-    const filtered = EARLY_LIST_ROWS.filter((row) => {
-      const tier = isSimple ? earlyGradeTier(myGrade, row.gradeMin, row.gradeMax) : row.tier;
-      if (listTab === "fav" && !favorites.has(row.id)) return false;
-      if (category !== "all" && row.category !== category) return false;
-      if (track !== "all" && row.track !== track) return false;
-      if (tierFilter !== "all" && tier.className !== tierFilter) return false;
-      if (search) {
-        const haystack = `${row.university} ${row.major} ${row.type} ${row.category}`.toLowerCase();
-        if (!haystack.includes(search)) return false;
-      }
-      return true;
-    });
+    const myGrade = readEarlySimpleGrade();
 
-    tbody.innerHTML = filtered
-      .map((row) => {
-        const saved = favorites.has(row.id);
+    tbodies.forEach((tbody) => {
+      const isSimple = root.dataset.admissionView === "simple" || tbody.hasAttribute("data-early-list-simple");
+      const filtered = EARLY_LIST_ROWS.filter((row) => {
         const tier = isSimple ? earlyGradeTier(myGrade, row.gradeMin, row.gradeMax) : row.tier;
-        const scoreCell = isSimple
-          ? `<td class="adm-grade-dist-cell">${earlyGradeDistMarkup(myGrade, row.gradeMin, row.gradeMax)}</td>
+        if (listTab === "fav" && !favorites.has(row.id)) return false;
+        if (category !== "all" && row.category !== category) return false;
+        if (track !== "all" && row.track !== track) return false;
+        if (tierFilter !== "all" && tier.className !== tierFilter) return false;
+        if (search) {
+          const haystack = `${row.university} ${row.major} ${row.type} ${row.category}`.toLowerCase();
+          if (!haystack.includes(search)) return false;
+        }
+        return true;
+      });
+
+      tbody.innerHTML = filtered
+        .map((row) => {
+          const saved = favorites.has(row.id);
+          const tier = isSimple ? earlyGradeTier(myGrade, row.gradeMin, row.gradeMax) : row.tier;
+          const scoreCell = isSimple
+            ? `<td class="adm-grade-dist-cell">${earlyGradeDistMarkup(myGrade, row.gradeMin, row.gradeMax)}</td>
             <td class="adm-grade-range-cell"><strong>${earlyFormatGradeRange(row.gradeMin, row.gradeMax)}</strong></td>
-            <td class="adm-csat-plain">${row.csat === "none" ? "없음" : "있음"}</td>`
-          : `<td><strong>${row.myScore}</strong></td>
+            <td class="adm-csat-plain">${row.csat}</td>
+            <td class="adm-csat-plain">${row.csatMet}</td>`
+            : `<td><strong>${row.myScore}</strong></td>
             <td><strong>${row.cutoff}</strong></td>
             <td class="${row.diff >= 0 ? "is-up" : "is-down"}">${earlyFormatDiff(row.diff)}</td>`;
-        const detailCell = isSimple
-          ? ""
-          : `<td>
-              <button type="button" class="adm-detail-btn" data-early-detail-open="${row.id}">상세</button>
-            </td>`;
-        return `
+          return `
           <tr>
-            <td>${row.category}</td>
             <td class="adm-list-uni">${row.university}</td>
             <td>${row.type}</td>
             <td>${row.track}</td>
@@ -788,16 +797,15 @@
                 ${saved ? "저장됨" : "저장"}
               </button>
             </td>
-            ${detailCell}
           </tr>`;
-      })
-      .join("");
+        })
+        .join("");
+    });
   }
 
   function renderEarlyTargetCards() {
     earlyPanel?.querySelectorAll("[data-early-target-cards]").forEach((el) => {
-      const isSimple = el.closest("[data-admission-view]")?.dataset.admissionView === "simple";
-      el.innerHTML = earlyTargetCardsMarkup(isSimple);
+      el.innerHTML = earlyTargetCardsMarkup(true);
     });
   }
 
@@ -1045,20 +1053,16 @@
     root.querySelector("[data-early-category-filter]")?.addEventListener("change", () => renderEarlyListFor(root));
     root.querySelector("[data-early-track-filter]")?.addEventListener("change", () => renderEarlyListFor(root));
     root.querySelector("[data-early-tier-filter]")?.addEventListener("change", () => renderEarlyListFor(root));
-    root.querySelector("[data-early-list-body]")?.addEventListener("click", (event) => {
-      const detailButton = event.target.closest("[data-early-detail-open]");
-      if (detailButton) {
-        openEarlyDetailModal(Number(detailButton.dataset.earlyDetailOpen), root.dataset.admissionView === "simple");
-        return;
-      }
-
-      const button = event.target.closest("[data-early-fav-toggle]");
-      if (!button) return;
-      const id = Number(button.dataset.earlyFavToggle);
-      const favorites = earlyFavoritesFor(root);
-      if (favorites.has(id)) favorites.delete(id);
-      else favorites.add(id);
-      renderEarlyListFor(root);
+    root.querySelectorAll("[data-early-list-body]").forEach((tbody) => {
+      tbody.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-early-fav-toggle]");
+        if (!button) return;
+        const id = Number(button.dataset.earlyFavToggle);
+        const favorites = earlyFavoritesFor(root);
+        if (favorites.has(id)) favorites.delete(id);
+        else favorites.add(id);
+        renderEarlyListFor(root);
+      });
     });
   });
   earlyDetailModal?.querySelectorAll("[data-early-detail-close]").forEach((button) => {
@@ -1082,8 +1086,7 @@
     earlyPanel?.querySelector("[data-early-simple-submit]")?.click();
   });
   earlyPanel?.querySelector("[data-early-simple-submit]")?.addEventListener("click", () => {
-    const simpleRoot = earlyPanel.querySelector('[data-admission-view="simple"]');
-    if (simpleRoot) renderEarlyListFor(simpleRoot);
+    renderEarlyList();
     renderEarlyTargetCards();
   });
 

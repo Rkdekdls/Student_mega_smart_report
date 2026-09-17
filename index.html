@@ -26,6 +26,16 @@
         </button>
       </div>
 
+      <div class="sidebar-search">
+        <label class="sidebar-search-field">
+          <input type="search" placeholder="검색" aria-label="검색" autocomplete="off">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+            <circle cx="10.5" cy="10.5" r="5.75" fill="none" stroke="currentColor" stroke-width="2.25"></circle>
+            <path d="M15.2 15.2 19 19" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round"></path>
+          </svg>
+        </label>
+      </div>
+
       <div class="header-nav-zone">
         <nav class="header-nav" aria-label="메인 메뉴">
           <div class="nav-item" data-panel="scores">
@@ -67,6 +77,32 @@
               </div>
             </div>
           </div>
+
+          <div class="nav-divider" role="separator"></div>
+
+          <div class="nav-item" data-panel="insight">
+            <button type="button" class="nav-link" data-panel="insight">
+              <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/>
+                <path d="M9 18h6"/>
+                <path d="M10 22h4"/>
+              </svg>
+              <span>입시 인사이트</span>
+            </button>
+          </div>
+
+          <div class="nav-item" data-panel="qna">
+            <button type="button" class="nav-link" data-panel="qna">
+              <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="8"/>
+                <path d="M9.2 9.4a2.8 2.8 0 0 1 5.5 1c0 2-2.8 2.3-2.8 4"/>
+                <path d="M12 17.1h.01"/>
+              </svg>
+              <span>입시 전문가 Q&amp;A</span>
+            </button>
+          </div>
+
+          <div class="nav-divider" role="separator"></div>
 
           <div class="nav-item" data-panel="diagnostic">
             <button type="button" class="nav-link" data-panel="diagnostic">
@@ -137,6 +173,12 @@
             </div>
 
             <div class="content-tab-panel active" data-score-scope="selected" role="tabpanel">
+              <section class="score-report-block">
+                <div class="diag-result-head">
+                  <h2 class="diag-section-title">성적표</h2>
+                </div>
+                <div data-score-report></div>
+              </section>
               <section class="strategy-full-block">
                 <div class="diag-result-head">
                   <h2 class="diag-section-title">학습 전략</h2>
@@ -227,8 +269,8 @@
       <div class="sub-panel" data-admission="early">
         <div data-school-analysis></div>
         <div class="content-tabs" role="tablist" aria-label="수시 합격 예측">
-          <button type="button" class="content-tab active" data-admission-view="precise" role="tab" aria-selected="true">정밀 예측</button>
-          <button type="button" class="content-tab" data-admission-view="simple" role="tab" aria-selected="false">간편 예측</button>
+          <button type="button" class="content-tab active" data-admission-view="precise" role="tab" aria-selected="true">교과</button>
+          <button type="button" class="content-tab" data-admission-view="simple" role="tab" aria-selected="false">종합</button>
         </div>
 
         <div class="content-tab-panel active" data-admission-view="precise" role="tabpanel">
@@ -238,7 +280,7 @@
           <div class="adm-target-cards" data-early-target-cards></div>
 
           <div class="diag-result-head">
-            <h2 class="diag-section-title">지원가능 점수</h2>
+            <h2 class="diag-section-title">지원 가능등급</h2>
           </div>
           <div class="content-tabs adm-list-tabs" role="tablist" aria-label="수시 모집단위 목록">
             <button type="button" class="content-tab active" data-early-list-tab="all" role="tab" aria-selected="true">전체 모집단위</button>
@@ -254,81 +296,6 @@
                 </svg>
               </button>
             </div>
-            <select class="adm-select adm-select--inline" data-early-category-filter aria-label="유형">
-              <option value="all">유형 전체</option>
-              <option value="종합">종합</option>
-              <option value="교과">교과</option>
-              <option value="논술">논술</option>
-              <option value="실기">실기</option>
-            </select>
-            <select class="adm-select adm-select--inline" data-early-track-filter aria-label="계열"></select>
-            <select class="adm-select adm-select--inline" data-early-tier-filter aria-label="지원 구간">
-              <option value="all">지원 구간 전체</option>
-              <option value="is-safe">안정</option>
-              <option value="is-fit">적정</option>
-              <option value="is-reach">상향</option>
-            </select>
-          </div>
-          <div class="diag-table-scroll">
-            <table class="diag-table adm-list-table adm-early-list-table">
-              <thead>
-                <tr>
-                  <th>전형유형</th>
-                  <th>대학</th>
-                  <th>전형명</th>
-                  <th>계열</th>
-                  <th>모집단위</th>
-                  <th>모집인원</th>
-                  <th>전년도 경쟁률</th>
-                  <th>내 환산점수</th>
-                  <th>지원가능 점수</th>
-                  <th>차이</th>
-                  <th>지원 구간</th>
-                  <th>관심</th>
-                  <th>관련 상세</th>
-                </tr>
-              </thead>
-              <tbody data-early-list-body></tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="content-tab-panel" data-admission-view="simple" role="tabpanel">
-          <div class="diag-result-head adm-simple-predict-head">
-            <div class="adm-simple-predict-row">
-              <label class="adm-grade-field">
-                <input type="text" inputmode="decimal" value="2.31" data-early-simple-grade aria-label="내신 입력" autocomplete="off">
-                <span class="adm-grade-unit">등급</span>
-              </label>
-              <button type="button" class="adm-simple-predict-btn" data-early-simple-submit>분석하기</button>
-            </div>
-          </div>
-          <div class="adm-target-cards" data-early-target-cards></div>
-
-          <div class="diag-result-head">
-            <h2 class="diag-section-title">지원가능 등급</h2>
-          </div>
-          <div class="content-tabs adm-list-tabs" role="tablist" aria-label="수시 모집단위 목록">
-            <button type="button" class="content-tab active" data-early-list-tab="all" role="tab" aria-selected="true">전체 모집단위</button>
-            <button type="button" class="content-tab" data-early-list-tab="fav" role="tab" aria-selected="false">관심 모집단위</button>
-          </div>
-          <div class="adm-filter-row">
-            <div class="adm-search-wrap">
-              <input type="text" class="adm-search" placeholder="대학·모집단위 검색" data-early-search autocomplete="off">
-              <button type="button" class="adm-search-btn" data-early-search-submit aria-label="검색">
-                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-                  <circle cx="10.5" cy="10.5" r="5.75" fill="none" stroke="currentColor" stroke-width="2.25"></circle>
-                  <path d="M15.2 15.2 19 19" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round"></path>
-                </svg>
-              </button>
-            </div>
-            <select class="adm-select adm-select--inline" data-early-category-filter aria-label="유형">
-              <option value="all">유형 전체</option>
-              <option value="종합">종합</option>
-              <option value="교과">교과</option>
-              <option value="논술">논술</option>
-              <option value="실기">실기</option>
-            </select>
             <select class="adm-select adm-select--inline" data-early-track-filter aria-label="계열"></select>
             <select class="adm-select adm-select--inline" data-early-tier-filter aria-label="지원 구간">
               <option value="all">지원 구간 전체</option>
@@ -341,7 +308,6 @@
             <table class="diag-table adm-list-table adm-early-list-table adm-early-simple-list-table">
               <thead>
                 <tr>
-                  <th>전형유형</th>
                   <th>대학</th>
                   <th>전형명</th>
                   <th>계열</th>
@@ -351,12 +317,20 @@
                   <th>내 등급 위치</th>
                   <th>지원가능 등급</th>
                   <th>수능 최저</th>
+                  <th>충족 여부</th>
                   <th>지원 구간</th>
                   <th>관심</th>
                 </tr>
               </thead>
-              <tbody data-early-list-body></tbody>
+              <tbody data-early-list-body data-early-list-simple></tbody>
             </table>
+          </div>
+        </div>
+
+        <div class="content-tab-panel" data-admission-view="simple" role="tabpanel">
+          <div class="adm-coming-soon-box">
+            <p>학생부종합전형 합격 예측 서비스를 준비 중입니다.</p>
+            <p>학생부를 기반으로 목표 모집단위별 분석 결과를 제공할 예정입니다.</p>
           </div>
         </div>
       </div>
@@ -388,6 +362,20 @@
         <div class="regular-month-panel" data-regular-month="9" role="tabpanel">
           <div class="admission-regular" data-regular-render="9"></div>
         </div>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="insight">
+      <div class="adm-coming-soon-box">
+        <p>입시 인사이트 서비스를 준비 중입니다.</p>
+        <p>입시 트렌드와 지원 전략 자료를 제공할 예정입니다.</p>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="qna">
+      <div class="adm-coming-soon-box">
+        <p>입시 전문가 Q&amp;A 서비스를 준비 중입니다.</p>
+        <p>입시 전문가의 상담과 답변을 제공할 예정입니다.</p>
       </div>
     </section>
 

@@ -541,6 +541,19 @@
     return (mockSamples[month] || []).find((item) => item[1] === name) || null;
   }
 
+  function renderSubjectReport(month, subject) {
+    const row = getSubjectRow(month, subject || "국어");
+    const rows = row ? [row] : [];
+
+    return `
+      <div class="diag-table-scroll">
+        <table class="diag-table diag-table-define">
+          ${mockHead}
+          <tbody>${mockRowsHtml(rows)}</tbody>
+        </table>
+      </div>`;
+  }
+
   const subjectAreaMap = {
     국어: [
       ["독서·인문", 5, 4, 61, 78],
@@ -1534,7 +1547,8 @@
     renderTrendSubject,
     renderSchoolAnalysis,
     renderStrategySummary,
-    renderStrategyTasks
+    renderStrategyTasks,
+    renderSubjectReport
   };
 
   function initMypageSamples() {
@@ -1586,6 +1600,10 @@
 
     document.querySelectorAll("[data-wrong-note]").forEach((el) => {
       el.innerHTML = renderWrongNote("3", "국어");
+    });
+
+    document.querySelectorAll("[data-score-report]").forEach((el) => {
+      el.innerHTML = renderSubjectReport("3", "국어");
     });
 
     document.querySelectorAll("[data-strategy-summary]").forEach((el) => {

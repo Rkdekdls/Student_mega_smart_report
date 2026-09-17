@@ -1877,8 +1877,8 @@ body.is-sidebar-collapsed .sidebar-collapse svg {
   color: #2d7a4f;
 }
 
-.adm-list-tabs {
-  margin-bottom: 20px;
+.content-tabs.adm-list-tabs {
+  margin-bottom: 16px;
 }
 
 .adm-filter-row {

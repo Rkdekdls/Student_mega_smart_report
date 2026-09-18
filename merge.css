@@ -840,6 +840,29 @@ body.is-sidebar-collapsed .sidebar-collapse svg {
   margin: 0;
 }
 
+.diag-result-head:has(.adm-select),
+.diag-result-head:has(.adm-custom-select),
+.diag-result-head:has(.insight-head-filters) {
+  position: relative;
+  z-index: 40;
+}
+
+.diag-result-head > .adm-select,
+.diag-result-head > .adm-custom-select,
+.insight-head-filters {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  z-index: 40;
+  transform: translateY(-50%);
+}
+
+.insight-head-filters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .diag > .diag-table-scroll {
   margin-bottom: 24px;
 }
@@ -3894,6 +3917,165 @@ body.adm-modal-open {
   margin: 0;
 }
 
+.insight-card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.insight-card-grid[data-insight-report-list],
+.insight-card-grid[data-insight-news-list],
+.insight-card-grid[data-insight-briefing-list] {
+  grid-template-columns: 1fr;
+}
+
+.insight-card-grid .content-empty {
+  grid-column: 1 / -1;
+}
+
+.insight-card {
+  padding: 0;
+  overflow: hidden;
+  gap: 0;
+}
+
+.insight-card-thumb {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: center;
+  background: var(--gray-100);
+  border-bottom: 1px solid var(--line);
+}
+
+.insight-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 16px;
+}
+
+.insight-card-body > strong {
+  margin: 0;
+}
+
+.insight-card.is-text {
+  position: relative;
+  padding: 16px;
+  height: 100%;
+}
+
+.insight-card.is-text .insight-card-body {
+  flex: 1;
+  gap: 0;
+  padding: 0 128px 0 0;
+}
+
+.insight-card.is-text .insight-card-body > strong {
+  margin: 14px 0;
+}
+
+[data-insight-news-list] .insight-card.is-text .insight-card-body > strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  width: 100%;
+}
+
+.insight-card.is-text .qna-question-meta {
+  margin: 0;
+}
+
+.insight-card-foot {
+  display: block;
+  width: 100%;
+}
+
+.insight-card.is-text .btn-adm-primary {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+}
+
+.insight-briefing-card {
+  position: relative;
+  display: block;
+  height: auto;
+}
+
+.insight-briefing-media {
+  display: block;
+  width: 400px;
+  max-width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--gray-100);
+  line-height: 0;
+}
+
+.insight-briefing-thumb {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  vertical-align: top;
+}
+
+.insight-briefing-body {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  bottom: 16px;
+  left: calc(16px + 400px + 16px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  overflow: hidden;
+  gap: 4px;
+}
+
+.insight-briefing-body > strong {
+  margin: 6px 0;
+  font-size: 18px;
+}
+
+.insight-briefing-speakers,
+.insight-briefing-copy {
+  margin: 0;
+  color: var(--gray-600);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.45;
+  word-break: keep-all;
+}
+
+.insight-briefing-copy {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.insight-briefing-sub {
+  margin: 10px 0;
+  color: var(--navy);
+  font-size: 15px;
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: -0.03em;
+}
+
+.insight-briefing-body .btn-adm-primary {
+  position: static;
+  align-self: flex-end;
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
 .qna-consultant-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -4110,6 +4292,11 @@ body.adm-modal-open {
 .summary-card .adm-tier.is-reach {
   background: #fff4e6;
   color: #c05621;
+}
+
+.summary-card .adm-tier.is-year {
+  background: var(--gray-100);
+  color: var(--gray-600);
 }
 
 .qna-question-main {
@@ -4943,6 +5130,29 @@ body.adm-modal-open {
   .qna-form-row,
   .qna-form-choices {
     grid-template-columns: 1fr;
+  }
+
+  .insight-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .insight-briefing-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .insight-briefing-media {
+    width: 100%;
+  }
+
+  .insight-briefing-thumb {
+    width: 100%;
+    height: auto;
+  }
+
+  .insight-briefing-body {
+    position: static;
+    overflow: visible;
   }
 
   .adm-sim-grid {

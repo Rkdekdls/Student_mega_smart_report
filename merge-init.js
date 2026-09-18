@@ -19,6 +19,7 @@
   const regularMonthTabs = regularPanel ? [...regularPanel.querySelectorAll(".content-tab[data-regular-month]")] : [];
   const admissionViewTabs = earlyPanel ? [...earlyPanel.querySelectorAll(".content-tab[data-admission-view]")] : [];
   const qnaPanel = document.querySelector('.panel[data-panel="qna"]');
+  const insightPanel = document.querySelector('.panel[data-panel="insight"]');
   const qnaHome = qnaPanel?.querySelector("[data-qna-home]");
   const qnaDetail = qnaPanel?.querySelector("[data-qna-detail]");
   const qnaThread = qnaPanel?.querySelector("[data-qna-thread]");
@@ -26,9 +27,10 @@
   const qnaAskForm = qnaPanel?.querySelector("[data-qna-ask-form]");
   const qnaTabs = qnaPanel ? [...qnaPanel.querySelectorAll(".content-tab[data-qna]")] : [];
   const qnaDetailTabs = qnaPanel ? [...qnaPanel.querySelectorAll(".content-tab[data-qna-detail]")] : [];
+  const insightTabs = insightPanel ? [...insightPanel.querySelectorAll(".content-tab[data-insight]")] : [];
   const qnaConsultants = {
     "1": {
-      photo: "img/1.PNG",
+      photo: "img/consultant/1.png",
       code: "CONSULTANT 01",
       org: "MEGA 대입컨설팅센터",
       title: "최상위권 자연계 전문 컨설턴트",
@@ -78,7 +80,7 @@
       ]
     },
     "2": {
-      photo: "img/2.PNG",
+      photo: "img/consultant/2.png",
       code: "CONSULTANT 02",
       org: "MEGA 대입컨설팅센터",
       title: "메디컬 전략 전문 컨설턴트",
@@ -128,7 +130,7 @@
       ]
     },
     "3": {
-      photo: "img/3.PNG",
+      photo: "img/consultant/3.png",
       code: "CONSULTANT 03",
       org: "MEGA 대입컨설팅센터",
       title: "맞춤 입시전략 전문 컨설턴트",
@@ -178,7 +180,7 @@
       ]
     },
     "4": {
-      photo: "img/4.PNG",
+      photo: "img/consultant/4.png",
       code: "CONSULTANT 04",
       org: "MEGA 대입컨설팅센터",
       title: "중상위권 진로 전문 컨설턴트",
@@ -398,6 +400,383 @@
     qnaDetail?.querySelectorAll(".content-tab-panel[data-qna-detail]").forEach((panel) => {
       panel.classList.toggle("active", panel.dataset.qnaDetail === name);
     });
+  }
+
+  function activateInsightTab(name) {
+    insightTabs.forEach((tab) => {
+      const isActive = tab.dataset.insight === name;
+      tab.classList.toggle("active", isActive);
+      tab.setAttribute("aria-selected", isActive ? "true" : "false");
+    });
+
+    insightPanel?.querySelectorAll(".content-tab-panel[data-insight]").forEach((panel) => {
+      panel.classList.toggle("active", panel.dataset.insight === name);
+    });
+  }
+
+  function resetInsightView() {
+    activateInsightTab("first");
+  }
+
+  const insightFirstItems = [
+    {
+      id: "054",
+      category: "입시상식",
+      title: "2027 논술전형 지원전략",
+      date: "2026. 09. 04",
+      views: 590,
+      photo: "img/insight/1.png"
+    },
+    {
+      id: "053",
+      category: "입시상식",
+      title: "나만 모르는 선택과목 고르는 법",
+      date: "2026. 08. 28",
+      views: 474,
+      photo: "img/insight/2.png"
+    },
+    {
+      id: "052",
+      category: "고교생활",
+      title: "내신 공부 별별 Q&A",
+      date: "2026. 08. 21",
+      views: 388,
+      photo: "img/insight/3.png"
+    },
+    {
+      id: "049",
+      category: "입시상식",
+      title: "2027학년도 논술전형은?",
+      date: "2026. 07. 24",
+      views: 1366,
+      photo: "img/insight/4.png"
+    },
+    {
+      id: "048",
+      category: "입시상식",
+      title: "2027학년도 학생부 교과전형은?",
+      date: "2026. 07. 16",
+      views: 634,
+      photo: "img/insight/5.png"
+    },
+    {
+      id: "047",
+      category: "입시상식",
+      title: "2027학년도 학생부 종합전형은?",
+      date: "2026. 07. 10",
+      views: 816,
+      photo: "img/insight/6.png"
+    },
+    {
+      id: "046",
+      category: "입시상식",
+      title: "2027학년도, 연세대학교는?",
+      date: "2026. 07. 03",
+      views: 1504,
+      photo: "img/insight/7.png"
+    },
+    {
+      id: "032",
+      category: "입시용어",
+      title: "알쏭달쏭 입시 신조어!",
+      date: "2026. 01. 02",
+      views: 1021,
+      photo: "img/insight/8.png"
+    }
+  ];
+
+  const insightReportItems = [
+    {
+      year: "2028",
+      category: "지원전략",
+      title: "내신 5등급제 시대, 대입의 Key는 결국 수능인 이유",
+      date: "2026. 04. 28",
+      views: 4809
+    },
+    {
+      year: "2028",
+      category: "지원전략",
+      title: "학생부종합전형 자유전공학부, 오해와 진실 완벽 정리",
+      date: "2026. 04. 16",
+      views: 3797
+    },
+    {
+      year: "2028",
+      category: "의치한",
+      title: "2027~2031 의대 정원 분석, 지역별 증원 인원은?",
+      date: "2026. 04. 02",
+      views: 7917
+    },
+    {
+      year: "2027",
+      category: "핫이슈",
+      title: "[수시] 2028 내신 5등급제 실측 분석, 나의 내신 등급 위치는?",
+      date: "2026. 03. 23",
+      views: 7303
+    },
+    {
+      year: "2027",
+      category: "핫이슈",
+      title: "학교폭력조치사항 의무 반영, 그 결과는?",
+      date: "2026. 03. 20",
+      views: 4827
+    },
+    {
+      year: "2028",
+      category: "핫이슈",
+      title: "2028 대입, 주요 대학의 방향성은?",
+      date: "2026. 03. 06",
+      views: 5544
+    },
+    {
+      year: "2027",
+      category: "지원전략",
+      title: "표준점수, 백분위, 등급 이해하기",
+      date: "2026. 02. 20",
+      views: 12491
+    },
+    {
+      year: "2027",
+      category: "의치한",
+      title: "2027학년도부터 서울 제외 32개 의대에서 정원 단계적 증원",
+      date: "2026. 02. 11",
+      views: 8280
+    }
+  ];
+
+  const insightNewsItems = [
+    {
+      year: "2027",
+      category: "의치한",
+      title: "[수시] [2027수시경쟁률] 전국 39개 의대 20.95대1 '하락'.. 성대 115.29대1 '의대 최고 경쟁률' 기록",
+      date: "2026. 09. 15",
+      views: 5412
+    },
+    {
+      year: "2027",
+      category: "핫이슈",
+      title: "[수시] [2027수시경쟁률] 전국 44개교 논술 48.07대1 '역대 최고'.. '개편 전 막차' 수요 집중",
+      date: "2026. 09. 14",
+      views: 4454
+    },
+    {
+      year: "2027",
+      category: "핫이슈",
+      title: "[2027 9월모평 가채점 배치표] 대구진협 서울대/연대 의예 297점 '최고', 성대/한양대 의예 이어서",
+      date: "2026. 09. 07",
+      views: 10515
+    },
+    {
+      year: "2027",
+      category: "지원전략",
+      title: "[수시] [2027수시] '막판 점검' 의약계열 논술 3년간 경쟁률.. 치대 '하락세', 한의대 '상승'",
+      date: "2026. 09. 04",
+      views: 4887
+    },
+    {
+      year: "2027",
+      category: "핫이슈",
+      title: "[2027대입잣대] 지난해 SKY 중도탈락 2012명 '4년내 최저'.. '2026의대원복' 영향 분석",
+      date: "2026. 08. 31",
+      views: 10134
+    },
+    {
+      year: "2028",
+      category: "핫이슈",
+      title: "2028 대기고 계약학과 '13개교 19개학과 체제'.. 부산대 '한화그룹 첫 계약학과' 신설",
+      date: "2026. 08. 14",
+      views: 12582
+    },
+    {
+      year: "2027",
+      category: "핫이슈",
+      title: "경찰대 2027경쟁률 91.6대1 '상승'.. '사관학교 상위권 수요 흡수했나' 분석",
+      date: "2026. 08. 12",
+      views: 6396
+    },
+    {
+      year: "2027",
+      category: "지원전략",
+      title: "[수시] 서울대 고려대 등 11개 상위대학 입학처가 공개한 2027 면접 대비법.. '학생부 속 지문' 점검",
+      date: "2026. 08. 11",
+      views: 2880
+    }
+  ];
+
+  const insightBriefingItems = [
+    {
+      grades: ["전 학년"],
+      title: "9월 모의고사 LIVE 설명회",
+      eventDate: "2026-09-02",
+      registered: "2026-08-20",
+      location: "메가스터디 온라인",
+      speakers: "남윤곤 소장,국어 강민철,수학 현우진,영어 조정석,지리 이기상,역사·통사 이다지,윤리 김종익,사회문화 윤성훈,물리학 배기범,화학 고석용,생명과학 백호,지구과학 오지훈,통합과학 장풍",
+      subtitle: "9월 모의고사 전 영역 분석 및 대입 전략",
+      body: "과목별 총평부터 수능까지 학습 방향 & 대입 전략을 9월 모의고사 이후 가장 빠르게 LIVE로 전달해드립니다!",
+      photo: "img/briefing/1.png"
+    },
+    {
+      grades: ["고2", "고1"],
+      title: "최상위권 수시 전략 설명회",
+      eventDate: "2026-07-12",
+      registered: "2026-06-28",
+      location: "서울 대치 MEXX 학원",
+      speakers: "장혁진 입시컨설턴트,목표달성 장학생&큐브 마스터",
+      subtitle: "의대 합격 선배의 수시 전략",
+      body: "고1-2 맞춤 입시 전략 & 의대 수시 합격 선배들이 직접 알려주는 생기부 관리법과 학습법을 공개합니다!",
+      photo: "img/briefing/2.png"
+    },
+    {
+      grades: ["전 학년"],
+      title: "6월 모의고사 LIVE 설명회",
+      eventDate: "2026-06-04",
+      registered: "2026-05-22",
+      location: "메가스터디 온라인",
+      speakers: "남윤곤 소장,국어 강민철,수학 현우진,영어 조정석,지리 이기상,역사·통사 이다지,윤리 김종익,사회문화 윤성훈,물리학 배기범,화학 고석용,생명과학 백호,지구과학 오지훈,통합과학 장풍",
+      subtitle: "6월 모의고사 전 영역 분석 및 대입 전략",
+      body: "믿고 보는 라인업! 과목별 분석부터 앞으로의 학습 방향과 대입전략까지, 메가스터디 1타 선생님들이 학년별 포인트를 라이브로 정리해드립니다!",
+      photo: "img/briefing/3.png"
+    },
+    {
+      grades: ["전 학년"],
+      title: "3월 학력평가 LIVE 설명회",
+      eventDate: "2026-03-24",
+      registered: "2026-03-12",
+      location: "메가스터디 온라인",
+      speakers: "남윤곤 소장,국어 강민철,수학 현우진,영어 조정석,통합사회 이다지,통합과학 장풍",
+      subtitle: "3월 학평 전 영역 분석 및 입시 전략 가이드",
+      body: "3월 학평 영역별 분석부터 학습 방향, 학년별 대입 전략까지 한 번에 정리해 드립니다!",
+      photo: "img/briefing/4.png"
+    }
+  ];
+
+  function insightReportCategoryClass(category) {
+    if (category === "의치한") return "is-safe";
+    if (category === "핫이슈") return "is-reach";
+    return "is-fit";
+  }
+
+  function formatBriefingSpeakers(speakers) {
+    const parts = String(speakers).split(/\s*,\s*/).filter(Boolean);
+    const lines = [];
+    for (let i = 0; i < parts.length; i += 7) {
+      lines.push(parts.slice(i, i + 7).join(","));
+    }
+    return lines.join("<br>");
+  }
+
+  function insightBriefingGradeClass(grade) {
+    if (grade === "고1") return "is-reach";
+    if (grade === "고2") return "is-safe";
+    if (grade === "고3") return "is-fit";
+    return "is-fit";
+  }
+
+  function renderInsightFirst() {
+    const list = insightPanel?.querySelector("[data-insight-first-list]");
+    if (!list) return;
+    const filter = insightPanel?.querySelector("[data-insight-first-filter]")?.value || "all";
+    const sort = insightPanel?.querySelector("[data-insight-first-sort]")?.value || "latest";
+    const items = insightFirstItems
+      .filter((item) => filter === "all" || item.category === filter)
+      .slice()
+      .sort((a, b) => {
+        if (sort === "views") return b.views - a.views;
+        return parseQnaDate(b.date) - parseQnaDate(a.date);
+      });
+    if (!items.length) {
+      list.innerHTML = `<div class="content-empty"><p>해당하는 자료가 없습니다.</p></div>`;
+      return;
+    }
+    list.innerHTML = items.map((item) => `
+      <article class="summary-card insight-card">
+        <img class="insight-card-thumb" src="${item.photo}" alt="${item.title}">
+        <div class="insight-card-body">
+          <div class="qna-question-tags">
+            <span class="adm-tier ${item.category === "고교생활" ? "is-fit" : item.category === "입시용어" ? "is-reach" : "is-safe"}">${item.category}</span>
+          </div>
+          <strong>${item.title}</strong>
+          <p class="qna-question-meta">등록일 ${item.date} · 조회 ${item.views}회</p>
+        </div>
+      </article>
+    `).join("");
+  }
+
+  function renderInsightTextCards(listAttr, filterAttr, sortAttr, source) {
+    const list = insightPanel?.querySelector(listAttr);
+    if (!list) return;
+    const filter = insightPanel?.querySelector(filterAttr)?.value || "all";
+    const sort = insightPanel?.querySelector(sortAttr)?.value || "latest";
+    const items = source
+      .filter((item) => filter === "all" || item.category === filter)
+      .slice()
+      .sort((a, b) => {
+        if (sort === "views") return b.views - a.views;
+        return parseQnaDate(b.date) - parseQnaDate(a.date);
+      });
+    if (!items.length) {
+      list.innerHTML = `<div class="content-empty"><p>해당하는 자료가 없습니다.</p></div>`;
+      return;
+    }
+    list.innerHTML = items.map((item) => `
+      <article class="summary-card insight-card is-text">
+        <div class="insight-card-body">
+          <div class="qna-question-tags">
+            <span class="adm-tier is-year">${item.year}학년도</span>
+            <span class="adm-tier ${insightReportCategoryClass(item.category)}">${item.category}</span>
+          </div>
+          <strong>${item.title}</strong>
+          <div class="insight-card-foot">
+            <p class="qna-question-meta">등록일 ${item.date} · 조회 ${item.views}회</p>
+            <button type="button" class="btn-adm-primary">자세히 보기</button>
+          </div>
+        </div>
+      </article>
+    `).join("");
+  }
+
+  function renderInsightReport() {
+    renderInsightTextCards("[data-insight-report-list]", "[data-insight-report-filter]", "[data-insight-report-sort]", insightReportItems);
+  }
+
+  function renderInsightNews() {
+    renderInsightTextCards("[data-insight-news-list]", "[data-insight-news-filter]", "[data-insight-news-sort]", insightNewsItems);
+  }
+
+  function renderInsightBriefing() {
+    const list = insightPanel?.querySelector("[data-insight-briefing-list]");
+    if (!list) return;
+    const filter = insightPanel?.querySelector("[data-insight-briefing-filter]")?.value || "all";
+    const sort = insightPanel?.querySelector("[data-insight-briefing-sort]")?.value || "latest";
+    const items = insightBriefingItems
+      .filter((item) => filter === "all" || item.grades.includes(filter))
+      .slice()
+      .sort((a, b) => {
+        if (sort === "soon") return parseQnaDate(a.eventDate) - parseQnaDate(b.eventDate);
+        return parseQnaDate(b.registered) - parseQnaDate(a.registered);
+      });
+    if (!items.length) {
+      list.innerHTML = `<div class="content-empty"><p>해당하는 자료가 없습니다.</p></div>`;
+      return;
+    }
+    list.innerHTML = items.map((item) => `
+      <article class="summary-card insight-briefing-card">
+        <div class="insight-briefing-media">
+          <img class="insight-briefing-thumb" src="${item.photo}" alt="${item.title}">
+        </div>
+        <div class="insight-briefing-body">
+          <div class="qna-question-tags">
+            ${item.grades.map((grade) => `<span class="adm-tier ${insightBriefingGradeClass(grade)}">${grade}</span>`).join("")}
+          </div>
+          <strong>${item.title}</strong>
+          <p class="qna-question-meta">${item.eventDate} | ${item.location}</p>
+          <p class="insight-briefing-speakers">${formatBriefingSpeakers(item.speakers)}</p>
+          <em class="insight-briefing-sub">${item.subtitle}</em>
+          <p class="insight-briefing-copy">${item.body}</p>
+          <button type="button" class="btn-adm-primary">자세히 보기</button>
+        </div>
+      </article>
+    `).join("");
   }
 
   function parseQnaDate(value) {
@@ -981,6 +1360,7 @@
     resetScoreAnalysisView();
     resetAnalysisView();
     resetQnaView();
+    resetInsightView();
     tabs.forEach((tab) => tab.classList.toggle("active", tab.dataset.panel === panelName));
     panels.forEach((panel) => panel.classList.toggle("active", panel.dataset.panel === panelName));
 
@@ -1050,6 +1430,42 @@
     tab.addEventListener("click", () => {
       keepWindowScroll(() => activateQnaTab(tab.dataset.qna));
     });
+  });
+
+  insightTabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      keepWindowScroll(() => activateInsightTab(tab.dataset.insight));
+    });
+  });
+
+  renderInsightFirst();
+  renderInsightReport();
+  renderInsightNews();
+  renderInsightBriefing();
+  window.AdmissionRegular?.initCustomSelects(insightPanel);
+  insightPanel?.querySelector("[data-insight-first-filter]")?.addEventListener("change", () => {
+    renderInsightFirst();
+  });
+  insightPanel?.querySelector("[data-insight-first-sort]")?.addEventListener("change", () => {
+    renderInsightFirst();
+  });
+  insightPanel?.querySelector("[data-insight-report-filter]")?.addEventListener("change", () => {
+    renderInsightReport();
+  });
+  insightPanel?.querySelector("[data-insight-report-sort]")?.addEventListener("change", () => {
+    renderInsightReport();
+  });
+  insightPanel?.querySelector("[data-insight-news-filter]")?.addEventListener("change", () => {
+    renderInsightNews();
+  });
+  insightPanel?.querySelector("[data-insight-news-sort]")?.addEventListener("change", () => {
+    renderInsightNews();
+  });
+  insightPanel?.querySelector("[data-insight-briefing-filter]")?.addEventListener("change", () => {
+    renderInsightBriefing();
+  });
+  insightPanel?.querySelector("[data-insight-briefing-sort]")?.addEventListener("change", () => {
+    renderInsightBriefing();
   });
 
   qnaDetailTabs.forEach((tab) => {

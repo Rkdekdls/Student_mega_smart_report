@@ -366,9 +366,85 @@
     </section>
 
     <section class="panel" data-panel="insight">
-      <div class="adm-coming-soon-box">
-        <p>입시 인사이트 서비스를 준비 중입니다.</p>
-        <p>입시 트렌드와 지원 전략 자료를 제공할 예정입니다.</p>
+      <div class="content-tabs" role="tablist" aria-label="입시 인사이트">
+        <button type="button" class="content-tab active" data-insight="first" role="tab" aria-selected="true">입시 첫걸음</button>
+        <button type="button" class="content-tab" data-insight="briefing" role="tab" aria-selected="false">입시 설명회</button>
+        <button type="button" class="content-tab" data-insight="report" role="tab" aria-selected="false">입시 리포트</button>
+        <button type="button" class="content-tab" data-insight="news" role="tab" aria-selected="false">입시 뉴스</button>
+      </div>
+
+      <div class="content-tab-panel active" data-insight="first" role="tabpanel">
+        <div class="diag-result-head">
+          <h2 class="diag-section-title">입시 첫걸음</h2>
+          <div class="insight-head-filters">
+            <select class="adm-select adm-select--inline" data-insight-first-filter aria-label="유형">
+              <option value="all">전체</option>
+              <option value="입시상식">입시상식</option>
+              <option value="고교생활">고교생활</option>
+              <option value="입시용어">입시용어</option>
+            </select>
+            <select class="adm-select adm-select--inline" data-insight-first-sort aria-label="정렬">
+              <option value="latest">최신순</option>
+              <option value="views">조회순</option>
+            </select>
+          </div>
+        </div>
+        <div class="insight-card-grid" data-insight-first-list></div>
+      </div>
+      <div class="content-tab-panel" data-insight="briefing" role="tabpanel">
+        <div class="diag-result-head">
+          <h2 class="diag-section-title">입시 설명회</h2>
+          <div class="insight-head-filters">
+            <select class="adm-select adm-select--inline" data-insight-briefing-filter aria-label="학년">
+              <option value="all">전체</option>
+              <option value="전 학년">전 학년</option>
+              <option value="고1">고1</option>
+              <option value="고2">고2</option>
+              <option value="고3">고3</option>
+            </select>
+            <select class="adm-select adm-select--inline" data-insight-briefing-sort aria-label="정렬">
+              <option value="latest">최근 등록순</option>
+              <option value="soon">설명회 임박순</option>
+            </select>
+          </div>
+        </div>
+        <div class="insight-card-grid" data-insight-briefing-list></div>
+      </div>
+      <div class="content-tab-panel" data-insight="report" role="tabpanel">
+        <div class="diag-result-head">
+          <h2 class="diag-section-title">입시 리포트</h2>
+          <div class="insight-head-filters">
+            <select class="adm-select adm-select--inline" data-insight-report-filter aria-label="유형">
+              <option value="all">전체</option>
+              <option value="지원전략">지원전략</option>
+              <option value="의치한">의치한</option>
+              <option value="핫이슈">핫이슈</option>
+            </select>
+            <select class="adm-select adm-select--inline" data-insight-report-sort aria-label="정렬">
+              <option value="latest">최신순</option>
+              <option value="views">조회순</option>
+            </select>
+          </div>
+        </div>
+        <div class="insight-card-grid" data-insight-report-list></div>
+      </div>
+      <div class="content-tab-panel" data-insight="news" role="tabpanel">
+        <div class="diag-result-head">
+          <h2 class="diag-section-title">입시 뉴스</h2>
+          <div class="insight-head-filters">
+            <select class="adm-select adm-select--inline" data-insight-news-filter aria-label="유형">
+              <option value="all">전체</option>
+              <option value="지원전략">지원전략</option>
+              <option value="의치한">의치한</option>
+              <option value="핫이슈">핫이슈</option>
+            </select>
+            <select class="adm-select adm-select--inline" data-insight-news-sort aria-label="정렬">
+              <option value="latest">최신순</option>
+              <option value="views">조회순</option>
+            </select>
+          </div>
+        </div>
+        <div class="insight-card-grid" data-insight-news-list></div>
       </div>
     </section>
 
@@ -385,7 +461,7 @@
           </div>
           <div class="qna-consultant-grid">
             <article class="summary-card qna-consultant-card" data-consultant-id="1">
-              <img class="qna-consultant-photo" src="img/1.PNG" alt="최상위권 자연계 전문 컨설턴트">
+              <img class="qna-consultant-photo" src="img/consultant/1.png" alt="최상위권 자연계 전문 컨설턴트">
               <div class="qna-consultant-body">
                 <div class="qna-consultant-copy">
                   <span>CONSULTANT 01</span>
@@ -395,7 +471,7 @@
               </div>
             </article>
             <article class="summary-card qna-consultant-card" data-consultant-id="2">
-              <img class="qna-consultant-photo" src="img/2.PNG" alt="메디컬 전략 전문 컨설턴트">
+              <img class="qna-consultant-photo" src="img/consultant/2.png" alt="메디컬 전략 전문 컨설턴트">
               <div class="qna-consultant-body">
                 <div class="qna-consultant-copy">
                   <span>CONSULTANT 02</span>
@@ -405,7 +481,7 @@
               </div>
             </article>
             <article class="summary-card qna-consultant-card" data-consultant-id="3">
-              <img class="qna-consultant-photo" src="img/3.PNG" alt="맞춤 입시전략 전문 컨설턴트">
+              <img class="qna-consultant-photo" src="img/consultant/3.png" alt="맞춤 입시전략 전문 컨설턴트">
               <div class="qna-consultant-body">
                 <div class="qna-consultant-copy">
                   <span>CONSULTANT 03</span>
@@ -415,7 +491,7 @@
               </div>
             </article>
             <article class="summary-card qna-consultant-card" data-consultant-id="4">
-              <img class="qna-consultant-photo" src="img/4.PNG" alt="중상위권 진로 전문 컨설턴트">
+              <img class="qna-consultant-photo" src="img/consultant/4.png" alt="중상위권 진로 전문 컨설턴트">
               <div class="qna-consultant-body">
                 <div class="qna-consultant-copy">
                   <span>CONSULTANT 04</span>
@@ -438,7 +514,7 @@
       <div data-qna-detail hidden>
         <div class="qna-detail-head">
           <article class="summary-card qna-detail-profile">
-            <img class="qna-consultant-photo" src="img/1.PNG" alt="" data-qna-photo>
+            <img class="qna-consultant-photo" src="img/consultant/1.png" alt="" data-qna-photo>
             <div class="qna-detail-copy">
               <div class="qna-detail-kicker">
                 <span data-qna-code></span>
@@ -504,7 +580,7 @@
       <div data-qna-form hidden>
         <div class="qna-form-head">
           <div class="qna-form-head-main">
-            <img class="qna-form-avatar" src="img/1.PNG" alt="" data-qna-form-photo>
+            <img class="qna-form-avatar" src="img/consultant/1.png" alt="" data-qna-form-photo>
             <div class="qna-form-head-copy">
               <strong data-qna-form-name></strong>
               <p class="qna-form-focus" data-qna-form-focus></p>
@@ -591,15 +667,15 @@
         <div class="diag-guide">
           <article class="diag-guide-card">
             <h3>학업스트레스</h3>
-            <p>성적이나 학습량에 대해 무리한 계획이나 목표를 세워 스스로를 압박하고 있지 않은지 확인하고 본인만의 스트레스 해소를 위한 방법을 찾도록 하세요. 적절한 학업스트레스는 오히려 느슨해질 수 있는 상태에 긴장감을 불러일으키고 공부에 대한 집중력을 향상시키기도 합니다.</p>
+            <p>성적이나 학습에 대한 과도한 부담은 긴장감을 높이고 공부에 대한 집중력을 떨어뜨릴 수 있습니다. 적절한 목표를 세우고 스스로에게 맞는 학습 속도를 유지하는 것이 중요합니다.</p>
           </article>
           <article class="diag-guide-card">
             <h3>자기결정동기</h3>
-            <p>내적동기가 높다는 것은 개인에 따라 차이는 있지만 높은 성적을 유지하거나 성적이 상승하는 학생들에게서 많이 나타나는 유형입니다. 주변사람들의 인정을 받거나 비난을 피하기 위해 공부하는 것도 학습 동기가 될 수는 있지만 보다 근본적으로 본인 스스로가 공부를 하고자 하는 의지를 가지고 구체적인 계획을 세워 학습하는 것이 중요합니다.</p>
+            <p>높은 성취를 꾸준히 유지하려면 주변의 기대보다 스스로 공부의 이유와 목표를 찾는 것이 중요합니다. 자신이 이루고 싶은 목표를 구체적으로 설정하면 학습 동기를 높이는 데 도움이 됩니다.</p>
           </article>
           <article class="diag-guide-card">
             <h3>학습문제해결전략</h3>
-            <p>시험 및 학습 이후에도 각 문제에 관련된 개념을 확인하고 본인의 문제풀이 방법과 해설지를 비교하여 문제를 제대로 풀었는지 확인하며 본인의 문제풀이 방법과 다른 풀이방법이 있다면 그 부분까지도 공부하며 출제의도 및 문제를 이해하는 능력을 키워야 합니다.</p>
+            <p>문제를 푼 뒤에는 정답만 확인하기보다 관련 개념과 풀이 과정을 함께 점검하는 것이 중요합니다. 다양한 풀이 방법을 비교하고 유사 문제에 적용하며 문제 해결력을 키울 수 있습니다.</p>
           </article>
         </div>
 

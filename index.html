@@ -373,9 +373,215 @@
     </section>
 
     <section class="panel" data-panel="qna">
-      <div class="adm-coming-soon-box">
-        <p>입시 전문가 Q&amp;A 서비스를 준비 중입니다.</p>
-        <p>입시 전문가의 상담과 답변을 제공할 예정입니다.</p>
+      <div data-qna-home>
+        <div class="content-tabs" role="tablist" aria-label="입시 전문가 Q&A">
+          <button type="button" class="content-tab active" data-qna="consultants" role="tab" aria-selected="true">컨설턴트</button>
+          <button type="button" class="content-tab" data-qna="mine" role="tab" aria-selected="false">내 질문</button>
+        </div>
+
+        <div class="content-tab-panel active" data-qna="consultants" role="tabpanel">
+          <div class="diag-result-head">
+            <h2 class="diag-section-title">컨설턴트 정보</h2>
+          </div>
+          <div class="qna-consultant-grid">
+            <article class="summary-card qna-consultant-card" data-consultant-id="1">
+              <img class="qna-consultant-photo" src="img/1.PNG" alt="최상위권 자연계 전문 컨설턴트">
+              <div class="qna-consultant-body">
+                <div class="qna-consultant-copy">
+                  <span>CONSULTANT 01</span>
+                  <strong>최상위권 자연계 전문 컨설턴트</strong>
+                </div>
+                <button type="button" class="btn-adm-primary">질문하러 가기</button>
+              </div>
+            </article>
+            <article class="summary-card qna-consultant-card" data-consultant-id="2">
+              <img class="qna-consultant-photo" src="img/2.PNG" alt="메디컬 전략 전문 컨설턴트">
+              <div class="qna-consultant-body">
+                <div class="qna-consultant-copy">
+                  <span>CONSULTANT 02</span>
+                  <strong>메디컬 전략 전문 컨설턴트</strong>
+                </div>
+                <button type="button" class="btn-adm-primary">질문하러 가기</button>
+              </div>
+            </article>
+            <article class="summary-card qna-consultant-card" data-consultant-id="3">
+              <img class="qna-consultant-photo" src="img/3.PNG" alt="맞춤 입시전략 전문 컨설턴트">
+              <div class="qna-consultant-body">
+                <div class="qna-consultant-copy">
+                  <span>CONSULTANT 03</span>
+                  <strong>맞춤 입시전략 전문 컨설턴트</strong>
+                </div>
+                <button type="button" class="btn-adm-primary">질문하러 가기</button>
+              </div>
+            </article>
+            <article class="summary-card qna-consultant-card" data-consultant-id="4">
+              <img class="qna-consultant-photo" src="img/4.PNG" alt="중상위권 진로 전문 컨설턴트">
+              <div class="qna-consultant-body">
+                <div class="qna-consultant-copy">
+                  <span>CONSULTANT 04</span>
+                  <strong>중상위권 진로 전문 컨설턴트</strong>
+                </div>
+                <button type="button" class="btn-adm-primary">질문하러 가기</button>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="content-tab-panel" data-qna="mine" role="tabpanel">
+          <div class="diag-result-head">
+            <h2 class="diag-section-title">나의 Q&amp;A</h2>
+          </div>
+          <div class="qna-question-list" data-qna-mine-list></div>
+        </div>
+      </div>
+
+      <div data-qna-detail hidden>
+        <div class="qna-detail-head">
+          <article class="summary-card qna-detail-profile">
+            <img class="qna-consultant-photo" src="img/1.PNG" alt="" data-qna-photo>
+            <div class="qna-detail-copy">
+              <div class="qna-detail-kicker">
+                <span data-qna-code></span>
+              </div>
+              <strong data-qna-title></strong>
+              <strong class="qna-detail-focus" data-qna-focus></strong>
+              <p class="qna-detail-intro" data-qna-intro></p>
+              <strong class="qna-detail-highlight" data-qna-highlight></strong>
+              <div class="adm-actions qna-detail-ask">
+                <button type="button" class="btn-adm-outline" data-qna-back>컨설턴트 재선택</button>
+                <button type="button" class="btn-adm-primary" data-qna-ask>이 컨설턴트에게 질문하기</button>
+              </div>
+            </div>
+          </article>
+          <article class="summary-card qna-detail-career">
+            <div class="diag-result-head">
+              <h2 class="diag-section-title">주요 경력 및 전문 영역</h2>
+            </div>
+            <ul class="qna-detail-career-list" data-qna-profile></ul>
+          </article>
+        </div>
+
+        <div class="content-tabs" role="tablist" aria-label="컨설턴트 Q&amp;A">
+          <button type="button" class="content-tab active" data-qna-detail="public" role="tab" aria-selected="true">전체 질문</button>
+          <button type="button" class="content-tab" data-qna-detail="mine" role="tab" aria-selected="false">내 질문</button>
+        </div>
+
+        <div class="content-tab-panel active" data-qna-detail="public" role="tabpanel">
+          <div class="diag-result-head">
+            <h2 class="diag-section-title">다른 학생들의 Q&amp;A</h2>
+            <select class="adm-select adm-select--inline" data-qna-sort aria-label="정렬">
+              <option value="latest">최신순</option>
+              <option value="views">조회순</option>
+            </select>
+          </div>
+          <div class="qna-question-list" data-qna-questions></div>
+        </div>
+
+        <div class="content-tab-panel" data-qna-detail="mine" role="tabpanel">
+          <div class="diag-result-head">
+            <h2 class="diag-section-title">나의 Q&amp;A</h2>
+            <select class="adm-select adm-select--inline" data-qna-detail-mine-sort aria-label="정렬">
+              <option value="latest">최신순</option>
+              <option value="views">조회순</option>
+            </select>
+          </div>
+          <div class="qna-question-list" data-qna-detail-mine></div>
+        </div>
+      </div>
+
+      <div data-qna-thread hidden>
+        <div class="diag-result-head">
+          <h2 class="diag-section-title">질문</h2>
+          <button type="button" class="btn-adm-outline" data-qna-thread-back>목록으로</button>
+        </div>
+        <article class="summary-card qna-thread-card" data-qna-thread-question></article>
+        <div class="diag-result-head">
+          <h2 class="diag-section-title">답변</h2>
+        </div>
+        <div data-qna-thread-answer></div>
+      </div>
+
+      <div data-qna-form hidden>
+        <div class="qna-form-head">
+          <div class="qna-form-head-main">
+            <img class="qna-form-avatar" src="img/1.PNG" alt="" data-qna-form-photo>
+            <div class="qna-form-head-copy">
+              <strong data-qna-form-name></strong>
+              <p class="qna-form-focus" data-qna-form-focus></p>
+            </div>
+          </div>
+        </div>
+
+        <form class="qna-ask-form" data-qna-ask-form>
+          <div class="qna-form-row">
+            <label class="qna-form-field">
+              <span>관심 대학</span>
+              <select class="adm-select" name="group" required>
+                <option value="">선택해 주세요</option>
+                <option value="의치한">의치한</option>
+                <option value="SKY">SKY</option>
+                <option value="서성한">서성한</option>
+                <option value="기타">기타</option>
+              </select>
+            </label>
+            <label class="qna-form-field">
+              <span>질문 유형</span>
+              <select class="adm-select" name="type" required>
+                <option value="">선택해 주세요</option>
+                <option value="정시 지원">정시 지원</option>
+                <option value="대학 선택">대학 선택</option>
+                <option value="성적 해석">성적 해석</option>
+                <option value="수능 반영방법">수능 반영방법</option>
+                <option value="2028 대입">2028 대입</option>
+                <option value="기타">기타</option>
+              </select>
+            </label>
+            <label class="qna-form-field">
+              <span>관련 시험</span>
+              <select class="adm-select" name="exam">
+                <option value="최근 모의고사">최근 모의고사</option>
+                <option value="6월 평가원">6월 평가원</option>
+                <option value="8월 평가원">8월 평가원</option>
+                <option value="선택 안 함">선택 안 함</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="qna-form-field">
+            <span>질문 제목</span>
+            <input class="qna-form-input" type="text" name="title" maxlength="80" placeholder="궁금한 내용을 한 문장으로 작성해 주세요" required>
+          </label>
+
+          <label class="qna-form-field">
+            <span>질문 내용</span>
+            <textarea class="qna-form-textarea" name="body" rows="7" placeholder="현재 성적, 목표대학, 고민하는 조건을 함께 작성해 주세요" required></textarea>
+          </label>
+
+          <div class="qna-form-field">
+            <span>공개 여부</span>
+            <div class="qna-form-choices">
+              <label class="qna-form-choice">
+                <input type="radio" name="visibility" value="public" checked>
+                <span>
+                  <strong>전체 공개</strong>
+                  <p>개인정보를 제외하고 다른 재원생에게 제공될 수 있습니다.</p>
+                </span>
+              </label>
+              <label class="qna-form-choice">
+                <input type="radio" name="visibility" value="private">
+                <span>
+                  <strong>나만 보기</strong>
+                  <p>내 질문 목록에서만 확인할 수 있습니다.</p>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div class="adm-actions qna-form-actions">
+            <button type="button" class="btn-adm-outline" data-qna-form-cancel>취소</button>
+            <button type="submit" class="btn-adm-primary">질문 등록하기</button>
+          </div>
+        </form>
       </div>
     </section>
 

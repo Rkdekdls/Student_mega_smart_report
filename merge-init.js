@@ -18,6 +18,263 @@
   const mockMonthChips = mypagePanel ? [...mypagePanel.querySelectorAll(".month-chip[data-mock-month]")] : [];
   const regularMonthTabs = regularPanel ? [...regularPanel.querySelectorAll(".content-tab[data-regular-month]")] : [];
   const admissionViewTabs = earlyPanel ? [...earlyPanel.querySelectorAll(".content-tab[data-admission-view]")] : [];
+  const qnaPanel = document.querySelector('.panel[data-panel="qna"]');
+  const qnaHome = qnaPanel?.querySelector("[data-qna-home]");
+  const qnaDetail = qnaPanel?.querySelector("[data-qna-detail]");
+  const qnaThread = qnaPanel?.querySelector("[data-qna-thread]");
+  const qnaForm = qnaPanel?.querySelector("[data-qna-form]");
+  const qnaAskForm = qnaPanel?.querySelector("[data-qna-ask-form]");
+  const qnaTabs = qnaPanel ? [...qnaPanel.querySelectorAll(".content-tab[data-qna]")] : [];
+  const qnaDetailTabs = qnaPanel ? [...qnaPanel.querySelectorAll(".content-tab[data-qna-detail]")] : [];
+  const qnaConsultants = {
+    "1": {
+      photo: "img/1.PNG",
+      code: "CONSULTANT 01",
+      org: "MEGA 대입컨설팅센터",
+      title: "최상위권 자연계 전문 컨설턴트",
+      focus: "중3부터 N수까지 · 자연계 전문",
+      intro: "최상위권 자연계 학생의 성적 구조와 정시 지원전략을 함께 설계합니다.",
+      highlight: "최상위권 정시 · 학생부 평가 및 교정",
+      profile: [
+        "최상위권·중3부터 N수까지·자연계 전문",
+        "학습 및 정신교육 전문가",
+        "정시 배치표·설명회 자문단 기획 및 제작 총괄",
+        "메가스터디 직영학원 입시 교육 다수",
+        "학생부 평가 및 교정 전문가",
+        "서울대학교 물리학과 졸업",
+        "입시전략연구소 대표 선임연구원"
+      ],
+      questions: [
+        {
+          id: "p1-1",
+          tags: ["SKY", "답변 완료"],
+          title: "국어 강점 학생은 연고대 중 어디가 유리한가요?",
+          excerpt: "국어 백분위는 높지만 수학이 상대적으로 약합니다. 연세대와 고려대 중 어느 쪽을 우선 검토해야 하나요?",
+          date: "2027. 04. 07",
+          views: 271,
+          answer: "국어가 강해도 자연계에서는 수학이 배치의 중심입니다. 연세대는 수학 표준점수의 영향이 큰 편이라, 지금처럼 수학이 상대적으로 약하면 연세대를 우선 카드로 두기는 부담스럽습니다. 고려대는 국어 강점이 조금 더 살아나는 경우가 있어, 같은 점수대라면 고려대를 적정으로 먼저 검토하는 편이 낫습니다.\n\n다만 탐구가 평범한 수준이면 두 대학 모두 한 칸 아래로 여유를 두는 것이 안전합니다. 최근 3회 모의고사에서 수학 백분위가 안정되는지를 먼저 보시고, 수학이 회복되면 연세대를 소신으로 올리고 고려대를 적정에 두는 식으로 조정하세요.",
+          answerDate: "2027. 04. 08"
+        },
+        {
+          id: "p1-2",
+          tags: ["SKY", "답변 완료"],
+          title: "수학이 강한 자연계 학생은 서울대 지원에서 어떤 점을 봐야 하나요?",
+          excerpt: "수학 표준점수는 높은 편이지만 국어와 탐구는 상대적으로 평범합니다. 서울대 자연계 지원 가능성을 판단할 때 무엇부터 확인해야 하나요?",
+          date: "2027. 03. 18",
+          views: 352,
+          answer: "서울대 자연계는 수학이 좋아도 국어·탐구가 받쳐 주지 않으면 합격선에서 밀리는 경우가 많습니다. 지금처럼 수학만 두드러지고 나머지 과목이 평범하다면, 서울대는 가능성 확인용 소신으로 보되 메인 카드로 두기는 이릅니다. 먼저 최근 3회 성적에서 과목별 백분위 편차와 과탐 조합, 그리고 가·나군에 넣을 안정 대학을 같이 적어 보세요.\n\n판단 순서는 단순합니다. 국어와 탐구가 서울대 자연계 하단을 넘는지 보고, 넘지 않으면 연고대 적정을 먼저 확보한 뒤 서울대를 가군 소신 1장으로만 남기세요. 수학 강점은 살리되, 한 과목 한 과목의 구멍부터 메우는 쪽이 합격 확률을 올립니다.",
+          answerDate: "2027. 03. 19"
+        },
+        {
+          id: "p1-3",
+          tags: ["서성한", "답변 완료"],
+          title: "모의고사별 성적 편차가 큰데 적정 지원선을 어떻게 정하나요?",
+          excerpt: "잘 본 시험과 못 본 시험의 차이가 커서 어느 성적을 기준으로 대학을 정해야 할지 어렵습니다.",
+          date: "2027. 03. 15",
+          views: 214,
+          answer: "잘 본 시험과 못 본 시험을 그대로 평균 내면 지원선이 한쪽으로 기울기 쉽습니다. 최근 3~4회 가운데 유난히 높거나 낮은 1회를 제외한 중앙값을 적정선으로 두는 것이 좋습니다. 상승 추세라면 최근 2회에 조금 더 무게를 두되, 하락 중이라면 낮은 쪽을 안정 카드의 기준으로 삼으세요.\n\n실무적으로는 최고점 1회는 소신, 중앙값은 적정, 최저점 근처는 안정에 반영하면 됩니다. 편차가 큰 해에는 대학을 한 칸씩 내려 안정 비중을 늘리는 편이 후회가 적습니다. 서성한권도 같은 방식으로 세 칸을 나눠 보시면 기준이 흔들리지 않습니다.",
+          answerDate: "2027. 03. 16"
+        }
+      ]
+    },
+    "2": {
+      photo: "img/2.PNG",
+      code: "CONSULTANT 02",
+      org: "MEGA 대입컨설팅센터",
+      title: "메디컬 전략 전문 컨설턴트",
+      focus: "의치한약수 · 수시·정시 병행",
+      intro: "의약학 계열 지원에 필요한 성적 구조와 전형 조합을 함께 설계합니다.",
+      highlight: "의치한약수 · 면접·서류 전략",
+      profile: [
+        "의치한약수 입시 전략 전문",
+        "수시 서류·면접 컨설팅 다수",
+        "정시 의약학 배치 분석",
+        "메가스터디 의대 입시 설명회 진행",
+        "학생부종합 기록 설계 자문",
+        "연세대학교 생명시스템 졸업",
+        "입시전략연구소 메디컬 연구원"
+      ],
+      questions: [
+        {
+          id: "p2-1",
+          tags: ["의대", "답변 완료"],
+          title: "과탐 조합이 의대 지원에 얼마나 영향을 주나요?",
+          excerpt: "화학Ⅰ·생명Ⅰ 조합인데 서울권 의대 정시 지원이 가능한지, 과목 선택이 불리하게 작용하는지가 궁금합니다.",
+          date: "2027. 04. 02",
+          views: 418,
+          answer: "화학Ⅰ·생명Ⅰ 조합이 서울권 의대 지원 자체를 막지는 않습니다. 다만 일부 대학은 Ⅱ과목 가산이나 변환표준에서 I+I 조합이 불리하게 잡히므로, ‘지원 가능 여부’와 ‘같은 점수대의 유불리’를 나눠 보셔야 합니다. 지금 성적이 안정적이라면 과목을 급하게 바꾸기보다, 목표 대학의 변환표 기준으로 점수 위치를 다시 적어 보는 것이 먼저입니다.\n\n조합을 바꿀지는 남은 학습 여력으로 판단하세요. Ⅱ과목을 새로 올리는 데 성적이 흔들릴 수 있으면, 현재 조합을 유지하고 지원 대학만 재배치하는 편이 안전합니다. 서울권 중 가산이 적은 곳과 변환이 유리한 곳을 나눠 적으시면 선택 폭이 분명해집니다.",
+          answerDate: "2027. 04. 03"
+        },
+        {
+          id: "p2-2",
+          tags: ["치대", "답변 완료"],
+          title: "수시 의대와 정시 치대를 함께 보는 게 맞을까요?",
+          excerpt: "내신은 1등급 초반이고 모의고사는 흔들립니다. 수시 의대와 정시 치대를 병행할 때 우선순위를 어떻게 잡아야 하나요?",
+          date: "2027. 03. 21",
+          views: 296,
+          answer: "내신 1등급 초반이면 수시에서 의대 카드를 비워 두기는 아깝습니다. 다만 모의고사가 흔들리는 해에는 정시 의대만 믿고 가기 어려우니, 수시 의대와 정시 치대를 역할이 다르게 가져가는 병행이 맞습니다. 수시는 ‘합격 가능성 있는 의대’를 남기는 자리이고, 정시 치대는 성적 변동을 받아 주는 안전판으로 보시면 됩니다.\n\n수시 6장을 의대 소신으로만 채우면 전부 미끄러질 수 있습니다. 의대 3~4장, 치대·약대 적정 2장 정도로 나눠 두시고, 정시는 치대를 안정·적정에 두는 구성이 현실적입니다. 모의고사가 회복되면 정시 의대를 다시 올리면 되고, 지금은 빈 합격 카드를 만드는 것이 우선입니다.",
+          answerDate: "2027. 03. 22"
+        },
+        {
+          id: "p2-3",
+          tags: ["약대", "답변 완료"],
+          title: "면접 비중이 큰 의약학 전형은 언제부터 준비해야 하나요?",
+          excerpt: "서류는 어느 정도 채워졌는데 면접 준비가 늦어질까 걱정입니다. 수시 의약학 면접은 어느 시점부터 잡는 게 맞나요?",
+          date: "2027. 03. 12",
+          views: 231,
+          answer: "서류가 어느 정도 정리된 상태라면, 면접은 ‘언제 시작하느냐’보다 ‘무엇을 먼저 고정하느냐’가 중요합니다. 6월 이후에는 생기부에서 반복되는 활동과 약점을 뽑아 예상 질문 목록을 만들어 두세요. 본격적인 구술 연습은 9월 모의고사 이후에도 충분하지만, 질문 목록이 없으면 그때 가서 내용이 빈약해집니다.\n\n면접 비중이 큰 전형은 서류로 올려 놓고 면접에서 뒤집히는 경우가 있습니다. 주 1회, 15~20분만이라도 답변을 소리 내어 말해 보시고, 의학 윤리 일반론보다 본인 기록에 근거한 답부터 다듬는 것이 좋습니다. 전형이 MMI인지 서류 기반인지만 구분해 두시면 준비 방향이 달라집니다.",
+          answerDate: "2027. 03. 13"
+        }
+      ]
+    },
+    "3": {
+      photo: "img/3.PNG",
+      code: "CONSULTANT 03",
+      org: "MEGA 대입컨설팅센터",
+      title: "맞춤 입시전략 전문 컨설턴트",
+      focus: "학생 유형별 전형 설계",
+      intro: "성적 위치와 강약점을 기준으로 수시·정시 지원 범위를 함께 정리합니다.",
+      highlight: "전형 조합 · 지원 카드 설계",
+      profile: [
+        "수시·정시 맞춤 전략 설계",
+        "학생 유형별 지원 카드 분석",
+        "대학별 전형 요강 해석",
+        "메가스터디 진학 설명회 진행",
+        "학생부·정시 병행 컨설팅",
+        "고려대학교 경영학과 졸업",
+        "입시전략연구소 전략기획 연구원"
+      ],
+      questions: [
+        {
+          id: "p3-1",
+          tags: ["수시", "답변 완료"],
+          title: "교과와 종합을 몇 장씩 넣는 게 안정적일까요?",
+          excerpt: "내신 2등급 초반, 모의고사는 2~3등급입니다. 교과와 종합 비율을 어떻게 나눠야 할지 고민입니다.",
+          date: "2027. 04. 11",
+          views: 187,
+          answer: "내신 2등급 초반이면 교과가 주력이 되는 성적대입니다. 다만 종합을 아예 빼면, 교과 컷에서 아슬아슬할 때 기댈 카드가 없어집니다. 생기부에 전공 관련 기록이 어느 정도 있으면 종합 1~2장은 남겨 두는 것이 좋습니다. 모의고사가 2~3등급이면 정시 보완이 약하니, 수시에서 교과 비중을 더 가져가는 편이 안전합니다.\n\n6장 기준으로는 교과 4·종합 2, 또는 교과 3·종합 2·논술 1을 먼저 그려 보세요. 교과 성적이 대학별 컷 바로 아래라면 교과를 한 장 줄이고 논술이나 종합으로 옮기는 조정도 가능합니다. 지금은 비율을 고정하기보다, 목표 대학의 교과 컷과 본인 기록 밀도를 대조한 뒤 장수를 확정하시면 됩니다.",
+          answerDate: "2027. 04. 12"
+        },
+        {
+          id: "p3-2",
+          tags: ["정시", "답변 완료"],
+          title: "가나다군을 안정·적정·소신으로 어떻게 나눠야 하나요?",
+          excerpt: "목표 대학은 중상위권인데 군별 배치를 잡을 때 성적 변동을 어느 정도까지 반영해야 하나요?",
+          date: "2027. 03. 29",
+          views: 241,
+          answer: "중상위권은 군 배치를 기계적으로 ‘가 안정·나 적정·다 소신’으로 나누기보다, 본인 성적 편차부터 보는 것이 맞습니다. 최근 2~3회 평균에서 ±1등급 안이면 그 폭만 변동으로 보시고, 그 이상 출렁이는 점수는 소신에 넣지 않는 것이 좋습니다. 목표 대학이 중상위권이라면 안정 카드를 두 장 확보하는 구성이 후회가 적습니다.\n\n예를 들어 가군 안정, 나군 적정, 다군 소신 대신, 가·나군을 안정·적정으로 두고 다군만 소신으로 가져가도 됩니다. 성적 변동이 큰 해에는 소신을 욕심내지 말고 적정선을 한 칸 낮추세요. 군별 역할은 ‘합격 한 장은 반드시 남긴다’는 기준으로 나누시면 됩니다.",
+          answerDate: "2027. 03. 30"
+        },
+        {
+          id: "p3-3",
+          tags: ["학생부", "답변 완료"],
+          title: "논술과 종합을 같이 넣으면 카드가 너무 분산되나요?",
+          excerpt: "교과는 애매하고 논술 성향은 있는 편입니다. 종합과 논술을 함께 쓸 때 원서 배분을 어떻게 하면 좋을까요?",
+          date: "2027. 03. 16",
+          views: 198,
+          answer: "교과가 애매하고 논술 성향이 있다면, 논술과 종합을 같이 쓰는 것은 분산이 아니라 서로 다른 전형으로 빈칸을 메우는 구성입니다. 다만 논술을 3장 이상 넣으면 지문 연습과 대학별 유형 대응에 시간이 빠져, 종합 서류와 교과 준비까지 함께 무너지기 쉽습니다. 논술 2·종합 3·교과 1 정도가 현실적인 출발점입니다.\n\n논술 장수는 모의 논술 결과를 본 뒤에 확정하세요. 점수가 나오면 논술을 한 장 늘리고, 나오지 않으면 종합이나 교과로 되돌리면 됩니다. 지금은 유형만 보고 장수를 늘리기보다, 준비 시간을 나눌 수 있는 범위 안에서 카드를 배치하는 것이 섬세한 운영입니다.",
+          answerDate: "2027. 03. 17"
+        }
+      ]
+    },
+    "4": {
+      photo: "img/4.PNG",
+      code: "CONSULTANT 04",
+      org: "MEGA 대입컨설팅센터",
+      title: "중상위권 진로 전문 컨설턴트",
+      focus: "진로 연계 · 중상위권 지원",
+      intro: "성적대에 맞는 학과 방향과 실현 가능한 지원 전략을 함께 설계합니다.",
+      highlight: "진로 탐색 · 중상위권 정시·수시",
+      profile: [
+        "중상위권 진학 전략 전문",
+        "진로·학과 매칭 컨설팅",
+        "지역거점국립대·주요사립 분석",
+        "메가스터디 진로 특강 진행",
+        "학생부 기록과 학과 적합성 자문",
+        "성균관대학교 사회학과 졸업",
+        "입시전략연구소 진로연구 연구원"
+      ],
+      questions: [
+        {
+          id: "p4-1",
+          tags: ["진로", "답변 완료"],
+          title: "성적이 애매할 때 학과를 먼저 정해야 할까요?",
+          excerpt: "인문·사회 쪽이 관심이 있는데 성적대가 넓습니다. 대학을 먼저 볼지, 학과를 먼저 볼지 고민입니다.",
+          date: "2027. 04. 05",
+          views: 163,
+          answer: "성적대가 넓을수록 대학 이름부터 고르면 학과가 계속 흔들립니다. 인문·사회 안에서도 경영, 미디어, 행정은 필요한 교과와 활동 증거가 다르니, 관심 학과를 먼저 2개 축으로 묶어 보세요. 그다음에야 각 축에 맞는 대학이 성적 밴드별로 정리됩니다.\n\n지금은 ‘어느 대학’보다 ‘어떤 일을 하고 싶은지’를 한 문장으로 적어 보시는 것이 좋습니다. 그 문장에 가까운 학과를 남기고, 성적 상단은 소신 학과, 중단은 적정, 하단은 안정 학과로 맞추면 지원표가 단순해집니다. 대학은 그 표 위에 올리는 자리입니다.",
+          answerDate: "2027. 04. 06"
+        },
+        {
+          id: "p4-2",
+          tags: ["정시", "답변 완료"],
+          title: "중상위권에서 취업 연계 학과를 어떻게 고르면 되나요?",
+          excerpt: "경영·미디어·행정 사이에서 고민 중입니다. 성적과 진로를 같이 볼 때 어떤 기준으로 좁혀야 하나요?",
+          date: "2027. 03. 14",
+          views: 209,
+          answer: "취업이 잘된다는 이유만으로 고르면, 입학 후 전공 적성이 맞지 않아 중도 이탈하는 경우가 있습니다. 경영은 수학·사회 교과와 정량적 활동, 미디어는 콘텐츠·탐구 기록, 행정은 사회 교과와 공공 관련 활동이 있는 학생에게 설명이 됩니다. 본인 생기부에 이미 쌓인 증거를 기준으로 1지망을 정하는 것이 맞습니다.\n\n1지망은 적성과 기록이 겹치는 학과로 두고, 취업 연계가 좋은 학과는 성적대에 맞는 안정·적정에 배치하세요. 세 개를 동시에 1순위로 두면 원서가 흩어집니다. 중상위권에서는 ‘잘 갈 수 있는 학과’와 ‘가고 싶은 학과’를 한 장씩 나누는 구성이 현실적입니다.",
+          answerDate: "2027. 03. 15"
+        },
+        {
+          id: "p4-3",
+          tags: ["수시", "답변 완료"],
+          title: "지역거점국립대와 수도권 사립 중 어디를 우선해야 하나요?",
+          excerpt: "성적대가 비슷해서 캠퍼스 생활과 취업을 같이 보고 싶습니다. 중상위권에서 우선순위를 어떻게 잡으면 될까요?",
+          date: "2027. 03. 08",
+          views: 176,
+          answer: "성적대가 비슷하면 대학 브랜드만 놓고 고르기 어렵습니다. 거점국립대는 학비·장학금과 캠퍼스 생활에서 이점이 있고, 수도권 사립은 인턴과 취업 네트워크 접근이 빠른 편입니다. 우선순위는 ‘어느 쪽이 더 좋아 보이는가’가 아니라, 희망 학과의 교육과정과 본인 생활 여건이 어디에 맞는지입니다.\n\n희망 학과가 강한 쪽을 적정 이상으로 두고, 다른 한쪽은 안정 카드로 섞으세요. 예를 들어 행정·사회 계열이 목표면 거점국립대의 해당 학과를 먼저 보고, 미디어·경영처럼 산업 접근이 중요하면 수도권 비중을 높이는 식입니다. 중상위권에서는 한 축을 주력으로 정해야 원서가 흔들리지 않습니다.",
+          answerDate: "2027. 03. 09"
+        }
+      ]
+    }
+  };
+  const qnaMyQuestions = [
+    {
+      id: "m1",
+      consultantId: "2",
+      tags: ["의치한", "답변 대기"],
+      title: "의대 소신 지원과 SKY 적정 지원을 어떻게 배치해야 하나요?",
+      body: "의대는 소신으로 넣고 싶고, SKY 자연계는 적정으로 두고 싶습니다. 수시와 정시를 함께 볼 때 원서 장수를 어떻게 나누는 게 맞을까요?",
+      date: "2027. 04. 11",
+      views: 86
+    },
+    {
+      id: "m2",
+      consultantId: "1",
+      tags: ["SKY", "답변 완료"],
+      title: "정시 가군에서 서울대를 소신으로 넣는 게 맞을까요?",
+      body: "수학은 강한데 국어와 탐구가 조금 아쉽습니다. 가군에 서울대를 소신으로 넣고 나·다군을 안정으로 갈지, 서울대를 빼는 게 나을지 고민입니다.",
+      date: "2027. 04. 03",
+      views: 142,
+      answer: "수학이 강해도 서울대 자연계는 국어·탐구가 받쳐 주지 않으면 가군 소신으로도 부담이 됩니다. 다만 빼 버리면 나중에 성적이 올랐을 때 넣을 자리가 없으니, 가군 소신 1장으로 남기는 편이 맞습니다. 대신 나군에는 연고대 적정을 반드시 두고, 다군은 합격이 가능한 안정으로 채우세요.\n\n핵심은 서울대를 ‘희망’이 아니라 ‘남는 한 장’으로 취급하는 것입니다. 국어와 탐구가 최근 3회에서 회복되는지를 보고, 회복되지 않으면 나·다군의 안정 비중을 더 늘리세요. 가군을 비우는 것보다, 소신 한 장을 관리하는 쪽이 전략적으로 덜 위험합니다.",
+      answerDate: "2027. 04. 04"
+    },
+    {
+      id: "m3",
+      consultantId: "3",
+      tags: ["2028 대입", "답변 완료"],
+      title: "8월 평가원 이후 목표대학을 낮춰야 할까요?",
+      body: "6월보다 8월 성적이 내려갔습니다. 목표 대학을 바로 낮춰야 하는지, 9월까지 보고 결정해도 되는지 알고 싶습니다.",
+      date: "2027. 03. 20",
+      views: 118,
+      answer: "8월 한 회로 목표 대학을 바로 내리면, 9월에 회복됐을 때 다시 올리기 어려워집니다. 6월보다 내려간 것은 분명한 신호이니 무시하면 안 되지만, 지금은 상단만 한 칸 낮춰 두고 하단 안정·적정은 유지하는 조정이 맞습니다. 목표 자체를 바꾸기보다 소신 카드의 대학 선을 조정한다고 생각하세요.\n\n9월 평가원 이후 같은 방향이면 그때 목표를 확정하면 됩니다. 반대로 회복되면 상단을 다시 올리면 되고, 내려간 상태를 기준선으로 고정할 필요는 없습니다. 한 달 성적으로 진학 지도를 바꾸지 말고, 최근 2회의 방향만 반영하는 것이 섬세한 운영입니다.",
+      answerDate: "2027. 03. 21"
+    },
+    {
+      id: "m4",
+      consultantId: "4",
+      tags: ["진로", "답변 완료"],
+      title: "인문계 중상위권에서 복수전공을 보고 학과를 골라도 될까요?",
+      body: "경영을 메인으로 두고 미디어나 행정 복수전공을 생각하고 있습니다. 중상위권 성적에서 이런 선택이 실제 진로에 도움이 될까요?",
+      date: "2027. 03. 22",
+      views: 97,
+      answer: "복수전공을 염두에 두고 학과를 고르는 것은 가능합니다. 다만 입학 후 실제로 복수전공을 하는 비율과 허용 범위는 대학마다 다르고, 1전공 커리큘럼이 약하면 복수전공으로 만회하기 어렵습니다. 경영이 메인으로 맞다면 그 대학 경영학과의 수업·취업 구조가 먼저이고, 미디어·행정은 그 위에서 가능한지를 보는 순서입니다.\n\n중상위권에서는 1전공이 성적대에 맞는 경영을 우선 배치하고, 복수전공 가능 여부·경쟁 과목을 확인한 뒤 보조 전공을 고르세요. 처음부터 두 개를 동시에 목표로 두면 대학 선택이 흔들립니다. 진로를 넓히고 싶다면, 우선 잘 졸업할 수 있는 1전공을 고르는 것이 더 안전한 길입니다.",
+      answerDate: "2027. 03. 23"
+    }
+  ];
+  let currentQnaQuestions = [];
+  let currentQnaConsultantId = "";
+  let qnaThreadFrom = "";
 
   const labels = {
     scores: "성적 분석",
@@ -118,6 +375,332 @@
       event.preventDefault();
     }
   });
+
+  function activateQnaTab(name) {
+    qnaTabs.forEach((tab) => {
+      const isActive = tab.dataset.qna === name;
+      tab.classList.toggle("active", isActive);
+      tab.setAttribute("aria-selected", isActive ? "true" : "false");
+    });
+
+    qnaPanel?.querySelectorAll(".content-tab-panel[data-qna]").forEach((panel) => {
+      panel.classList.toggle("active", panel.dataset.qna === name);
+    });
+  }
+
+  function activateQnaDetailTab(name) {
+    qnaDetailTabs.forEach((tab) => {
+      const isActive = tab.dataset.qnaDetail === name;
+      tab.classList.toggle("active", isActive);
+      tab.setAttribute("aria-selected", isActive ? "true" : "false");
+    });
+
+    qnaDetail?.querySelectorAll(".content-tab-panel[data-qna-detail]").forEach((panel) => {
+      panel.classList.toggle("active", panel.dataset.qnaDetail === name);
+    });
+  }
+
+  function parseQnaDate(value) {
+    const parts = String(value).match(/\d+/g) || [];
+    const [year, month, day] = parts.map(Number);
+    return new Date(year || 0, (month || 1) - 1, day || 1).getTime();
+  }
+
+  function qnaTagClass(tag) {
+    if (tag === "답변 완료") return "is-safe";
+    if (tag === "답변 대기") return "is-reach";
+    return "is-fit";
+  }
+
+  function renderMyQuestionCard(item) {
+    const consultant = qnaConsultants[item.consultantId];
+    if (!consultant) return "";
+    const waiting = (item.tags || []).includes("답변 대기");
+    const tags = (item.tags || []).map((tag) => {
+      return `<span class="adm-tier ${qnaTagClass(tag)}">${tag}</span>`;
+    }).join("");
+    return `
+      <article class="summary-card qna-mine-card" data-qna-kind="mine" data-qna-id="${item.id}">
+        <div class="qna-mine-main">
+          <div class="qna-mine-copy">
+            <div class="qna-mine-consultant">
+              <img class="qna-mine-avatar" src="${consultant.photo}" alt="">
+              <div>
+                <strong>${consultant.title}</strong>
+                <p>${consultant.focus}</p>
+              </div>
+            </div>
+            <div class="qna-question-tags">${tags}</div>
+            <strong>Q. ${item.title}</strong>
+            <p class="qna-question-meta">작성일 ${item.date} · 조회 ${item.views}회</p>
+          </div>
+          <button type="button" class="btn-adm-primary">${waiting ? "질문 보기" : "답변 보기"}</button>
+        </div>
+      </article>
+    `;
+  }
+
+  function renderMyQuestions(list, consultantId) {
+    if (!list) return;
+    const sort = list.closest(".content-tab-panel")?.querySelector("select");
+    const questions = qnaMyQuestions
+      .filter((item) => !consultantId || item.consultantId === consultantId)
+      .slice()
+      .sort((a, b) => {
+        if (sort?.value === "views") return (b.views || 0) - (a.views || 0);
+        return parseQnaDate(b.date) - parseQnaDate(a.date);
+      });
+
+    if (!questions.length) {
+      list.innerHTML = `<div class="content-empty"><p>아직 등록된 질문이 없습니다.</p></div>`;
+      return;
+    }
+
+    list.innerHTML = questions.map(renderMyQuestionCard).join("");
+  }
+
+  function renderHomeMyQuestions() {
+    renderMyQuestions(qnaHome?.querySelector("[data-qna-mine-list]"));
+  }
+
+  function renderDetailMyQuestions() {
+    renderMyQuestions(qnaDetail?.querySelector("[data-qna-detail-mine]"));
+  }
+
+  function renderConsultantQuestions() {
+    const list = qnaDetail?.querySelector("[data-qna-questions]");
+    const sort = qnaDetail?.querySelector("[data-qna-sort]");
+    if (!list) return;
+
+    const questions = currentQnaQuestions.slice();
+    questions.sort((a, b) => {
+      if (sort?.value === "views") return (b.views || 0) - (a.views || 0);
+      return parseQnaDate(b.date) - parseQnaDate(a.date);
+    });
+
+    list.innerHTML = questions.map((item) => {
+      const tags = (item.tags || []).map((tag) => {
+        return `<span class="adm-tier ${qnaTagClass(tag)}">${tag}</span>`;
+      }).join("");
+      return `
+        <article class="summary-card qna-question-card" data-qna-kind="public" data-qna-id="${item.id}">
+          <div class="qna-question-tags">${tags}</div>
+          <div class="qna-question-main">
+            <div class="qna-question-copy">
+              <strong>Q. ${item.title}</strong>
+              <p>${item.excerpt}</p>
+              <p class="qna-question-meta">등록일 ${item.date} · 조회 ${item.views}회</p>
+            </div>
+            <button type="button" class="btn-adm-primary">답변 보기</button>
+          </div>
+        </article>
+      `;
+    }).join("");
+  }
+
+  function fillConsultantDetail(data) {
+    const photo = qnaDetail?.querySelector("[data-qna-photo]");
+    const code = qnaDetail?.querySelector("[data-qna-code]");
+    const title = qnaDetail?.querySelector("[data-qna-title]");
+    const focus = qnaDetail?.querySelector("[data-qna-focus]");
+    const intro = qnaDetail?.querySelector("[data-qna-intro]");
+    const highlight = qnaDetail?.querySelector("[data-qna-highlight]");
+    const profile = qnaDetail?.querySelector("[data-qna-profile]");
+    const sort = qnaDetail?.querySelector("[data-qna-sort]");
+
+    if (photo) {
+      photo.src = data.photo;
+      photo.alt = data.title;
+    }
+    if (code) code.textContent = data.org || "";
+    if (title) title.textContent = data.title;
+    if (focus) focus.textContent = data.focus || "";
+    if (intro) intro.textContent = data.intro;
+    if (highlight) {
+      const parts = String(data.highlight || "")
+        .split(" · ")
+        .map((part) => part.replace(/^#\s*/, "").trim())
+        .filter(Boolean);
+      highlight.textContent = parts.map((part) => `# ${part}`).join("  ");
+    }
+    if (profile) {
+      profile.replaceChildren(
+        ...data.profile.map((item) => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          return li;
+        })
+      );
+    }
+    if (sort) sort.value = "latest";
+    currentQnaQuestions = data.questions.slice();
+    renderConsultantQuestions();
+    renderDetailMyQuestions();
+  }
+
+  function qnaTagsHtml(tags) {
+    return (tags || []).map((tag) => `<span class="adm-tier ${qnaTagClass(tag)}">${tag}</span>`).join("");
+  }
+
+  function findPublicQuestion(id) {
+    return Object.entries(qnaConsultants).reduce((found, [consultantId, data]) => {
+      if (found) return found;
+      const item = (data.questions || []).find((question) => question.id === id);
+      return item ? { item, consultantId, consultant: data } : null;
+    }, null);
+  }
+
+  function qnaParagraphs(text) {
+    return String(text || "")
+      .replace(/\\n/g, "\n")
+      .split(/\n+/)
+      .flatMap((block) => block.split(/(?<=다\.|요\.|까\.|죠\.)\s+/))
+      .map((part) => part.trim())
+      .filter(Boolean)
+      .map((part) => `<p>${part}</p>`)
+      .join("");
+  }
+
+  function fillQnaThread(item, consultant, dateLabel) {
+    const questionBox = qnaThread?.querySelector("[data-qna-thread-question]");
+    const answerBox = qnaThread?.querySelector("[data-qna-thread-answer]");
+    if (!questionBox || !answerBox || !consultant) return;
+
+    const waiting = (item.tags || []).includes("답변 대기") || !item.answer;
+    const body = item.body || item.excerpt || "";
+    questionBox.innerHTML = `
+      <div class="qna-question-tags">${qnaTagsHtml(item.tags)}</div>
+      <strong>Q. ${item.title}</strong>
+      <div class="qna-thread-copy">
+        <p>${body}</p>
+      </div>
+      <p class="qna-question-meta">${dateLabel} ${item.date} · 조회 ${item.views}회</p>
+    `;
+
+    if (waiting) {
+      answerBox.innerHTML = `<div class="content-empty"><p>아직 답변이 등록되지 않았습니다.</p></div>`;
+      return;
+    }
+
+    answerBox.innerHTML = `
+      <article class="summary-card qna-thread-card">
+        <div class="qna-mine-consultant">
+          <img class="qna-mine-avatar" src="${consultant.photo}" alt="">
+          <div>
+            <strong>${consultant.title}</strong>
+            <p>${consultant.focus}</p>
+          </div>
+        </div>
+        <div class="qna-thread-copy">
+          ${qnaParagraphs(item.answer)}
+        </div>
+        <p class="qna-question-meta">답변일 ${item.answerDate || item.date}</p>
+      </article>
+    `;
+  }
+
+  function closeQnaThread() {
+    if (!qnaThread) return;
+    qnaThread.setAttribute("hidden", "");
+    if (qnaThreadFrom === "home-mine") {
+      qnaHome?.removeAttribute("hidden");
+      activateQnaTab("mine");
+    } else if (qnaThreadFrom === "detail-mine") {
+      qnaDetail?.removeAttribute("hidden");
+      activateQnaDetailTab("mine");
+    } else if (qnaThreadFrom === "detail-public") {
+      qnaDetail?.removeAttribute("hidden");
+      activateQnaDetailTab("public");
+    } else {
+      qnaHome?.removeAttribute("hidden");
+    }
+    qnaThreadFrom = "";
+  }
+
+  function openQnaThread(kind, id) {
+    if (!qnaThread || !id) return;
+    let found = null;
+    let dateLabel = "등록일";
+
+    if (kind === "mine") {
+      const item = qnaMyQuestions.find((question) => question.id === id);
+      const consultant = item ? qnaConsultants[item.consultantId] : null;
+      if (!item || !consultant) return;
+      found = { item, consultant };
+      dateLabel = "작성일";
+      qnaThreadFrom = qnaDetail?.hasAttribute("hidden") ? "home-mine" : "detail-mine";
+    } else {
+      found = findPublicQuestion(id);
+      if (!found) return;
+      qnaThreadFrom = "detail-public";
+    }
+
+    fillQnaThread(found.item, found.consultant, dateLabel);
+    qnaHome?.setAttribute("hidden", "");
+    qnaDetail?.setAttribute("hidden", "");
+    qnaThread.removeAttribute("hidden");
+    qnaForm?.setAttribute("hidden", "");
+    scrollToMainTop();
+  }
+
+  function closeQnaAskForm() {
+    if (!qnaForm) return;
+    qnaForm.setAttribute("hidden", "");
+    qnaDetail?.removeAttribute("hidden");
+    activateQnaDetailTab("public");
+    scrollToMainTop();
+  }
+
+  function openQnaAskForm() {
+    const data = qnaConsultants[currentQnaConsultantId];
+    if (!data || !qnaForm) return;
+
+    const photo = qnaForm.querySelector("[data-qna-form-photo]");
+    const name = qnaForm.querySelector("[data-qna-form-name]");
+    const focus = qnaForm.querySelector("[data-qna-form-focus]");
+    if (photo) {
+      photo.src = data.photo;
+      photo.alt = data.title;
+    }
+    if (name) name.textContent = data.title;
+    if (focus) focus.textContent = data.highlight || data.focus || "";
+    qnaAskForm?.reset();
+
+    qnaHome?.setAttribute("hidden", "");
+    qnaDetail?.setAttribute("hidden", "");
+    qnaThread?.setAttribute("hidden", "");
+    qnaForm.removeAttribute("hidden");
+    scrollToMainTop();
+  }
+
+  function closeConsultantDetail() {
+    qnaHome?.removeAttribute("hidden");
+    qnaDetail?.setAttribute("hidden", "");
+    qnaThread?.setAttribute("hidden", "");
+    qnaForm?.setAttribute("hidden", "");
+    activateQnaDetailTab("public");
+    currentQnaQuestions = [];
+    currentQnaConsultantId = "";
+    qnaThreadFrom = "";
+  }
+
+  function openConsultantDetail(id) {
+    const data = qnaConsultants[id];
+    if (!data || !qnaDetail) return;
+    currentQnaConsultantId = id;
+    fillConsultantDetail(data);
+    qnaHome?.setAttribute("hidden", "");
+    qnaDetail.removeAttribute("hidden");
+    qnaThread?.setAttribute("hidden", "");
+    qnaForm?.setAttribute("hidden", "");
+    activateQnaDetailTab("public");
+    scrollToMainTop();
+  }
+
+  function resetQnaView() {
+    closeConsultantDetail();
+    activateQnaTab("consultants");
+  }
 
   function activateMypageTab(name) {
     contentTabs.forEach((tab) => {
@@ -397,6 +980,7 @@
     resetEarlyAdmissionView();
     resetScoreAnalysisView();
     resetAnalysisView();
+    resetQnaView();
     tabs.forEach((tab) => tab.classList.toggle("active", tab.dataset.panel === panelName));
     panels.forEach((panel) => panel.classList.toggle("active", panel.dataset.panel === panelName));
 
@@ -461,6 +1045,85 @@
       keepWindowScroll(() => activateMypageTab(tab.dataset.mypage));
     });
   });
+
+  qnaTabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      keepWindowScroll(() => activateQnaTab(tab.dataset.qna));
+    });
+  });
+
+  qnaDetailTabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      keepWindowScroll(() => activateQnaDetailTab(tab.dataset.qnaDetail));
+    });
+  });
+
+  qnaPanel?.querySelector(".qna-consultant-grid")?.addEventListener("click", (event) => {
+    const button = event.target.closest(".qna-consultant-card .btn-adm-primary");
+    if (!button) return;
+    const card = button.closest(".qna-consultant-card");
+    if (!card) return;
+    openConsultantDetail(card.dataset.consultantId);
+  });
+
+  qnaPanel?.querySelector("[data-qna-sort]")?.addEventListener("change", () => {
+    renderConsultantQuestions();
+  });
+
+  qnaPanel?.querySelector("[data-qna-detail-mine-sort]")?.addEventListener("change", () => {
+    renderDetailMyQuestions();
+  });
+
+  qnaPanel?.querySelector("[data-qna-back]")?.addEventListener("click", () => {
+    resetQnaView();
+  });
+
+  qnaPanel?.querySelector("[data-qna-ask]")?.addEventListener("click", () => {
+    openQnaAskForm();
+  });
+
+  qnaPanel?.querySelector("[data-qna-form-cancel]")?.addEventListener("click", () => {
+    closeQnaAskForm();
+  });
+
+  qnaAskForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (!currentQnaConsultantId) return;
+    const formData = new FormData(qnaAskForm);
+    const title = String(formData.get("title") || "").trim();
+    const body = String(formData.get("body") || "").trim();
+    const group = String(formData.get("group") || "").trim();
+    if (!title || !body) return;
+
+    qnaMyQuestions.unshift({
+      id: `m${Date.now()}`,
+      consultantId: currentQnaConsultantId,
+      tags: [group || "질문", "답변 대기"],
+      title,
+      body,
+      date: "2027. 04. 18",
+      views: 0
+    });
+    renderHomeMyQuestions();
+    renderDetailMyQuestions();
+    closeQnaAskForm();
+    activateQnaDetailTab("mine");
+    scrollToMainTop();
+  });
+
+  qnaPanel?.querySelector("[data-qna-thread-back]")?.addEventListener("click", () => {
+    closeQnaThread();
+  });
+
+  qnaPanel?.addEventListener("click", (event) => {
+    const openBtn = event.target.closest("[data-qna-id] .btn-adm-primary");
+    if (!openBtn) return;
+    const card = openBtn.closest("[data-qna-id]");
+    if (!card) return;
+    openQnaThread(card.dataset.qnaKind, card.dataset.qnaId);
+  });
+
+  renderHomeMyQuestions();
 
   schoolGradeChips.forEach((chip) => {
     chip.addEventListener("click", () => {

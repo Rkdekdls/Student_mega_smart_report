@@ -279,6 +279,7 @@
   let qnaThreadFrom = "";
 
   const labels = {
+    home: "김메가 학생, 오늘도 파이팅🙌",
     scores: "성적 분석",
     analysis: "오답 분석",
     admission: "합격 예측",
@@ -311,6 +312,11 @@
 
   function setPageTitle(panelName, subName) {
     if (!pageTitle) return;
+
+    if (panelName === "home") {
+      pageTitle.innerHTML = '김메가 학생, 오늘도 파이팅<span class="page-title-emoji">🙌</span>';
+      return;
+    }
 
     const sub = subMap[panelName];
     if (sub) {
@@ -415,7 +421,7 @@
   }
 
   function resetInsightView() {
-    activateInsightTab("first");
+    activateInsightTab("briefing");
   }
 
   const insightFirstItems = [
@@ -1353,6 +1359,112 @@
     scrollToMainTop();
   }
 
+  function formatHomeDday(value) {
+    const parts = String(value).match(/\d+/g) || [];
+    const [year, month, day] = parts.map(Number);
+    const target = new Date(year || 0, (month || 1) - 1, day || 1);
+    const today = new Date();
+    target.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+    const diff = Math.round((target.getTime() - today.getTime()) / 86400000);
+    if (diff > 0) return `D-${diff}`;
+    if (diff === 0) return "D-DAY";
+    return `D+${Math.abs(diff)}`;
+  }
+
+  function examDateValue(date) {
+    const parts = String(date).match(/\d+/g) || [];
+    const [year, month, day] = parts.map(Number);
+    return new Date(year || 0, (month || 1) - 1, day || 1).setHours(0, 0, 0, 0);
+  }
+
+  function examDateIso(date) {
+    const parts = String(date).match(/\d+/g) || [];
+    const [year, month, day] = parts.map(Number);
+    return `${year}-${String(month || 1).padStart(2, "0")}-${String(day || 1).padStart(2, "0")}`;
+  }
+
+  function renderHomeExams() {
+    const list = document.querySelector("[data-home-exam-list]");
+    const exams = window.MegaReportData?.upcomingExams || [];
+    if (!list) return;
+
+    const today = new Date().setHours(0, 0, 0, 0);
+    const upcoming = exams
+      .slice()
+      .filter((exam) => examDateValue(exam.date) >= today)
+      .sort((a, b) => examDateValue(a.date) - examDateValue(b.date))
+      .slice(0, 3);
+
+    list.innerHTML = upcoming.map((exam, index) => {
+      const iso = examDateIso(exam.date);
+      return `
+        <article class="taken-exam-cell${index === 0 ? " active" : ""}">
+          <time datetime="${iso}">${exam.date}</time>
+          <strong>${exam.month}월 ${exam.name}</strong>
+          <span class="taken-exam-foot"><b data-home-dday="${iso}"></b></span>
+        </article>
+      `;
+    }).join("");
+  }
+
+  function refreshHomeDday() {
+    document.querySelectorAll("[data-home-dday]").forEach((el) => {
+      el.textContent = formatHomeDday(el.dataset.homeDday);
+    });
+  }
+
+  function renderHomePreviews() {
+    const insightBox = document.querySelector("[data-home-insight-preview]");
+    const report = insightReportItems
+      .slice()
+      .sort((a, b) => parseQnaDate(b.date) - parseQnaDate(a.date))[0];
+    if (insightBox && report) {
+      insightBox.innerHTML = `
+        <div class="qna-question-tags">
+          <span class="adm-tier is-year">${report.year}학년도</span>
+          <span class="adm-tier ${insightReportCategoryClass(report.category)}">${report.category}</span>
+        </div>
+        <strong>${report.title}</strong>
+        <time>${report.date}</time>
+      `;
+    }
+
+    const qnaBox = document.querySelector("[data-home-qna-preview]");
+    const question = (qnaConsultants["1"]?.questions || [])
+      .slice()
+      .sort((a, b) => parseQnaDate(b.date) - parseQnaDate(a.date))[0];
+    if (qnaBox && question) {
+      const tags = (question.tags || [])
+        .map((tag) => `<span class="adm-tier ${qnaTagClass(tag)}">${tag}</span>`)
+        .join("");
+      qnaBox.innerHTML = `
+        <div class="qna-question-tags">${tags}</div>
+        <strong>Q. ${question.title}</strong>
+        <p>${question.excerpt}</p>
+        <time>${question.date}</time>
+      `;
+    }
+  }
+
+  function openLatestScores() {
+    activate("scores");
+    selectedExamMonth = "9";
+    selectedWrongNo = null;
+    activateTakenExam(scoresPanel, "9");
+    activateTakenExam(analysisPanel, "9");
+    refreshStrategySubject();
+    refreshAnalysisSummary();
+    closeMenus();
+    scrollToMainTop();
+  }
+
+  function openHome() {
+    activate("home");
+    closeMenus();
+    scrollToMainTop();
+  }
+
   function activate(panelName, subName) {
     resetMypageView();
     resetRegularAdmissionView();
@@ -1361,7 +1473,7 @@
     resetAnalysisView();
     resetQnaView();
     resetInsightView();
-    tabs.forEach((tab) => tab.classList.toggle("active", tab.dataset.panel === panelName));
+    tabs.forEach((tab) => tab.classList.toggle("active", panelName !== "home" && tab.dataset.panel === panelName));
     panels.forEach((panel) => panel.classList.toggle("active", panel.dataset.panel === panelName));
 
     const sub = subMap[panelName];
@@ -1419,6 +1531,21 @@
   mypageButtons.forEach((button) => {
     button.addEventListener("click", () => openMypage());
   });
+
+  document.querySelector("[data-open-home]")?.addEventListener("click", () => openHome());
+  document.querySelector("[data-home-to-insight]")?.addEventListener("click", () => {
+    activate("insight");
+    closeMenus();
+    scrollToMainTop();
+  });
+  document.querySelector("[data-home-to-qna]")?.addEventListener("click", () => {
+    activate("qna");
+    closeMenus();
+    scrollToMainTop();
+  });
+  renderHomeExams();
+  refreshHomeDday();
+  renderHomePreviews();
 
   contentTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
@@ -2170,5 +2297,5 @@
   });
 
   Object.values(subMap).forEach(({ attr, fallback }) => activateSub(attr, fallback));
-  activate("scores");
+  activate("home");
 })();

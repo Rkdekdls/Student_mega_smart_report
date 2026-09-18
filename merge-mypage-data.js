@@ -357,6 +357,12 @@
     9: "2026. 09. 02"
   };
 
+  const upcomingExams = [
+    { month: "10", name: "메대프", date: "2026. 10. 15" },
+    { month: "11", name: "전대실모", date: "2026. 11. 05" },
+    { month: "11", name: "수능", date: "2026. 11. 19" }
+  ];
+
   function mockAveragePercentile(month) {
     const values = (mockSamples[month] || [])
       .map((row) => row[4])
@@ -1537,6 +1543,8 @@
   window.MegaReportData = {
     mockMeta,
     mockSamples,
+    mockExamDates,
+    upcomingExams,
     renderSubjectAreas,
     renderExamReview,
     renderExamCauses,

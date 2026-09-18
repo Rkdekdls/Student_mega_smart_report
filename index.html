@@ -16,11 +16,11 @@
   <header class="global-header" id="globalSidebar">
     <div class="global-header-inner">
       <div class="sidebar-brand">
-        <span class="logo">
+        <button type="button" class="logo" data-open-home aria-label="홈으로 이동">
           <span class="logo-mark" aria-hidden="true">M</span>
           <span class="logo-mega">MEGA</span>
           <span class="logo-sub">SMART REPORT</span>
-        </span>
+        </button>
         <button type="button" class="sidebar-close" aria-label="메뉴 닫기">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -39,7 +39,7 @@
       <div class="header-nav-zone">
         <nav class="header-nav" aria-label="메인 메뉴">
           <div class="nav-item" data-panel="scores">
-            <button type="button" class="nav-link active" data-panel="scores">
+            <button type="button" class="nav-link" data-panel="scores">
               <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M5 20V10"/>
                 <path d="M12 20V4"/>
@@ -150,9 +150,161 @@
   </header>
 
   <main class="main-shell">
-    <h1 class="page-title" id="pageTitle">성적 분석</h1>
+    <h1 class="page-title" id="pageTitle">김메가 학생, 오늘도 파이팅 <span class="page-title-emoji">🙌</span></h1>
 
-    <section class="panel active" data-panel="scores">
+    <section class="panel active" data-panel="home">
+      <div class="home-layout">
+        <div class="home-main">
+          <section class="home-block">
+            <div class="diag-result-head home-dist-head">
+              <h2 class="diag-section-title">성적 정규분포</h2>
+              <p class="home-exam-meta">최근 응시 시험 : 2026.09.02 · 9월 평가원</p>
+            </div>
+            <div class="home-dist">
+              <div class="home-dist-chart">
+              <div class="home-dist-plot">
+              <svg class="home-dist-svg" viewBox="0 0 720 280" preserveAspectRatio="none" role="img" aria-label="백분위 정규분포에서 내 위치, SKY 합격 예상권, MEXX 학원 상위 10%">
+                <defs>
+                  <linearGradient id="homeDistFill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#2f5f96" stop-opacity="0.28"/>
+                    <stop offset="100%" stop-color="#2f5f96" stop-opacity="0.02"/>
+                  </linearGradient>
+                </defs>
+                <path d="M24 228 C 130 228 210 40 348 40 C 486 40 590 228 696 228 L 24 228 Z" fill="url(#homeDistFill)"></path>
+                <path d="M24 228 C 130 228 210 40 348 40 C 486 40 590 228 696 228" fill="none" stroke="#2f5f96" stroke-width="2.75"></path>
+                <g class="home-dist-mark is-me">
+                  <line x1="508" y1="56" x2="508" y2="228"></line>
+                  <circle cx="508" cy="113" r="5"></circle>
+                </g>
+                <g class="home-dist-mark is-sky">
+                  <line x1="572" y1="56" x2="572" y2="228"></line>
+                  <circle cx="572" cy="166" r="5"></circle>
+                </g>
+                <g class="home-dist-mark is-mexx">
+                  <line x1="632" y1="56" x2="632" y2="228"></line>
+                  <circle cx="632" cy="208" r="5"></circle>
+                </g>
+              </svg>
+              <span class="home-dist-tag is-me">92점</span>
+              <span class="home-dist-tag is-sky">95.5점</span>
+              <span class="home-dist-tag is-mexx">97.2점</span>
+              <span class="home-dist-axis">전체 평균 50</span>
+              </div>
+              </div>
+              <ul class="home-dist-legend">
+                <li class="is-me">
+                  <div class="home-dist-legend-top">
+                    <strong><i aria-hidden="true"></i>내 위치</strong>
+                    <em>92점</em>
+                  </div>
+                  <span>백분위 평균 92 · 전체 상위 4.0%</span>
+                </li>
+                <li class="is-sky">
+                  <div class="home-dist-legend-top">
+                    <strong><i aria-hidden="true"></i>SKY 합격 예상권</strong>
+                    <em>95.5점</em>
+                  </div>
+                  <span>백분위 평균 95.5 · 전체 상위 1.7%</span>
+                </li>
+                <li class="is-mexx">
+                  <div class="home-dist-legend-top">
+                    <strong><i aria-hidden="true"></i>MEXX 학원 상위 10%</strong>
+                    <em>97.2점</em>
+                  </div>
+                  <span>백분위 평균 97.2 · 전체 상위 0.8%</span>
+                </li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="home-block">
+            <div class="diag-result-head">
+              <h2 class="diag-section-title">과목별 성적</h2>
+            </div>
+            <div class="diag-table-scroll">
+              <table class="diag-table home-score-table">
+                <thead>
+                  <tr>
+                    <th>구분</th>
+                    <th>국어</th>
+                    <th>수학</th>
+                    <th>영어</th>
+                    <th>한국사</th>
+                    <th>통합사회</th>
+                    <th>통합과학</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>표준점수</th>
+                    <td>126</td>
+                    <td>134</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>66</td>
+                    <td>69</td>
+                  </tr>
+                  <tr>
+                    <th>백분위</th>
+                    <td>88</td>
+                    <td>95</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>91</td>
+                    <td>94</td>
+                  </tr>
+                  <tr>
+                    <th>등급</th>
+                    <td>2</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <th>전국 예상 석차</th>
+                    <td>58,633 / 488,776</td>
+                    <td>23,457 / 469,146</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>17,562 / 195,136</td>
+                    <td>14,263 / 237,712</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <aside class="home-side">
+          <section class="home-widget">
+            <div class="diag-result-head">
+              <h2 class="diag-section-title">다음 시험 일정</h2>
+            </div>
+            <div class="taken-exam-grid home-exam-grid" data-home-exam-list></div>
+          </section>
+
+          <section class="home-widget">
+            <div class="diag-result-head">
+              <h2 class="diag-section-title">입시 인사이트</h2>
+              <button type="button" class="home-more" data-home-to-insight>전체보기 →</button>
+            </div>
+            <article class="home-preview" data-home-insight-preview></article>
+          </section>
+
+          <section class="home-widget">
+            <div class="diag-result-head">
+              <h2 class="diag-section-title">입시 전문가 Q&amp;A</h2>
+              <button type="button" class="home-more" data-home-to-qna>전체보기 →</button>
+            </div>
+            <article class="home-preview" data-home-qna-preview></article>
+          </section>
+        </aside>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="scores">
           <div class="diag-result-head taken-exam-head">
             <h2 class="diag-section-title">응시 시험</h2>
           </div>
@@ -367,31 +519,13 @@
 
     <section class="panel" data-panel="insight">
       <div class="content-tabs" role="tablist" aria-label="입시 인사이트">
-        <button type="button" class="content-tab active" data-insight="first" role="tab" aria-selected="true">입시 첫걸음</button>
-        <button type="button" class="content-tab" data-insight="briefing" role="tab" aria-selected="false">입시 설명회</button>
+        <button type="button" class="content-tab active" data-insight="briefing" role="tab" aria-selected="true">입시 설명회</button>
+        <button type="button" class="content-tab" data-insight="first" role="tab" aria-selected="false">입시 첫걸음</button>
         <button type="button" class="content-tab" data-insight="report" role="tab" aria-selected="false">입시 리포트</button>
         <button type="button" class="content-tab" data-insight="news" role="tab" aria-selected="false">입시 뉴스</button>
       </div>
 
-      <div class="content-tab-panel active" data-insight="first" role="tabpanel">
-        <div class="diag-result-head">
-          <h2 class="diag-section-title">입시 첫걸음</h2>
-          <div class="insight-head-filters">
-            <select class="adm-select adm-select--inline" data-insight-first-filter aria-label="유형">
-              <option value="all">전체</option>
-              <option value="입시상식">입시상식</option>
-              <option value="고교생활">고교생활</option>
-              <option value="입시용어">입시용어</option>
-            </select>
-            <select class="adm-select adm-select--inline" data-insight-first-sort aria-label="정렬">
-              <option value="latest">최신순</option>
-              <option value="views">조회순</option>
-            </select>
-          </div>
-        </div>
-        <div class="insight-card-grid" data-insight-first-list></div>
-      </div>
-      <div class="content-tab-panel" data-insight="briefing" role="tabpanel">
+      <div class="content-tab-panel active" data-insight="briefing" role="tabpanel">
         <div class="diag-result-head">
           <h2 class="diag-section-title">입시 설명회</h2>
           <div class="insight-head-filters">
@@ -409,6 +543,24 @@
           </div>
         </div>
         <div class="insight-card-grid" data-insight-briefing-list></div>
+      </div>
+      <div class="content-tab-panel" data-insight="first" role="tabpanel">
+        <div class="diag-result-head">
+          <h2 class="diag-section-title">입시 첫걸음</h2>
+          <div class="insight-head-filters">
+            <select class="adm-select adm-select--inline" data-insight-first-filter aria-label="유형">
+              <option value="all">전체</option>
+              <option value="입시상식">입시상식</option>
+              <option value="고교생활">고교생활</option>
+              <option value="입시용어">입시용어</option>
+            </select>
+            <select class="adm-select adm-select--inline" data-insight-first-sort aria-label="정렬">
+              <option value="latest">최신순</option>
+              <option value="views">조회순</option>
+            </select>
+          </div>
+        </div>
+        <div class="insight-card-grid" data-insight-first-list></div>
       </div>
       <div class="content-tab-panel" data-insight="report" role="tabpanel">
         <div class="diag-result-head">

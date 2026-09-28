@@ -206,7 +206,7 @@ body.is-sidebar-collapsed .sidebar-collapse svg {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 4px;
+  gap: 8px;
   max-width: 100%;
   overflow: hidden;
   padding: 0;
@@ -221,10 +221,9 @@ body.is-sidebar-collapsed .sidebar-collapse svg {
 }
 
 .logo-mega {
-  color: #8fb0d4;
-  font-size: 25px;
-  letter-spacing: -0.04em;
-  white-space: nowrap;
+  display: block;
+  height: 22px;
+  width: auto;
 }
 
 .logo-mark {
@@ -232,7 +231,7 @@ body.is-sidebar-collapsed .sidebar-collapse svg {
 }
 
 .logo-sub {
-  color: #eef1f5;
+  color: #8fb0d4;
   font-size: 16px;
   letter-spacing: 0.04em;
   white-space: nowrap;

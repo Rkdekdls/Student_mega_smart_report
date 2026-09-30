@@ -408,9 +408,9 @@
     const science = numericCell(getSubjectRow(month, "통합과학"), 4);
     const inquiry =
       social != null && science != null ? Number(((social + science) / 2).toFixed(1)) : null;
-    const values = [korean, math, social, science].filter((value) => value != null);
+    const values = [korean, math, inquiry].filter((value) => value != null);
     const sum =
-      values.length === 4 ? Number(values.reduce((total, value) => total + value, 0).toFixed(1)) : null;
+      values.length === 3 ? Number(values.reduce((total, value) => total + value, 0).toFixed(1)) : null;
     return { korean, math, social, science, inquiry, sum };
   }
 
@@ -439,7 +439,7 @@
     const height = 200;
     const showValues = variant === "full" || variant === "subject";
     const yLabels =
-      yMax === 400 ? ["400", "300", "200", "100", "0"] : ["100", "75", "50", "25", "0"];
+      yMax === 300 ? ["300", "225", "150", "75", "0"] : ["100", "75", "50", "25", "0"];
     const coords = series.map((item, index) => {
       const x = ((index + 0.5) / series.length) * width;
       const y = height - (Number(item.score) / yMax) * height;
@@ -485,7 +485,7 @@
     return renderTrendChart({
       showTitle: false,
       variant: "full",
-      yMax: isSum ? 400 : 100,
+      yMax: isSum ? 300 : 100,
       items: getTrendItems(isSum ? "국수탐" : subject)
     });
   }
@@ -533,7 +533,7 @@
               <th class="cat-stress">수학</th>
               <th class="cat-stress">통합사회</th>
               <th class="cat-stress">통합과학</th>
-              <th class="cat-stress">국수탐 합</th>
+              <th class="cat-stress">국수탐(평균)</th>
               <th class="cat-motive">영어</th>
               <th class="cat-motive">한국사</th>
             </tr>

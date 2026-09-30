@@ -638,7 +638,7 @@ body.is-sidebar-collapsed .sidebar-collapse svg {
 
 .home-main > .home-block:first-child {
   display: flex;
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   flex-direction: column;
   min-width: 0;
 }
@@ -671,10 +671,11 @@ body.is-sidebar-collapsed .sidebar-collapse svg {
 .home-dist-chart {
   position: relative;
   display: flex;
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   flex-direction: column;
   justify-content: flex-start;
-  min-height: 180px;
+  height: calc(3 * (16px + 14px * 1.5 + 8px + 18px * 1.3 + 14px + 2px) + 24px);
+  min-height: 0;
   border: 1px solid var(--line);
   background: var(--white);
   padding: 16px 24px 28px;
@@ -825,7 +826,7 @@ body.is-sidebar-collapsed .sidebar-collapse svg {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
-  margin: 20px 0 0;
+  margin: 32px 0 0;
   padding: 0;
   list-style: none;
 }
@@ -833,11 +834,14 @@ body.is-sidebar-collapsed .sidebar-collapse svg {
 .home-dist-legend li {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  justify-content: center;
+  gap: 7px;
   min-width: 0;
-  padding: 14px 16px;
+  height: 87px;
+  padding: 17px 16px;
   border: 1px solid var(--line);
   background: var(--gray-100);
+  box-sizing: border-box;
 }
 
 .home-dist-legend-top {

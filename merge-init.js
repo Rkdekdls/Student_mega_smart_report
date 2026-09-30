@@ -282,7 +282,7 @@
     home: "김메가 학생, 오늘도 파이팅🙌",
     scores: "성적 분석",
     analysis: "오답 분석",
-    admission: "합격 예측",
+    admission: "대학 진단",
     insight: "입시 인사이트",
     qna: "입시 전문가 Q&A",
     diagnostic: "학습종합진단검사"

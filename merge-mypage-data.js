@@ -533,7 +533,7 @@
               <th class="cat-stress">수학</th>
               <th class="cat-stress">통합사회</th>
               <th class="cat-stress">통합과학</th>
-              <th class="cat-stress">국수탐(평균)</th>
+              <th class="cat-stress">국수탐(2) 합</th>
               <th class="cat-motive">영어</th>
               <th class="cat-motive">한국사</th>
             </tr>

@@ -654,6 +654,15 @@ body.is-sidebar-collapsed .sidebar-collapse svg {
   align-items: center;
 }
 
+.home-dist-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
 .home-exam-meta {
   position: relative;
   z-index: 3;
@@ -665,7 +674,7 @@ body.is-sidebar-collapsed .sidebar-collapse svg {
   letter-spacing: -0.02em;
   line-height: 1.5;
   white-space: nowrap;
-  align-self: flex-start;
+  font-family: inherit;
 }
 
 .home-dist-chart {

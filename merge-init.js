@@ -1607,6 +1607,7 @@
   renderInsightNews();
   renderInsightBriefing();
   window.AdmissionRegular?.initCustomSelects(insightPanel);
+  window.AdmissionRegular?.initCustomSelects(qnaPanel);
   insightPanel?.querySelector("[data-insight-first-filter]")?.addEventListener("change", () => {
     renderInsightFirst();
   });

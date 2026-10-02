@@ -2477,6 +2477,7 @@ body.is-sidebar-collapsed .sidebar-collapse svg {
 .adm-custom-select-trigger {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   width: 100%;
   text-align: left;
   cursor: pointer;
@@ -2484,9 +2485,12 @@ body.is-sidebar-collapsed .sidebar-collapse svg {
 }
 
 .adm-custom-select-label {
+  flex: 1 1 auto;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-align: left;
 }
 
 .adm-select-native {
@@ -2515,6 +2519,7 @@ body.is-sidebar-collapsed .sidebar-collapse svg {
   list-style: none;
   overflow-y: auto;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  text-align: left;
 }
 
 .adm-custom-select-option {
@@ -2522,6 +2527,7 @@ body.is-sidebar-collapsed .sidebar-collapse svg {
   color: var(--gray-900);
   font-size: 13px;
   line-height: 1.3;
+  text-align: left;
   cursor: pointer;
 }
 
@@ -5040,7 +5046,9 @@ body.adm-modal-open {
   letter-spacing: -0.02em;
 }
 
-.qna-form-field .adm-select {
+.qna-form-field .adm-select,
+.qna-form-field .adm-custom-select,
+.qna-form-field .adm-custom-select-trigger {
   width: 100%;
   min-width: 0;
 }

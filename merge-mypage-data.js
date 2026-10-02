@@ -1421,7 +1421,6 @@
                   )
                   .join("")}
               </ul>
-              <p class="wrong-note-status-hint">체크하면 복습 상태가 자동으로 바뀌고, 우측 상단에서도 직접 고를 수 있어요.</p>
             </div>
             <div class="wrong-note-block">
               <h3>오답 원인</h3>

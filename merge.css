@@ -5313,14 +5313,6 @@ body.adm-modal-open {
   letter-spacing: -0.03em;
 }
 
-.wrong-note-status-hint {
-  margin: 10px 0 0;
-  color: var(--gray-400);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: -0.02em;
-}
-
 .wrong-note-stem {
   display: flex;
   flex-direction: column;

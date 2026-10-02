@@ -1159,7 +1159,39 @@
   }
 
   const noteCauses = ["개념 부족", "해석 오류", "시간 부족"];
-  const noteStatuses = ["미복습", "복습 중", "복습 완료"];
+  const noteStatuses = ["복습 전", "복습 중", "복습 완료"];
+  const wrongNoteState = Object.create(null);
+
+  function wrongNoteKey(month, subject, no) {
+    return `${month}|${subject}|${no}`;
+  }
+
+  function getWrongNoteState(month, subject, no) {
+    return wrongNoteState[wrongNoteKey(month, subject, no)] || null;
+  }
+
+  function setWrongNoteState(month, subject, no, patch) {
+    const key = wrongNoteKey(month, subject, no);
+    wrongNoteState[key] = { ...(wrongNoteState[key] || {}), ...patch };
+    return wrongNoteState[key];
+  }
+
+  function setWrongNoteStatus(month, subject, no, status) {
+    if (!noteStatuses.includes(status)) return null;
+    return setWrongNoteState(month, subject, no, { status, statusManual: true });
+  }
+
+  function setWrongNoteChecks(month, subject, no, checks, { suggestStatus = true } = {}) {
+    const patch = { checks: checks.map(Boolean) };
+    if (suggestStatus) {
+      const done = patch.checks.filter(Boolean).length;
+      if (done <= 0) patch.status = "복습 전";
+      else if (done >= patch.checks.length) patch.status = "복습 완료";
+      else patch.status = "복습 중";
+      patch.statusManual = false;
+    }
+    return setWrongNoteState(month, subject, no, patch);
+  }
 
   function wrongNoteStem(subject, area) {
     if (subject !== "국어") return "다음 중 가장 적절한 것은?";
@@ -1227,6 +1259,16 @@
         const answer = ((question.no * 3 + index) % 5) + 1;
         const marked = (answer % 5) + 1;
         const choices = wrongNoteChoices(subject, question.area);
+        const checks = wrongNoteChecks(subject);
+        const saved = getWrongNoteState(month, subject, question.no);
+        const defaultStatus = noteStatuses[index % noteStatuses.length];
+        const status = saved?.status || defaultStatus;
+        const defaultChecks =
+          status === "복습 완료"
+            ? checks.map(() => true)
+            : status === "복습 중"
+              ? checks.map((_, checkIndex) => checkIndex === 0)
+              : checks.map(() => false);
         return {
           no: question.no,
           subject,
@@ -1239,12 +1281,13 @@
           answerLabel: choiceLine(answer, choices),
           points: question.no % 5 === 0 ? 3 : 2,
           avg: area?.avg ?? 0,
-          cause: noteCauses[index % noteCauses.length],
-          status: noteStatuses[index % noteStatuses.length],
+          cause: saved?.cause || noteCauses[index % noteCauses.length],
+          status,
+          checks: Array.isArray(saved?.checks) ? saved.checks : defaultChecks,
           stem: wrongNoteStem(subject, question.area),
           core: wrongNoteCore(subject),
           steps: wrongNoteSteps(subject),
-          checks: wrongNoteChecks(subject)
+          checksText: checks
         };
       })
       .filter(Boolean);
@@ -1292,7 +1335,7 @@
                   <em>${item.no}</em>
                   <b>${item.area}</b>
                   <p>정답률 ${item.avg}% · ${item.points}점</p>
-                  <span class="adm-tier ${noteStatusClass(item.status)}">${item.status}</span>
+                  <span class="adm-tier ${noteStatusClass(item.status)}" data-wrong-list-status="${item.no}">${item.status}</span>
                 </li>`
                 )
                 .join("")}
@@ -1302,11 +1345,18 @@
         <section class="trend-mini-block">
           <div class="diag-result-head">
             <h2 class="diag-section-title">오답 복기</h2>
+            <select class="adm-select adm-select--inline" data-wrong-status aria-label="복습 상태">
+              ${noteStatuses
+                .map(
+                  (status) =>
+                    `<option value="${status}"${status === current.status ? " selected" : ""}>${status}</option>`
+                )
+                .join("")}
+            </select>
           </div>
           <div class="wrong-note-box">
             <div class="wrong-note-kicker">
               <strong>${current.subject} ${current.no}번</strong>
-              <em class="adm-tier ${noteStatusClass(current.status)}">${current.status}</em>
             </div>
             <div class="exam-summary-grid wrong-note-meta">
               <article class="exam-summary-card"><span>정답률</span><strong class="is-text">${current.avg}%</strong></article>
@@ -1344,12 +1394,12 @@
             <div class="wrong-note-block">
               <h3>풀이 체크포인트</h3>
               <ul class="wrong-note-checks">
-                ${current.checks
+                ${current.checksText
                   .map(
                     (check, index) => `
                   <li>
                     <label>
-                      <input type="checkbox"${index === 0 ? " checked" : ""}>
+                      <input type="checkbox" data-wrong-check="${index}"${current.checks[index] ? " checked" : ""}>
                       <i></i>
                       <span>${check}</span>
                     </label>
@@ -1357,6 +1407,7 @@
                   )
                   .join("")}
               </ul>
+              <p class="wrong-note-status-hint">체크하면 복습 상태가 자동으로 바뀌고, 우측 상단에서도 직접 고를 수 있어요.</p>
             </div>
             <div class="wrong-note-block">
               <h3>오답 원인</h3>
@@ -1545,6 +1596,8 @@
     mockSamples,
     mockExamDates,
     upcomingExams,
+    noteStatuses,
+    noteStatusClass,
     renderSubjectAreas,
     renderExamReview,
     renderExamCauses,
@@ -1556,7 +1609,11 @@
     renderSchoolAnalysis,
     renderStrategySummary,
     renderStrategyTasks,
-    renderSubjectReport
+    renderSubjectReport,
+    getWrongNoteState,
+    setWrongNoteStatus,
+    setWrongNoteChecks,
+    setWrongNoteState
   };
 
   function initMypageSamples() {

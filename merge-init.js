@@ -284,8 +284,7 @@
     analysis: "오답 분석",
     admission: "대학 진단",
     insight: "입시 인사이트",
-    qna: "입시 전문가 Q&A",
-    diagnostic: "학습종합진단검사"
+    qna: "입시 전문가 Q&A"
   };
 
   const subMap = {
@@ -1185,6 +1184,7 @@
     const wrongNote = analysisPanel?.querySelector("[data-wrong-note]");
     if (wrongNote) {
       wrongNote.innerHTML = window.MegaReportData?.renderWrongNote?.(month, subject, selectedWrongNo) || "";
+      window.AdmissionRegular?.initCustomSelects(wrongNote);
     }
 
     syncNoteScopeView();
@@ -1200,6 +1200,32 @@
     if (isAll) {
       all.innerHTML = window.MegaReportData?.renderCumulativeWrong?.(selectedSubject) || "";
     }
+  }
+
+  function syncWrongNoteStatusUI(no, status) {
+    const className = window.MegaReportData?.noteStatusClass?.(status) || "is-reach";
+    const badge = analysisPanel?.querySelector(`[data-wrong-list-status="${no}"]`);
+    if (badge) {
+      badge.className = `adm-tier ${className}`;
+      badge.textContent = status;
+    }
+
+    const statusSelect = analysisPanel?.querySelector("select[data-wrong-status]");
+    if (!statusSelect) return;
+
+    if (statusSelect.value !== status) {
+      statusSelect.value = status;
+    }
+
+    const wrap = statusSelect.closest(".adm-custom-select");
+    const label = wrap?.querySelector(".adm-custom-select-label");
+    if (label) label.textContent = status;
+
+    wrap?.querySelectorAll(".adm-custom-select-option").forEach((item) => {
+      const selected = item.dataset.value === status;
+      item.classList.toggle("is-selected", selected);
+      item.setAttribute("aria-selected", selected ? "true" : "false");
+    });
   }
 
   function activateTakenExam(root, month) {
@@ -1721,7 +1747,45 @@
       cause.parentElement?.querySelectorAll("[data-wrong-cause]").forEach((button) => {
         button.classList.toggle("active", button === cause);
       });
+      const no =
+        selectedWrongNo ??
+        Number(analysisPanel.querySelector("li.is-active[data-wrong-note-no]")?.dataset.wrongNoteNo);
+      if (Number.isFinite(no)) {
+        window.MegaReportData?.setWrongNoteState?.(selectedExamMonth, selectedSubject, no, {
+          cause: cause.dataset.wrongCause
+        });
+      }
     });
+  });
+
+  analysisPanel?.addEventListener("change", (event) => {
+    const statusSelect = event.target.closest("select[data-wrong-status]");
+    if (statusSelect) {
+      const status = statusSelect.value;
+      const no =
+        selectedWrongNo ??
+        Number(analysisPanel.querySelector("li.is-active[data-wrong-note-no]")?.dataset.wrongNoteNo);
+      if (!Number.isFinite(no) || !status) return;
+      selectedWrongNo = no;
+      window.MegaReportData?.setWrongNoteStatus?.(selectedExamMonth, selectedSubject, no, status);
+      syncWrongNoteStatusUI(no, status);
+      return;
+    }
+
+    const input = event.target.closest(".wrong-note-checks input[data-wrong-check]");
+    if (!input) return;
+
+    const no =
+      selectedWrongNo ??
+      Number(analysisPanel.querySelector("li.is-active[data-wrong-note-no]")?.dataset.wrongNoteNo);
+    if (!Number.isFinite(no)) return;
+
+    selectedWrongNo = no;
+    const checks = [...analysisPanel.querySelectorAll(".wrong-note-checks input[data-wrong-check]")].map(
+      (el) => el.checked
+    );
+    const state = window.MegaReportData?.setWrongNoteChecks?.(selectedExamMonth, selectedSubject, no, checks);
+    if (state?.status) syncWrongNoteStatusUI(no, state.status);
   });
 
   bindTakenExamPicker(scoresPanel, (month) => {
@@ -1744,6 +1808,7 @@
 
   window.AdmissionRegular?.initCustomSelects(scoresPanel);
   window.AdmissionRegular?.initCustomSelects(regularPanel);
+  window.AdmissionRegular?.initCustomSelects(analysisPanel);
 
   scoresPanel?.querySelectorAll("[data-score-subject]").forEach((tab) => {
     tab.addEventListener("click", () => {

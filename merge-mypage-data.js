@@ -104,6 +104,15 @@
     9: "평가원"
   };
 
+  const blankMockRows = [
+    ["국어", "국어", "-", "-", "-", "-"],
+    ["수학", "수학", "-", "-", "-", "-"],
+    ["영어", "영어", "-", "-", "-", "-"],
+    ["한국사", "한국사", "-", "-", "-", "-"],
+    ["탐구", "통합사회", "-", "-", "-", "-"],
+    ["탐구", "통합과학", "-", "-", "-", "-"]
+  ];
+
   const mockSamples = {
     3: [
       ["국어", "국어", 84, 125, 88, 2],
@@ -137,31 +146,16 @@
       ["탐구", "통합사회", 44, 67, 94, 2],
       ["탐구", "통합과학", 47, 70, 97, 1]
     ],
-    7: [
-      ["국어", "국어", 83, 124, 87, 3],
-      ["수학", "수학", 89, 132, 93, 2],
-      ["영어", "영어", 87, "-", "-", 2],
-      ["한국사", "한국사", 45, "-", "-", 1],
-      ["탐구", "통합사회", 41, 63, 89, 3],
-      ["탐구", "통합과학", 44, 67, 92, 2]
-    ],
-    8: [
-      ["국어", "국어", 88, 131, 92, 2],
-      ["수학", "수학", 93, 136, 97, 1],
-      ["영어", "영어", 92, "-", "-", 1],
-      ["한국사", "한국사", 48, "-", "-", 1],
-      ["탐구", "통합사회", 45, 68, 93, 2],
-      ["탐구", "통합과학", 49, 72, 98, 1]
-    ],
-    9: [
-      ["국어", "국어", 84, 126, 88, 2],
-      ["수학", "수학", 90, 134, 95, 1],
-      ["영어", "영어", 89, "-", "-", 2],
-      ["한국사", "한국사", 46, "-", "-", 1],
-      ["탐구", "통합사회", 43, 66, 91, 2],
-      ["탐구", "통합과학", 46, 69, 94, 2]
-    ]
+    7: blankMockRows,
+    8: blankMockRows,
+    9: blankMockRows
   };
+
+  const upcomingExamMonths = new Set(["7", "8", "9"]);
+
+  function isTakenExam(month) {
+    return !upcomingExamMonths.has(String(month));
+  }
 
   function schoolRowsHtml(rows) {
     return rows
@@ -358,10 +352,12 @@
   };
 
   const upcomingExams = [
-    { month: "10", name: "메대프", date: "2026. 10. 15" },
-    { month: "11", name: "전대실모", date: "2026. 11. 05" },
-    { month: "11", name: "수능", date: "2026. 11. 19" }
+    { month: "7", name: "전대실모", date: "2026. 07. 09" },
+    { month: "8", name: "전대실모", date: "2026. 08. 13" },
+    { month: "9", name: "평가원", date: "2026. 09. 02" }
   ];
+
+  const reportAsOf = "2026. 06. 05";
 
   function mockAveragePercentile(month) {
     const values = (mockSamples[month] || [])
@@ -374,7 +370,7 @@
 
   function renderTakenExams({ withScore = true } = {}) {
     const months = Object.keys(mockMeta);
-    const upcomingMonths = new Set(["7", "8", "9"]);
+    const upcomingMonths = upcomingExamMonths;
 
     return `
       <div class="taken-exam-grid">
@@ -431,18 +427,23 @@
   function getTrendItems(subject) {
     const months = Object.keys(mockMeta);
     return months.map((month) => {
+      const label = `${month}월 ${mockMeta[month]}`;
+      if (!isTakenExam(month)) return { label, score: null };
+
       let score;
       if (subject === "국수탐") {
-        score = Number(getKstExamScores(month).sum || 0);
+        score = getKstExamScores(month).sum;
       } else if (!subject) {
-        score = Number(mockAveragePercentile(month));
+        const average = mockAveragePercentile(month);
+        score = average === "-" ? null : Number(average);
       } else {
         const row = getSubjectRow(month, subject);
-        score = typeof row?.[4] === "number" ? row[4] : Number(row?.[2] || 0);
+        score = typeof row?.[4] === "number" ? row[4] : row?.[2];
+        score = typeof score === "number" ? score : null;
       }
       return {
-        label: `${month}월 ${mockMeta[month]}`,
-        score
+        label,
+        score: score == null || score === "-" || !Number.isFinite(Number(score)) ? null : Number(score)
       };
     });
   }
@@ -456,15 +457,18 @@
       yMax === 300 ? ["300", "225", "150", "75", "0"] : ["100", "75", "50", "25", "0"];
     const coords = series.map((item, index) => {
       const x = ((index + 0.5) / series.length) * width;
-      const y = height - (Number(item.score) / yMax) * height;
-      return { ...item, x, y };
+      const score = Number(item.score);
+      const hasScore = item.score != null && Number.isFinite(score);
+      const y = hasScore ? height - (score / yMax) * height : null;
+      return { ...item, score: hasScore ? score : null, x, y, hasScore };
     });
-    const line = coords
+    const plotted = coords.filter((point) => point.hasScore);
+    const line = plotted
       .map((point, index) => `${index ? "L" : "M"}${point.x.toFixed(1)},${point.y.toFixed(1)}`)
       .join(" ");
-    const last = coords[coords.length - 1];
-    const first = coords[0];
-    const area = `${line} L${last.x.toFixed(1)},${height} L${first.x.toFixed(1)},${height} Z`;
+    const last = plotted[plotted.length - 1];
+    const first = plotted[0];
+    const area = last && first ? `${line} L${last.x.toFixed(1)},${height} L${first.x.toFixed(1)},${height} Z` : "";
 
     return `
       ${showTitle ? `<div class="pct-meta"><strong class="trend-mini-title">백분위</strong></div>` : ""}
@@ -477,6 +481,7 @@
           </svg>
           <div class="trend-mini-points">
             ${coords
+              .filter((point) => point.hasScore)
               .map(
                 (point) =>
                   `<i style="left:${((point.x / width) * 100).toFixed(2)}%;top:${((point.y / height) * 100).toFixed(2)}%" title="${point.score}점">${showValues ? `<b>${point.score}</b>` : ""}</i>`
@@ -670,6 +675,7 @@
   }
 
   function getSubjectAreaRows(month, subject) {
+    if (!isTakenExam(month)) return [];
     const base = subjectAreaMap[subject] || [];
     const examIndex = Math.max(0, Object.keys(mockMeta).indexOf(String(month)));
 
@@ -1462,7 +1468,7 @@
   }
 
   function renderCumulativeWrong(subject) {
-    const months = Object.keys(mockMeta);
+    const months = Object.keys(mockMeta).filter((month) => isTakenExam(month));
     const byArea = new Map();
     const byAction = new Map();
     let total = 0;
@@ -1533,7 +1539,7 @@
 
   function getExamShareItems(subject) {
     return Object.keys(mockMeta).map((month) => {
-      const questions = getSubjectQuestions(month, subject);
+      const questions = isTakenExam(month) ? getSubjectQuestions(month, subject) : [];
       const asked = questions.length;
       const correct = questions.filter((question) => question.correct).length;
       const wrong = Math.max(0, asked - correct);
@@ -1587,6 +1593,7 @@
   function groupCumulativeWrongs(subject, keyOf) {
     const groups = new Map();
     Object.keys(mockMeta).forEach((month) => {
+      if (!isTakenExam(month)) return;
       getSubjectQuestions(month, subject).forEach((question, index) => {
         const name = keyOf(question, index);
         const cur = groups.get(name) || { name, nos: [], asked: 0, wrong: 0 };
@@ -1609,6 +1616,7 @@
     mockSamples,
     mockExamDates,
     upcomingExams,
+    reportAsOf,
     noteStatuses,
     noteStatusClass,
     renderSubjectAreas,

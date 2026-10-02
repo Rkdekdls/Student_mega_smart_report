@@ -94,7 +94,8 @@
     const rows = window.MegaReportData?.mockSamples?.[month] || [];
     const scores = {};
     rows.forEach((row) => {
-      scores[row[1]] = Number(row[2]);
+      const value = Number(row[2]);
+      if (Number.isFinite(value)) scores[row[1]] = value;
     });
     return scores;
   }
@@ -185,6 +186,10 @@
   function getDisplayScore(state) {
     const useSim = state.viewMode === "simulation";
     return calcConvertedScore(state.scores, useSim ? state.adjustments : {});
+  }
+
+  function hasExamScores(state) {
+    return Object.values(state.scores || {}).some((value) => Number.isFinite(Number(value)));
   }
 
   function buildListRows(state, myScore) {
@@ -529,17 +534,18 @@
         if (!target.university) {
           return `<button type="button" class="adm-target-card is-empty" data-adm-open-target aria-label="모집단위 추가">+</button>`;
         }
-        const tier = getTier(myScore, target.cutoff);
-        const originalTier = getTier(originalScore, target.cutoff);
-        const tierChanged = tier.label !== originalTier.label && state.viewMode === "simulation";
-        const scoreChanged = myScore !== originalScore && state.viewMode === "simulation";
+        const scored = hasExamScores(state);
+        const tier = scored ? getTier(myScore, target.cutoff) : null;
+        const originalTier = scored ? getTier(originalScore, target.cutoff) : null;
+        const tierChanged = Boolean(tier && originalTier && tier.label !== originalTier.label && state.viewMode === "simulation");
+        const scoreChanged = scored && myScore !== originalScore && state.viewMode === "simulation";
 
         return `
           <article class="adm-target-card" data-adm-open-target>
             <div class="adm-target-card-top">
               <span class="adm-target-group">${TARGET_OPTIONS[key].group}</span>
               <h3 class="adm-target-univ">${target.university}</h3>
-              <span class="adm-tier ${tier.className}">${tier.label}</span>
+              ${tier ? `<span class="adm-tier ${tier.className}">${tier.label}</span>` : ""}
             </div>
             ${tierChanged ? `<p class="adm-tier-change">${originalTier.label} → ${tier.label}</p>` : ""}
             <p class="adm-target-meta">${target.type} · ${target.major}</p>
@@ -547,7 +553,7 @@
               <div class="adm-score-box is-mine">
                 <span class="adm-score-label">내 환산점수</span>
                 <strong class="adm-score-value">
-                  ${myScore}
+                  ${scored ? myScore : "-"}
                   ${scoreChanged ? `<em>${formatDiff(myScore - originalScore)}</em>` : ""}
                 </strong>
               </div>
@@ -585,12 +591,15 @@
       return true;
     });
 
+    const scored = hasExamScores(state);
+
     tbody.innerHTML = filtered
       .map((row) => {
         const originalRow = buildListRows(state, originalScore).find((item) => item.id === row.id);
         const tierChanged =
-          state.viewMode === "simulation" && originalRow && originalRow.tier.label !== row.tier.label;
-        const scoreChanged = state.viewMode === "simulation" && originalRow && originalRow.myScore !== row.myScore;
+          scored && state.viewMode === "simulation" && originalRow && originalRow.tier.label !== row.tier.label;
+        const scoreChanged =
+          scored && state.viewMode === "simulation" && originalRow && originalRow.myScore !== row.myScore;
 
         return `
           <tr class="${tierChanged ? "is-tier-changed" : ""}">
@@ -604,12 +613,12 @@
             <td>${row.subjects}</td>
             <td>${row.metric}</td>
             <td>
-              <strong>${row.myScore}</strong>
+              <strong>${scored ? row.myScore : "-"}</strong>
               ${scoreChanged ? `<em>${formatDiff(row.myScore - originalRow.myScore)}</em>` : ""}
             </td>
             <td><strong>${row.cutoff}</strong></td>
-            <td class="${row.diff >= 0 ? "is-up" : "is-down"}">${formatDiff(row.diff)}</td>
-            <td><span class="adm-tier ${row.tier.className}">${row.tier.label}</span></td>
+            <td class="${scored ? (row.diff >= 0 ? "is-up" : "is-down") : ""}">${scored ? formatDiff(row.diff) : "-"}</td>
+            <td>${scored ? `<span class="adm-tier ${row.tier.className}">${row.tier.label}</span>` : "-"}</td>
             <td>
               <button type="button" class="adm-fav-btn${state.favorites.has(row.id) ? " is-active" : ""}" data-adm-fav-toggle="${row.id}">
                 ${state.favorites.has(row.id) ? "저장됨" : "저장"}
@@ -707,18 +716,19 @@
     const row = buildListRows(state, myScore).find((item) => item.id === rowId);
     if (!row || !detailModal) return;
 
-    const diff = formatDiff(row.diff);
-    const diffClass = row.diff >= 0 ? "is-up" : "is-down";
+    const scored = hasExamScores(state);
+    const diff = scored ? formatDiff(row.diff) : "-";
+    const diffClass = scored ? (row.diff >= 0 ? "is-up" : "is-down") : "";
 
     detailModal.querySelector("[data-adm-detail-badges]").innerHTML = `
       <span class="adm-detail-badge is-group">${row.group}</span>
-      ${renderDetailTierBadge(row.tier)}`;
+      ${scored ? renderDetailTierBadge(row.tier) : ""}`;
     detailModal.querySelector("[data-adm-detail-title]").textContent = `${row.university} ${row.major}`;
 
     detailModal.querySelector("[data-adm-detail-scores]").innerHTML = `
       <div class="adm-detail-score-box">
         <span class="adm-detail-score-label">내 환산점수</span>
-        <strong class="adm-detail-score-value">${row.myScore}</strong>
+        <strong class="adm-detail-score-value">${scored ? row.myScore : "-"}</strong>
       </div>
       <div class="adm-detail-score-box">
         <span class="adm-detail-score-label">지원가능 점수</span>
@@ -735,10 +745,10 @@
         <td>${row.type}</td>
         <td>${row.track}</td>
         <td>${row.metric}</td>
-        <td><strong>${row.myScore}</strong></td>
+        <td><strong>${scored ? row.myScore : "-"}</strong></td>
         <td><strong>${row.cutoff}</strong></td>
         <td class="adm-detail-diff ${diffClass}">${diff}</td>
-        <td>${renderDetailTierBadge(row.tier)}</td>
+        <td>${scored ? renderDetailTierBadge(row.tier) : "-"}</td>
       </tr>`;
   }
 

@@ -24,7 +24,7 @@
           }
         }
       },
-      default: { university: "서울대학교", type: "일반전형", major: "의예과", cutoff: 413.2 }
+      default: { university: "서울대학교", type: "일반전형", major: "의예과", cutoff: 288.3 }
     },
     na: {
       group: "나군",
@@ -41,7 +41,7 @@
           }
         }
       },
-      default: { university: "고려대학교", type: "일반전형", major: "경영대학", cutoff: 398.5 }
+      default: { university: "고려대학교", type: "일반전형", major: "경영대학", cutoff: 273.6 }
     },
     da: {
       group: "다군",
@@ -58,7 +58,7 @@
           }
         }
       },
-      default: { university: "경북대학교", type: "일반전형", major: "소프트웨어학부", cutoff: 392.1 }
+      default: { university: "경북대학교", type: "일반전형", major: "소프트웨어학부", cutoff: 267.2 }
     }
   };
 
@@ -72,14 +72,14 @@
   const SIM_SUBJECT_ORDER = ["국어", "수학", "영어", "한국사", "통합사회", "통합과학"];
 
   const UNIVERSITY_LIST = [
-    { id: 1, group: "가군", region: "강원", university: "강원대학교", type: "일반전형", track: "자연", major: "컴퓨터공학", quota: 28, rate: 3.8, subjects: "국·수·영·탐(2)", metric: "백분위", cutoff: 395.3 },
-    { id: 2, group: "가군", region: "강원", university: "강원대학교", type: "일반전형", track: "인문", major: "경영학부", quota: 32, rate: 4.1, subjects: "국·수·영·탐(2)", metric: "표준점수", cutoff: 388.6 },
-    { id: 3, group: "나군", region: "대구·경북", university: "경북대학교", type: "일반전형", track: "자연", major: "전기공학과", quota: 24, rate: 3.5, subjects: "국·수·영·탐(2)", metric: "표준+백분위", cutoff: 391.4 },
-    { id: 4, group: "나군", region: "부산·울산·경남", university: "부산대학교", type: "일반전형", track: "자연", major: "기계공학부", quota: 30, rate: 3.2, subjects: "국·수·영·탐(2)", metric: "백분위", cutoff: 386.2 },
-    { id: 5, group: "다군", region: "광주·전남", university: "전남대학교", type: "일반전형", track: "자연", major: "소프트웨어공학과", quota: 26, rate: 2.9, subjects: "국·수·영·탐(2)", metric: "백분위", cutoff: 382.5 },
-    { id: 6, group: "다군", region: "충북", university: "충북대학교", type: "일반전형", track: "인문", major: "경제학부", quota: 22, rate: 3.0, subjects: "국·수·영·탐(2)", metric: "표준점수", cutoff: 379.8 },
-    { id: 7, group: "가군", region: "제주", university: "제주대학교", type: "일반전형", track: "자연", major: "컴퓨터공학과", quota: 20, rate: 2.6, subjects: "국·수·영·탐(2)", metric: "백분위", cutoff: 375.4 },
-    { id: 8, group: "나군", region: "부산·울산·경남", university: "경상국립대학교", type: "일반전형", track: "인문", major: "국어국문학과", quota: 18, rate: 2.4, subjects: "국·수·영·탐(2)", metric: "표준점수", cutoff: 372.1 }
+    { id: 1, group: "가군", region: "강원", university: "강원대학교", type: "일반전형", track: "자연", major: "컴퓨터공학", quota: 28, rate: 3.8, subjects: "국·수·탐(2)", metric: "백분위", cutoff: 270.4 },
+    { id: 2, group: "가군", region: "강원", university: "강원대학교", type: "일반전형", track: "인문", major: "경영학부", quota: 32, rate: 4.1, subjects: "국·수·탐(2)", metric: "표준점수", cutoff: 313.2 },
+    { id: 3, group: "나군", region: "대구·경북", university: "경북대학교", type: "일반전형", track: "자연", major: "전기공학과", quota: 24, rate: 3.5, subjects: "국·수·탐(2)", metric: "표준+백분위", cutoff: 291.3 },
+    { id: 4, group: "나군", region: "부산·울산·경남", university: "부산대학교", type: "일반전형", track: "자연", major: "기계공학부", quota: 30, rate: 3.2, subjects: "국·수·탐(2)", metric: "백분위", cutoff: 261.3 },
+    { id: 5, group: "다군", region: "광주·전남", university: "전남대학교", type: "일반전형", track: "자연", major: "소프트웨어공학과", quota: 26, rate: 2.9, subjects: "국·수·탐(2)", metric: "백분위", cutoff: 257.6 },
+    { id: 6, group: "다군", region: "충북", university: "충북대학교", type: "일반전형", track: "인문", major: "경제학부", quota: 22, rate: 3.0, subjects: "국·수·탐(2)", metric: "표준점수", cutoff: 304.4 },
+    { id: 7, group: "가군", region: "제주", university: "제주대학교", type: "일반전형", track: "자연", major: "컴퓨터공학과", quota: 20, rate: 2.6, subjects: "국·수·탐(2)", metric: "백분위", cutoff: 250.5 },
+    { id: 8, group: "나군", region: "부산·울산·경남", university: "경상국립대학교", type: "일반전형", track: "인문", major: "국어국문학과", quota: 18, rate: 2.4, subjects: "국·수·탐(2)", metric: "표준점수", cutoff: 296.7 }
   ];
 
   const panelStates = new Map();
@@ -104,14 +104,42 @@
     return Object.keys(getScoresFromMonth(month));
   }
 
-  function calcConvertedScore(scores, adjustments = {}) {
-    let total = 0;
-    Object.entries(scores).forEach(([subject, raw]) => {
-      const adjusted = raw + (adjustments[subject] || 0);
-      const weight = SUBJECT_WEIGHTS[subject] || 1;
-      total += adjusted * weight;
-    });
-    return Math.round(total * 10) / 10;
+  function sampleValue(month, name, index) {
+    const row = (window.MegaReportData?.mockSamples?.[month] || []).find((item) => item[1] === name);
+    const value = row?.[index];
+    return typeof value === "number" ? value : null;
+  }
+
+  function comboScore(month, index) {
+    const korean = sampleValue(month, "국어", index);
+    const math = sampleValue(month, "수학", index);
+    const social = sampleValue(month, "통합사회", index);
+    const science = sampleValue(month, "통합과학", index);
+    if ([korean, math, social, science].some((value) => value == null)) return null;
+    return Math.round((korean + math + (social + science) / 2) * 10) / 10;
+  }
+
+  function metricBase(month, metric) {
+    if (metric === "표준점수") return comboScore(month, 3);
+    if (metric === "표준+백분위") {
+      const percentile = comboScore(month, 4);
+      const standard = comboScore(month, 3);
+      if (percentile == null || standard == null) return null;
+      return Math.round(((percentile + standard) / 2) * 10) / 10;
+    }
+    return comboScore(month, 4);
+  }
+
+  function adjustmentTotal(adjustments = {}) {
+    return Object.entries(adjustments).reduce((sum, [subject, delta]) => {
+      return sum + (Number(delta) || 0) * (SUBJECT_WEIGHTS[subject] || 1);
+    }, 0);
+  }
+
+  function calcConvertedScore(month, metric, adjustments = {}) {
+    const base = metricBase(month, metric || "백분위");
+    if (base == null) return null;
+    return Math.round((base + adjustmentTotal(adjustments)) * 10) / 10;
   }
 
   function getTier(myScore, cutoff) {
@@ -185,18 +213,20 @@
 
   function getDisplayScore(state) {
     const useSim = state.viewMode === "simulation";
-    return calcConvertedScore(state.scores, useSim ? state.adjustments : {});
+    return calcConvertedScore(state.month, "백분위", useSim ? state.adjustments : {});
   }
 
   function hasExamScores(state) {
     return Object.values(state.scores || {}).some((value) => Number.isFinite(Number(value)));
   }
 
-  function buildListRows(state, myScore) {
+  function buildListRows(state, { simulate = state.viewMode === "simulation" } = {}) {
+    const adjustments = simulate ? state.adjustments : {};
     return UNIVERSITY_LIST.map((item) => {
+      const myScore = calcConvertedScore(state.month, item.metric, adjustments);
+      if (myScore == null) return { ...item, myScore: null, diff: null, tier: null };
       const diff = Math.round((myScore - item.cutoff) * 10) / 10;
-      const tier = getTier(myScore, item.cutoff);
-      return { ...item, myScore, diff, tier };
+      return { ...item, myScore, diff, tier: getTier(myScore, item.cutoff) };
     });
   }
 
@@ -571,9 +601,8 @@
     const tbody = panel.querySelector("[data-adm-list-body]");
     if (!tbody) return;
 
-    const originalScore = calcConvertedScore(state.scores);
-    const myScore = getDisplayScore(state);
-    const rows = buildListRows(state, myScore);
+    const originalRows = buildListRows(state, { simulate: false });
+    const rows = buildListRows(state);
     const search = state.listFilter.search || "";
     const track = panel.querySelector("[data-adm-track-filter]")?.value || "all";
     const tierFilter = panel.querySelector("[data-adm-tier-filter]")?.value || "all";
@@ -583,7 +612,7 @@
       if (state.listFilter.listTab === "fav" && !state.favorites.has(row.id)) return false;
       if (group !== "all" && row.group !== group) return false;
       if (track !== "all" && row.track !== track) return false;
-      if (tierFilter !== "all" && row.tier.className !== tierFilter) return false;
+      if (tierFilter !== "all" && row.tier?.className !== tierFilter) return false;
       if (search) {
         const haystack = `${row.university} ${row.major} ${row.type}`.toLowerCase();
         if (!haystack.includes(search)) return false;
@@ -595,7 +624,7 @@
 
     tbody.innerHTML = filtered
       .map((row) => {
-        const originalRow = buildListRows(state, originalScore).find((item) => item.id === row.id);
+        const originalRow = originalRows.find((item) => item.id === row.id);
         const tierChanged =
           scored && state.viewMode === "simulation" && originalRow && originalRow.tier.label !== row.tier.label;
         const scoreChanged =
@@ -631,7 +660,7 @@
 
   function renderPanel(panel, state) {
     const result = panel.querySelector("[data-adm-result]");
-    const originalScore = calcConvertedScore(state.scores);
+    const originalScore = calcConvertedScore(state.month, "백분위");
     const myScore = getDisplayScore(state);
 
     renderTargetCards(panel, state, myScore, originalScore);
@@ -713,7 +742,7 @@
 
   function fillDetailModal(panel, state, rowId) {
     const myScore = getDisplayScore(state);
-    const row = buildListRows(state, myScore).find((item) => item.id === rowId);
+    const row = buildListRows(state).find((item) => item.id === rowId);
     if (!row || !detailModal) return;
 
     const scored = hasExamScores(state);

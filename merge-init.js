@@ -1765,6 +1765,8 @@
         window.MegaReportData?.setWrongNoteState?.(selectedExamMonth, selectedSubject, no, {
           cause: cause.dataset.wrongCause
         });
+        refreshAnalysisSummary();
+        if (selectedSubject === selectedStrategySubject) refreshStrategySubject();
       }
     });
   });
@@ -1815,6 +1817,7 @@
     selectedWrongNo = null;
     activateTakenExam(scoresPanel, month);
     refreshAnalysisSummary();
+    refreshStrategySubject();
   });
 
   window.AdmissionRegular?.initCustomSelects(scoresPanel);
@@ -1885,13 +1888,13 @@
     e6: { university: "", category: "", type: "", major: "", cutoff: 0 }
   };
   const EARLY_LIST_ROWS = [
-    { id: 1, region: "서울", university: "고려대학교", category: "교과", type: "학교추천전형", major: "자연계열", quota: 18, rate: 8.4, myScore: "89.1", cutoff: "92.4", diff: -3.3, csat: "3개 합 7", csatMet: "미충족", track: "자연", tier: { label: "상향", className: "is-reach" }, gradeMin: 1.28, gradeMax: 1.72 },
-    { id: 2, region: "서울", university: "성균관대학교", category: "교과", type: "학교장추천전형", major: "자연계열", quota: 25, rate: 10.7, myScore: "842", cutoff: "850.5", diff: -8.5, csat: "3개 합 7", csatMet: "미충족", track: "자연", tier: { label: "상향", className: "is-reach" }, gradeMin: 1.35, gradeMax: 1.85 },
+    { id: 1, region: "서울", university: "고려대학교", category: "교과", type: "학교추천전형", major: "자연계열", quota: 18, rate: 8.4, myScore: "89.1", cutoff: "92.4", diff: -3.3, csat: "3개 합 7", csatMet: "충족", track: "자연", tier: { label: "상향", className: "is-reach" }, gradeMin: 1.28, gradeMax: 1.72 },
+    { id: 2, region: "서울", university: "성균관대학교", category: "교과", type: "학교장추천전형", major: "자연계열", quota: 25, rate: 10.7, myScore: "842", cutoff: "850.5", diff: -8.5, csat: "3개 합 7", csatMet: "충족", track: "자연", tier: { label: "상향", className: "is-reach" }, gradeMin: 1.35, gradeMax: 1.85 },
     { id: 3, region: "서울", university: "건국대학교", category: "교과", type: "KU지역균형", major: "기계·로봇·자동차공학부", quota: 32, rate: 12.3, myScore: "704.8", cutoff: "700", diff: 4.8, csat: "없음", csatMet: "해당없음", track: "자연", tier: { label: "안정", className: "is-safe" }, gradeMin: 2.45, gradeMax: 2.90 },
     { id: 4, region: "인천·경기", university: "인하대학교", category: "교과", type: "학생부교과", major: "기계공학과", quota: 29, rate: 9.8, myScore: "1,007.5", cutoff: "1,000", diff: 7.5, csat: "3개 합 7", csatMet: "충족", track: "자연", tier: { label: "안정", className: "is-safe" }, gradeMin: 2.55, gradeMax: 3.10 },
     { id: 5, region: "인천·경기", university: "단국대학교", category: "교과", type: "DKU학생부교과", major: "기계공학과", quota: 24, rate: 7.6, myScore: "817.2", cutoff: "800", diff: 17.2, csat: "없음", csatMet: "해당없음", track: "자연", tier: { label: "안정", className: "is-safe" }, gradeMin: 2.70, gradeMax: 3.25 },
     { id: 6, region: "서울", university: "한양대학교", category: "교과", type: "학생부교과(추천)", major: "기계공학부", quota: 22, rate: 9.1, myScore: "89.1", cutoff: "90.8", diff: -1.7, csat: "3개 합 7", csatMet: "충족", track: "자연", tier: { label: "적정", className: "is-fit" }, gradeMin: 1.62, gradeMax: 2.05 },
-    { id: 7, region: "서울", university: "중앙대학교", category: "교과", type: "학생부교과(지역균형)", major: "경영학부", quota: 26, rate: 8.2, myScore: "701.5", cutoff: "698.2", diff: 3.3, csat: "3개 합 7", csatMet: "미충족", track: "인문", tier: { label: "안정", className: "is-safe" }, gradeMin: 2.40, gradeMax: 2.88 },
+    { id: 7, region: "서울", university: "중앙대학교", category: "교과", type: "학생부교과(지역균형)", major: "경영학부", quota: 26, rate: 8.2, myScore: "701.5", cutoff: "698.2", diff: 3.3, csat: "3개 합 7", csatMet: "충족", track: "인문", tier: { label: "안정", className: "is-safe" }, gradeMin: 2.40, gradeMax: 2.88 },
     { id: 8, region: "서울", university: "경희대학교", category: "교과", type: "지역균형전형", major: "공과계열", quota: 20, rate: 7.4, myScore: "86.5", cutoff: "88.0", diff: -1.5, csat: "2개 합 5", csatMet: "충족", track: "자연", tier: { label: "적정", className: "is-fit" }, gradeMin: 1.90, gradeMax: 2.50 }
   ];
   const EARLY_GRADE_SCALE = { min: 1, max: 4.5 };
@@ -1940,7 +1943,7 @@
   function readEarlySimpleGrade() {
     const input = earlyPanel?.querySelector("[data-early-simple-grade]");
     const raw = Number.parseFloat(input?.value);
-    if (!Number.isFinite(raw) || raw <= 0) return 2.31;
+    if (!Number.isFinite(raw) || raw <= 0) return window.MegaReportData?.schoolOverallGrade?.() ?? 2.02;
     return Math.round(raw * 100) / 100;
   }
 
@@ -2021,6 +2024,26 @@
     return `${rounded.toFixed(1)} : 1`;
   }
 
+  function earlyCsatMet(text) {
+    if (!text || text === "없음") return "해당없음";
+    const match = String(text).match(/(\d+)개\s*합\s*(\d+)/);
+    if (!match) return "해당없음";
+    const count = Number(match[1]);
+    const limit = Number(match[2]);
+    const rows = window.MegaReportData?.mockSamples?.["6"] || [];
+    const gradeOf = (name) => {
+      const grade = rows.find((row) => row[1] === name)?.[5];
+      return typeof grade === "number" ? grade : null;
+    };
+    const inquiry = [gradeOf("통합사회"), gradeOf("통합과학")].filter((grade) => grade != null);
+    const grades = [gradeOf("국어"), gradeOf("수학"), gradeOf("영어"), inquiry.length ? Math.min(...inquiry) : null]
+      .filter((grade) => grade != null)
+      .sort((a, b) => a - b);
+    if (grades.length < count) return "미충족";
+    const sum = grades.slice(0, count).reduce((total, grade) => total + grade, 0);
+    return sum <= limit ? "충족" : "미충족";
+  }
+
   function renderEarlyList() {
     earlyListPanels.forEach(renderEarlyListFor);
   }
@@ -2060,7 +2083,7 @@
             ? `<td class="adm-grade-dist-cell">${earlyGradeDistMarkup(myGrade, row.gradeMin, row.gradeMax)}</td>
             <td class="adm-grade-range-cell"><strong>${earlyFormatGradeRange(row.gradeMin, row.gradeMax)}</strong></td>
             <td class="adm-csat-plain">${row.csat}</td>
-            <td class="adm-csat-plain">${row.csatMet}</td>`
+            <td class="adm-csat-plain">${earlyCsatMet(row.csat)}</td>`
             : `<td><strong>${row.myScore}</strong></td>
             <td><strong>${row.cutoff}</strong></td>
             <td class="${row.diff >= 0 ? "is-up" : "is-down"}">${earlyFormatDiff(row.diff)}</td>`;

@@ -31,7 +31,7 @@
         title: "1학년 1학기",
         rows: [
           ["국어", "공통국어1", 4, 92, 74.6, "A", 1, 284],
-          ["수학", "공통수학1", 4, 88, 68.2, "A", 2, 284],
+          ["수학", "공통수학1", 4, 88, 68.2, "B", 2, 284],
           ["영어", "공통영어1", 4, 94, 72.1, "A", 1, 284],
           ["사회", "통합사회1", 3, 86, 70.5, "B", 2, 284],
           ["과학", "통합과학1", 3, 90, 69.8, "A", 1, 284]
@@ -41,10 +41,10 @@
         title: "1학년 2학기",
         rows: [
           ["국어", "공통국어2", 4, 90, 73.2, "A", 2, 284],
-          ["수학", "공통수학2", 4, 85, 67.5, "A", 2, 284],
+          ["수학", "공통수학2", 4, 85, 67.5, "B", 2, 284],
           ["영어", "공통영어2", 4, 91, 71.8, "A", 1, 284],
           ["사회", "통합사회2", 3, 83, 69.4, "B", 3, 284],
-          ["과학", "통합과학2", 3, 88, 68.9, "A", 2, 284]
+          ["과학", "통합과학2", 3, 88, 68.9, "B", 2, 284]
         ]
       }
     ],
@@ -52,21 +52,21 @@
       {
         title: "2학년 1학기",
         rows: [
-          ["국어", "문학1", 4, 89, 71.3, "A", 2, 276],
-          ["수학", "수학Ⅰ", 4, 86, 65.8, "A", 3, 276],
+          ["국어", "문학1", 4, 89, 71.3, "B", 2, 276],
+          ["수학", "수학Ⅰ", 4, 86, 65.8, "B", 3, 276],
           ["영어", "영어Ⅰ", 4, 93, 70.4, "A", 1, 276],
           ["사회", "사회·문화", 3, 84, 68.7, "B", 2, 276],
-          ["과학", "물리학Ⅰ", 3, 87, 66.2, "A", 2, 276]
+          ["과학", "물리학Ⅰ", 3, 87, 66.2, "B", 2, 276]
         ]
       },
       {
         title: "2학년 2학기",
         rows: [
-          ["국어", "문학2", 4, 87, 70.1, "A", 2, 276],
-          ["수학", "수학Ⅱ", 4, 83, 64.9, "A", 3, 276],
+          ["국어", "문학2", 4, 87, 70.1, "B", 2, 276],
+          ["수학", "수학Ⅱ", 4, 83, 64.9, "B", 3, 276],
           ["영어", "영어Ⅱ", 4, 90, 69.6, "A", 2, 276],
           ["사회", "정치와법", 3, 82, 67.8, "B", 3, 276],
-          ["과학", "화학Ⅰ", 3, 85, 65.5, "A", 2, 276]
+          ["과학", "화학Ⅰ", 3, 85, 65.5, "B", 2, 276]
         ]
       }
     ],
@@ -75,20 +75,20 @@
         title: "3학년 1학기",
         rows: [
           ["국어", "화법과작문", 4, 91, 72.8, "A", 2, 268],
-          ["수학", "미적분", 4, 84, 63.5, "A", 3, 268],
+          ["수학", "미적분", 4, 84, 63.5, "B", 3, 268],
           ["영어", "영어Ⅰ", 4, 92, 71.2, "A", 1, 268],
-          ["사회", "생활과윤리", 3, 88, 69.1, "A", 2, 268],
-          ["과학", "화학Ⅱ", 3, 86, 64.7, "A", 2, 268]
+          ["사회", "생활과윤리", 3, 88, 69.1, "B", 2, 268],
+          ["과학", "화학Ⅱ", 3, 86, 64.7, "B", 2, 268]
         ]
       },
       {
         title: "3학년 2학기",
         rows: [
-          ["국어", "독서", 4, 89, 71.6, "A", 2, 268],
-          ["수학", "확률과통계", 4, 82, 62.8, "A", 3, 268],
+          ["국어", "독서", 4, 89, 71.6, "B", 2, 268],
+          ["수학", "확률과통계", 4, 82, 62.8, "B", 3, 268],
           ["영어", "영어Ⅱ", 4, 90, 70.3, "A", 2, 268],
           ["사회", "윤리와사상", 3, 86, 68.4, "B", 2, 268],
-          ["과학", "생명과학Ⅱ", 3, 84, 63.9, "A", 3, 268]
+          ["과학", "생명과학Ⅱ", 3, 84, 63.9, "B", 3, 268]
         ]
       }
     ]
@@ -115,24 +115,24 @@
 
   const mockSamples = {
     3: [
-      ["국어", "국어", 84, 125, 88, 2],
+      ["국어", "국어", 84, 125, 88, 3],
       ["수학", "수학", 88, 130, 92, 2],
       ["영어", "영어", 89, "-", "-", 2],
       ["한국사", "한국사", 46, "-", "-", 1],
-      ["탐구", "통합사회", 42, 64, 90, 3],
+      ["탐구", "통합사회", 42, 64, 90, 2],
       ["탐구", "통합과학", 45, 68, 93, 2]
     ],
     4: [
       ["국어", "국어", 87, 129, 90, 2],
-      ["수학", "수학", 90, 133, 94, 1],
+      ["수학", "수학", 90, 133, 94, 2],
       ["영어", "영어", 88, "-", "-", 2],
       ["한국사", "한국사", 47, "-", "-", 1],
       ["탐구", "통합사회", 43, 65, 91, 2],
-      ["탐구", "통합과학", 46, 69, 95, 1]
+      ["탐구", "통합과학", 46, 69, 95, 2]
     ],
     5: [
       ["국어", "국어", 85, 127, 89, 2],
-      ["수학", "수학", 91, 134, 95, 1],
+      ["수학", "수학", 91, 134, 95, 2],
       ["영어", "영어", 90, "-", "-", 1],
       ["한국사", "한국사", 47, "-", "-", 1],
       ["탐구", "통합사회", 44, 66, 92, 2],
@@ -581,8 +581,8 @@
 
   const subjectAreaMap = {
     국어: [
-      ["독서·인문", 5, 4, 61, 78],
-      ["독서·사회", 5, 3, 64, 80],
+      ["독서·인문", 5, 5, 61, 78],
+      ["독서·사회", 5, 2, 64, 80],
       ["독서·과학", 5, 3, 58, 76],
       ["독서·기술", 4, 3, 62, 79],
       ["문학·현대시", 4, 4, 79, 91],
@@ -674,39 +674,124 @@
       </div>`;
   }
 
-  function getSubjectAreaRows(month, subject) {
-    if (!isTakenExam(month)) return [];
-    const base = subjectAreaMap[subject] || [];
-    const examIndex = Math.max(0, Object.keys(mockMeta).indexOf(String(month)));
+  function subjectMaxScore(subject) {
+    return subject === "한국사" || subject === "통합사회" || subject === "통합과학" ? 50 : 100;
+  }
 
-    return base.map(([area, total, correct, average, top], areaIndex) => {
-      if (examIndex === 0) {
-        return {
-          area,
-          total,
-          correct,
-          avg: average,
-          top,
-          mine: Math.round((correct / total) * 100)
-        };
+  function behaviorLabels(subject) {
+    if (subject === "국어") return behaviorTypes;
+    return subjectActionMap[subject] || behaviorTypes;
+  }
+
+  function buildPointGrid(areas, maxScore) {
+    const count = areas.reduce((sum, area) => sum + area.total, 0);
+    const base = 2 * count <= maxScore ? 2 : 1;
+    let extra = maxScore - base * count;
+    const ranked = areas
+      .map((area, areaIndex) => ({ areaIndex, avg: area.avg, total: area.total }))
+      .sort((a, b) => b.avg - a.avg || a.areaIndex - b.areaIndex);
+    const bonus = new Map();
+    let cap = 1;
+    while (extra > 0 && cap <= 6) {
+      let added = 0;
+      ranked.forEach((area) => {
+        for (let index = 0; index < area.total && extra > 0; index += 1) {
+          const key = `${area.areaIndex}:${index}`;
+          const current = bonus.get(key) || 0;
+          if (current >= cap) continue;
+          bonus.set(key, current + 1);
+          extra -= 1;
+          added += 1;
+        }
+      });
+      if (!added) break;
+      cap += 1;
+    }
+    return areas.map((area, areaIndex) =>
+      Array.from({ length: area.total }, (_, index) => base + (bonus.get(`${areaIndex}:${index}`) || 0))
+    );
+  }
+
+  function chooseWrongSet(questions, lost) {
+    if (!lost) return new Set();
+    let best = Array.from({ length: lost + 1 }, () => null);
+    best[0] = { overlap: 0, picks: [] };
+    questions.forEach((question, index) => {
+      const point = question.point;
+      const gain = question.preferred ? 1 : 0;
+      const next = best.slice();
+      for (let sum = 0; sum <= lost - point; sum += 1) {
+        const source = best[sum];
+        if (!source) continue;
+        const nextSum = sum + point;
+        const overlap = source.overlap + gain;
+        if (!next[nextSum] || overlap > next[nextSum].overlap) {
+          next[nextSum] = { overlap, picks: source.picks.concat(index) };
+        }
       }
+      best = next;
+    });
+    return new Set(best[lost]?.picks || []);
+  }
 
-      const adjustedTotal = Math.max(1, total - ((examIndex + areaIndex) % 2));
-      const adjustedRate = Math.max(
-        0,
-        Math.min(1, correct / total + (examIndex - 2) * 0.035 + ((areaIndex % 3) - 1) * 0.025)
-      );
-      const adjustedCorrect = Math.min(adjustedTotal, Math.max(0, Math.round(adjustedTotal * adjustedRate)));
+  const examModelCache = new Map();
 
+  function buildExamModel(month, subject) {
+    if (!isTakenExam(month)) return { areas: [], questions: [] };
+    const base = subjectAreaMap[subject] || [];
+    const maxScore = subjectMaxScore(subject);
+    const raw = Number(getSubjectRow(month, subject)?.[2]);
+    const lost = Number.isFinite(raw) ? Math.max(0, maxScore - raw) : 0;
+    const areas = base.map(([area, total, correct, average, top]) => ({
+      area,
+      total,
+      baseCorrect: correct,
+      avg: average,
+      top
+    }));
+    const pointGrid = buildPointGrid(areas, maxScore);
+    const slots = [];
+    areas.forEach((area, areaIndex) => {
+      pointGrid[areaIndex].forEach((point, index) => {
+        slots.push({
+          area: area.area,
+          point,
+          preferred: index >= area.baseCorrect
+        });
+      });
+    });
+    const wrongSet = chooseWrongSet(slots, lost);
+    const types = behaviorLabels(subject);
+    const questions = slots.map((slot, index) => ({
+      no: index + 1,
+      area: slot.area,
+      correct: !wrongSet.has(index),
+      points: slot.point,
+      action: types[index % types.length] || "오답 문항"
+    }));
+    const areaRows = areas.map((area) => {
+      const list = questions.filter((question) => question.area === area.area);
+      const correct = list.filter((question) => question.correct).length;
       return {
-        area,
-        total: adjustedTotal,
-        correct: adjustedCorrect,
-        avg: average,
-        top,
-        mine: Math.round((adjustedCorrect / adjustedTotal) * 100)
+        area: area.area,
+        total: area.total,
+        correct,
+        avg: area.avg,
+        top: area.top,
+        mine: area.total ? Math.round((correct / area.total) * 100) : 0
       };
     });
+    return { areas: areaRows, questions };
+  }
+
+  function getExamModel(month, subject) {
+    const key = `${month}|${subject}`;
+    if (!examModelCache.has(key)) examModelCache.set(key, buildExamModel(month, subject));
+    return examModelCache.get(key);
+  }
+
+  function getSubjectAreaRows(month, subject) {
+    return getExamModel(month, subject).areas;
   }
 
   function objectParticle(word) {
@@ -718,32 +803,20 @@
   function renderStrategySummary(subject, month) {
     const exam = month || "3";
     const name = subject && subject !== "전체" ? subject : "국어";
-    const weakest = [...getSubjectAreaRows(exam, name)].sort(
-      (a, b) => a.mine - a.avg - (b.mine - b.avg) || a.mine - b.mine
-    )[0];
-    const focus = weakest?.area || name;
+    const focus = getExamReviewItems(exam, name)[0]?.name || name;
 
     return `
       <strong>지금은 <em>${focus}</em>${objectParticle(focus)} 먼저 보완할 때예요.</strong>
       <p>이번 시험에서 틀린 문항을 바탕으로 학습 과제·복습 우선 순위·오답 원인을 정리했습니다.</p>`;
   }
 
-  function getAreaRanks(month, subject) {
-    return [...getSubjectAreaRows(month, subject)]
-      .map((area) => ({
-        name: area.area,
-        area: area.area,
-        subjectName: subject,
-        mine: area.mine,
-        gap: area.mine - area.avg,
-        overall: area.mine
-      }))
-      .sort((a, b) => a.gap - b.gap || a.mine - b.mine)
-      .slice(0, 6);
-  }
-
   function getStrategyTaskItems(subject, month) {
-    return getAreaRanks(month || "3", subject || "국어").slice(0, 3);
+    const exam = month || "3";
+    const name = subject || "국어";
+    const top = getExamReviewItems(exam, name)[0];
+    if (!top) return [];
+    const item = { area: top.name, name: top.name, subjectName: name };
+    return [item, item, item];
   }
 
   function strategyTaskCopy(item, index) {
@@ -807,26 +880,7 @@
   }
 
   function getSubjectQuestions(month, subject) {
-    const questions = [];
-    const actions = subjectActionMap[subject] || ["오답 문항"];
-
-    getSubjectAreaRows(month, subject).forEach((item) => {
-      for (let index = 0; index < item.total; index += 1) {
-        const no = questions.length + 1;
-        questions.push({
-          no,
-          area: item.area,
-          correct: index < item.correct,
-          action: actions[(no + index) % actions.length]
-        });
-      }
-    });
-
-    return questions;
-  }
-
-  function subjectMaxScore(subject) {
-    return subject === "한국사" || subject === "통합사회" || subject === "통합과학" ? 50 : 100;
+    return getExamModel(month, subject).questions;
   }
 
   const reviewTags = ["최우선", "우선", "점검"];
@@ -839,18 +893,21 @@
 
   function getExamReviewItems(month, subject) {
     const areas = getSubjectAreaRows(month, subject);
-    const row = getSubjectRow(month, subject);
-    const totalWrong = areas.reduce((sum, area) => sum + Math.max(0, area.total - area.correct), 0);
-    const lostTotal = Math.max(0, subjectMaxScore(subject) - (Number(row?.[2]) || 0));
+    const wrongByArea = new Map();
+    getWrongNoteItems(month, subject).forEach((item) => {
+      wrongByArea.set(item.area, (wrongByArea.get(item.area) || 0) + 1);
+    });
 
     return areas
-      .map((area) => {
-        const wrong = Math.max(0, area.total - area.correct);
-        const lost = totalWrong ? Math.round((wrong / totalWrong) * lostTotal) : 0;
-        return { name: area.area, total: area.total, wrong, lost, rate: area.mine };
-      })
+      .map((area, index) => ({
+        name: area.area,
+        total: area.total,
+        wrong: wrongByArea.get(area.area) || 0,
+        rate: area.mine,
+        index
+      }))
       .filter((item) => item.wrong > 0)
-      .sort((a, b) => b.lost - a.lost || b.wrong - a.wrong || a.rate - b.rate)
+      .sort((a, b) => b.wrong - a.wrong || a.rate - b.rate || a.index - b.index)
       .slice(0, 3);
   }
 
@@ -878,13 +935,12 @@
   }
 
   function renderExamCauses(month, subject) {
-    const questions = getSubjectQuestions(month, subject).filter((question) => !question.correct);
-    const causes = ["개념 부족", "해석 오류", "시간 부족"];
-    const counts = Object.fromEntries(causes.map((name) => [name, 0]));
-
-    questions.forEach((question, index) => {
-      counts[causes[index % causes.length]] += 1;
+    const counts = Object.fromEntries(noteCauses.map((name) => [name, 0]));
+    getWrongNoteItems(month, subject).forEach((item) => {
+      if (counts[item.cause] == null) counts[item.cause] = 0;
+      counts[item.cause] += 1;
     });
+    const causes = noteCauses;
 
     const ranks = causes.map((name) => ({ name, count: counts[name] }));
     const max = Math.max(...ranks.map((item) => item.count), 1);
@@ -1030,12 +1086,18 @@
   function contentTypeRows(month, subject, lookup) {
     if (subject === "국어") {
       return koreanContentSchema.flatMap((block) =>
-        block.details.map((detail) => ({
-          zone: block.zone,
-          major: block.major,
-          detail,
-          metric: typeMetricFromArea(lookup.get(`${block.major}·${detail}`) || lookup.get(detail))
-        }))
+        block.details
+          .filter((detail) =>
+            (subjectAreaMap.국어 || []).some(
+              ([area]) => area === `${block.major}·${detail}` || area === detail
+            )
+          )
+          .map((detail) => ({
+            zone: block.zone,
+            major: block.major,
+            detail,
+            metric: typeMetricFromArea(lookup.get(`${block.major}·${detail}`) || lookup.get(detail))
+          }))
       );
     }
 
@@ -1065,10 +1127,10 @@
     const questions = getSubjectQuestions(month, subject);
     const areaMap = new Map(areas.map((area) => [area.area, area]));
 
-    const types = subject === "국어" ? behaviorTypes : subjectActionMap[subject] || behaviorTypes;
+    const types = behaviorLabels(subject);
     const contentRows = contentTypeRows(month, subject, lookup);
-    const behaviorRows = types.map((detail, index) => {
-      const list = questions.filter((_, questionIndex) => questionIndex % types.length === index);
+    const behaviorRows = types.map((detail) => {
+      const list = questions.filter((question) => question.action === detail);
       return { zone: "", major: "", detail, metric: typeMetricFromQuestions(list, areaMap) };
     });
 
@@ -1294,13 +1356,13 @@
           subject,
           exam: `${month}월 ${mockMeta[month] || ""}`.trim(),
           area: question.area,
-          behavior: behaviorTypes[index % behaviorTypes.length],
+          behavior: question.action,
           marked,
           answer,
           markedLabel: choiceLine(marked, choices),
           answerLabel: choiceLine(answer, choices),
-          points: question.no % 5 === 0 ? 3 : 2,
-          avg: area?.avg ?? 0,
+          points: question.points,
+          mine: area?.mine ?? 0,
           cause: saved?.cause || noteCauses[index % noteCauses.length],
           status,
           checks: Array.isArray(saved?.checks) ? saved.checks : defaultChecks,
@@ -1354,7 +1416,7 @@
                 <li class="${item.no === current.no ? "is-active" : ""}" data-wrong-note-no="${item.no}">
                   <em>${item.no}</em>
                   <b>${item.area}</b>
-                  <p>정답률 ${item.avg}% · ${item.points}점</p>
+                  <p>정답률 ${item.mine}% · ${item.points}점</p>
                   <span class="adm-tier ${noteStatusClass(item.status)}" data-wrong-list-status="${item.no}">${item.status}</span>
                 </li>`
                 )
@@ -1379,7 +1441,7 @@
               <strong>${current.subject} ${current.no}번</strong>
             </div>
             <div class="exam-summary-grid wrong-note-meta">
-              <article class="exam-summary-card"><span>정답률</span><strong class="is-text">${current.avg}%</strong></article>
+              <article class="exam-summary-card"><span>정답률</span><strong class="is-text">${current.mine}%</strong></article>
               <article class="exam-summary-card"><span>배점</span><strong class="is-text">${current.points}점</strong></article>
               <article class="exam-summary-card"><span>내용 영역</span><strong class="is-text">${current.area}</strong></article>
               <article class="exam-summary-card"><span>행동 영역</span><strong class="is-text">${current.behavior}</strong></article>
@@ -1605,15 +1667,21 @@
         groups.set(name, cur);
       });
     });
+    const rateOf = (group) => (group.asked ? Math.round((group.wrong / group.asked) * 100) : 0);
     return [...groups.values()]
       .filter((group) => group.wrong > 0)
-      .sort((a, b) => b.wrong - a.wrong || a.name.localeCompare(b.name, "ko"))
+      .sort((a, b) => rateOf(b) - rateOf(a) || b.wrong - a.wrong || a.name.localeCompare(b.name, "ko"))
       .slice(0, 5);
+  }
+
+  function schoolOverallGrade() {
+    return Math.round(schoolWeightedRank(schoolCourseRows()) * 100) / 100;
   }
 
   window.MegaReportData = {
     mockMeta,
     mockSamples,
+    schoolOverallGrade,
     mockExamDates,
     upcomingExams,
     reportAsOf,

@@ -3286,6 +3286,8 @@ body.adm-modal-open {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
+  overflow: visible;
+  padding-top: 10px;
 }
 
 .sub-panel[data-admission="regular"] .taken-exam-grid {
@@ -3318,6 +3320,34 @@ body.adm-modal-open {
   background: var(--white);
   text-align: left;
   cursor: pointer;
+  overflow: visible;
+}
+
+.taken-exam-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  transform: translate(30%, -50%);
+}
+
+.taken-exam-badge svg {
+  width: 12px;
+  height: 12px;
+}
+
+.taken-exam-badge.is-done {
+  border: 1.5px solid var(--navy);
+  background: var(--white);
+  color: var(--navy);
 }
 
 .taken-exam-cell time {
@@ -3362,13 +3392,26 @@ body.adm-modal-open {
   font-weight: 700;
 }
 
-.taken-exam-cell:hover:not(.active) {
+.taken-exam-cell:hover:not(.active):not(.is-upcoming) {
   background: var(--gray-100);
 }
 
 .taken-exam-cell.active {
   border-color: var(--navy);
   background: #eef1f5;
+}
+
+.taken-exam-cell.is-upcoming {
+  background: #f5f5f5;
+  border-color: #e4e4e4;
+  cursor: not-allowed;
+}
+
+.taken-exam-cell.is-upcoming time,
+.taken-exam-cell.is-upcoming strong,
+.taken-exam-cell.is-upcoming .taken-exam-foot b,
+.taken-exam-cell.is-upcoming .taken-exam-foot small {
+  color: var(--gray-400);
 }
 
 .taken-exam-cell[hidden] {
@@ -3922,7 +3965,8 @@ body.adm-modal-open {
   margin-bottom: 24px;
 }
 
-.strategy-suggest-summary {
+.strategy-suggest-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -3930,6 +3974,19 @@ body.adm-modal-open {
   padding: 11px 24px;
   border: 1px solid var(--line);
   background: var(--gray-100);
+}
+
+.strategy-suggest-summary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.strategy-suggest-actions {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
 }
 
 .strategy-suggest-summary strong {

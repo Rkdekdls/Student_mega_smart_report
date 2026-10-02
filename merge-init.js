@@ -1233,7 +1233,8 @@
       (root === analysisPanel && selectedNoteScope === "all") ||
       (root === scoresPanel && selectedScoreScope === "all");
     root?.querySelectorAll("[data-taken-exam]").forEach((cell) => {
-      const isActive = selectAll || cell.dataset.takenExam === String(month);
+      const isUpcoming = cell.classList.contains("is-upcoming");
+      const isActive = !isUpcoming && (selectAll || cell.dataset.takenExam === String(month));
       cell.classList.toggle("active", isActive);
       cell.setAttribute("aria-selected", isActive ? "true" : "false");
     });
@@ -1244,6 +1245,7 @@
 
     root.querySelectorAll("[data-taken-exam]").forEach((cell) => {
       cell.addEventListener("click", () => {
+        if (cell.classList.contains("is-upcoming") || cell.getAttribute("aria-disabled") === "true") return;
         keepWindowScroll(() => {
           const month = cell.dataset.takenExam;
           activateTakenExam(root, month);

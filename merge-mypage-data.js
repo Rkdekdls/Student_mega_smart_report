@@ -374,19 +374,33 @@
 
   function renderTakenExams({ withScore = true } = {}) {
     const months = Object.keys(mockMeta);
+    const upcomingMonths = new Set(["7", "8", "9"]);
 
     return `
       <div class="taken-exam-grid">
         ${months
           .map((month, index) => {
             const name = mockMeta[month];
+            const isUpcoming = upcomingMonths.has(String(month));
+            const statusLabel = isUpcoming ? "미응시" : "응시 완료";
+            const isActive = !isUpcoming && index === 0;
+            const statusBadge = isUpcoming
+              ? ""
+              : `<span class="taken-exam-badge is-done" title="${statusLabel}" aria-label="${statusLabel}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
             const foot = withScore
               ? `<span class="taken-exam-foot">
                   <b>${mockAveragePercentile(month)}<small>점</small></b>
                 </span>`
               : "";
             return `
-              <article class="taken-exam-cell${index === 0 ? " active" : ""}" data-taken-exam="${month}" aria-selected="${index === 0 ? "true" : "false"}">
+              <article
+                class="taken-exam-cell${isActive ? " active" : ""}${isUpcoming ? " is-upcoming" : ""}"
+                data-taken-exam="${month}"
+                aria-selected="${isActive ? "true" : "false"}"
+                aria-disabled="${isUpcoming ? "true" : "false"}"
+                ${isUpcoming ? 'tabindex="-1"' : ""}
+              >
+                ${statusBadge}
                 <time datetime="2026-${String(month).padStart(2, "0")}">${mockExamDates[month]}</time>
                 <strong>${month}월 ${name}</strong>
                 ${foot}

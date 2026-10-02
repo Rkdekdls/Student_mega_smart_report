@@ -959,11 +959,15 @@ body.is-sidebar-collapsed .sidebar-collapse svg {
 
 .taken-exam-grid.home-exam-grid {
   grid-template-columns: 1fr;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
   gap: var(--home-exam-gap);
+  height: calc(3 * var(--home-exam-cell-h) + 2 * var(--home-exam-gap));
+  padding-top: 0;
 }
 
 .taken-exam-grid.home-exam-grid .taken-exam-cell {
-  height: var(--home-exam-cell-h);
+  height: auto;
+  min-height: 0;
   padding: var(--home-top-pad) 16px 18px;
   cursor: default;
 }

@@ -15,12 +15,17 @@
       universities: {
         서울대학교: {
           types: {
-            일반전형: ["의예과", "컴퓨터공학부", "경제학부"]
+            일반전형: ["의예과", "컴퓨터공학부", "경영학과"]
           }
         },
         연세대학교: {
           types: {
             일반전형: ["의예과", "경영학과", "전기전자공학부"]
+          }
+        },
+        서강대학교: {
+          types: {
+            일반전형: ["컴퓨터공학과", "경영학부", "전자공학과"]
           }
         }
       },
@@ -32,7 +37,7 @@
       universities: {
         고려대학교: {
           types: {
-            일반전형: ["경영대학", "전기전자공학부", "의예과"]
+            일반전형: ["경영학과", "전기전자공학부", "의예과"]
           }
         },
         성균관대학교: {
@@ -41,24 +46,24 @@
           }
         }
       },
-      default: { university: "고려대학교", type: "일반전형", major: "경영대학", cutoff: 273.6 }
+      default: { university: "고려대학교", type: "일반전형", major: "경영학과", cutoff: 281.4 }
     },
     da: {
       group: "다군",
       key: "da",
       universities: {
-        경북대학교: {
+        한양대학교: {
           types: {
-            일반전형: ["소프트웨어학부", "경영학부", "기계공학부"]
+            일반전형: ["기계공학부", "경영학부", "컴퓨터소프트웨어학부"]
           }
         },
-        부산대학교: {
+        중앙대학교: {
           types: {
-            일반전형: ["컴퓨터공학과", "경제학부", "기계공학부"]
+            일반전형: ["경영학부", "전자전기공학부", "소프트웨어학부"]
           }
         }
       },
-      default: { university: "경북대학교", type: "일반전형", major: "소프트웨어학부", cutoff: 267.2 }
+      default: { university: "한양대학교", type: "일반전형", major: "기계공학부", cutoff: 276.4 }
     }
   };
 
@@ -72,18 +77,18 @@
   const SIM_SUBJECT_ORDER = ["국어", "수학", "영어", "한국사", "통합사회", "통합과학"];
 
   const UNIVERSITY_LIST = [
-    { id: 1, group: "가군", region: "강원", university: "강원대학교", type: "일반전형", track: "자연", major: "컴퓨터공학", quota: 28, rate: 3.8, subjects: "국·수·탐(2)", metric: "백분위", cutoff: 270.4 },
-    { id: 2, group: "가군", region: "강원", university: "강원대학교", type: "일반전형", track: "인문", major: "경영학부", quota: 32, rate: 4.1, subjects: "국·수·탐(2)", metric: "표준점수", cutoff: 313.2 },
-    { id: 3, group: "나군", region: "대구·경북", university: "경북대학교", type: "일반전형", track: "자연", major: "전기공학과", quota: 24, rate: 3.5, subjects: "국·수·탐(2)", metric: "표준+백분위", cutoff: 291.3 },
-    { id: 4, group: "나군", region: "부산·울산·경남", university: "부산대학교", type: "일반전형", track: "자연", major: "기계공학부", quota: 30, rate: 3.2, subjects: "국·수·탐(2)", metric: "백분위", cutoff: 261.3 },
-    { id: 5, group: "다군", region: "광주·전남", university: "전남대학교", type: "일반전형", track: "자연", major: "소프트웨어공학과", quota: 26, rate: 2.9, subjects: "국·수·탐(2)", metric: "백분위", cutoff: 257.6 },
-    { id: 6, group: "다군", region: "충북", university: "충북대학교", type: "일반전형", track: "인문", major: "경제학부", quota: 22, rate: 3.0, subjects: "국·수·탐(2)", metric: "표준점수", cutoff: 304.4 },
-    { id: 7, group: "가군", region: "제주", university: "제주대학교", type: "일반전형", track: "자연", major: "컴퓨터공학과", quota: 20, rate: 2.6, subjects: "국·수·탐(2)", metric: "백분위", cutoff: 250.5 },
-    { id: 8, group: "나군", region: "부산·울산·경남", university: "경상국립대학교", type: "일반전형", track: "인문", major: "국어국문학과", quota: 18, rate: 2.4, subjects: "국·수·탐(2)", metric: "표준점수", cutoff: 296.7 }
+    { id: 1, group: "가군", region: "서울", university: "연세대학교", type: "일반전형", track: "자연", major: "의예과", quota: 18, rate: 5.4, subjects: "국·수·탐(2)", metric: "백분위", cutoff: 294.8 },
+    { id: 2, group: "가군", region: "서울", university: "서울대학교", type: "일반전형", track: "인문", major: "경영학과", quota: 22, rate: 4.6, subjects: "국·수·탐(2)", metric: "표준점수", cutoff: 339.8 },
+    { id: 3, group: "나군", region: "서울", university: "고려대학교", type: "일반전형", track: "자연", major: "전기전자공학부", quota: 24, rate: 4.2, subjects: "국·수·탐(2)", metric: "표준+백분위", cutoff: 305.2 },
+    { id: 4, group: "나군", region: "서울", university: "성균관대학교", type: "일반전형", track: "자연", major: "소프트웨어학과", quota: 28, rate: 3.9, subjects: "국·수·탐(2)", metric: "백분위", cutoff: 283.6 },
+    { id: 5, group: "다군", region: "서울", university: "한양대학교", type: "일반전형", track: "자연", major: "기계공학부", quota: 30, rate: 3.6, subjects: "국·수·탐(2)", metric: "백분위", cutoff: 276.4 },
+    { id: 6, group: "다군", region: "서울", university: "중앙대학교", type: "일반전형", track: "인문", major: "경영학부", quota: 26, rate: 3.4, subjects: "국·수·탐(2)", metric: "표준점수", cutoff: 324.2 },
+    { id: 7, group: "가군", region: "서울", university: "서강대학교", type: "일반전형", track: "자연", major: "컴퓨터공학과", quota: 24, rate: 4.0, subjects: "국·수·탐(2)", metric: "백분위", cutoff: 281.2 },
+    { id: 8, group: "나군", region: "서울", university: "경희대학교", type: "일반전형", track: "자연", major: "전자공학과", quota: 20, rate: 4.8, subjects: "국·수·탐(2)", metric: "표준점수", cutoff: 337.2 }
   ];
 
   const panelStates = new Map();
-  let activeMonth = "3";
+  let activeMonth = "6";
   let activePanel = null;
   let modalPanel = null;
 
@@ -956,7 +961,7 @@
       buildPanelUi(panel);
     });
 
-    activeMonth = document.querySelector(".regular-month-panel.active")?.dataset.regularMonth || "3";
+    activeMonth = document.querySelector(".regular-month-panel.active")?.dataset.regularMonth || "6";
     activePanel = document.querySelector(`.regular-month-panel[data-regular-month="${activeMonth}"]`);
 
     modal?.querySelectorAll("[data-adm-modal-close]").forEach((button) => {
@@ -981,8 +986,8 @@
         renderSimGrid(panel, getState(month));
         renderPanel(panel, getState(month));
       });
-      activeMonth = "3";
-      activePanel = document.querySelector('.regular-month-panel[data-regular-month="3"]');
+      activeMonth = window.MegaReportData?.latestTakenMonth?.() || "6";
+      activePanel = document.querySelector(`.regular-month-panel[data-regular-month="${activeMonth}"]`);
     },
     onMonthChange(month) {
       activeMonth = month;

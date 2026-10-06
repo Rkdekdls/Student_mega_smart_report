@@ -157,6 +157,11 @@
     return !upcomingExamMonths.has(String(month));
   }
 
+  function latestTakenMonth() {
+    const months = Object.keys(mockMeta).filter((month) => isTakenExam(month));
+    return months[months.length - 1] || "6";
+  }
+
   function schoolRowsHtml(rows) {
     return rows
       .map(
@@ -371,15 +376,16 @@
   function renderTakenExams({ withScore = true } = {}) {
     const months = Object.keys(mockMeta);
     const upcomingMonths = upcomingExamMonths;
+    const latestMonth = latestTakenMonth();
 
     return `
       <div class="taken-exam-grid">
         ${months
-          .map((month, index) => {
+          .map((month) => {
             const name = mockMeta[month];
             const isUpcoming = upcomingMonths.has(String(month));
             const statusLabel = isUpcoming ? "미응시" : "응시 완료";
-            const isActive = !isUpcoming && index === 0;
+            const isActive = month === latestMonth;
             const statusBadge = isUpcoming
               ? ""
               : `<span class="taken-exam-badge is-done" title="${statusLabel}" aria-label="${statusLabel}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
@@ -801,7 +807,7 @@
   }
 
   function renderStrategySummary(subject, month) {
-    const exam = month || "3";
+    const exam = month || latestTakenMonth();
     const name = subject && subject !== "전체" ? subject : "국어";
     const focus = getExamReviewItems(exam, name)[0]?.name || name;
 
@@ -811,7 +817,7 @@
   }
 
   function getStrategyTaskItems(subject, month) {
-    const exam = month || "3";
+    const exam = month || latestTakenMonth();
     const name = subject || "국어";
     const top = getExamReviewItems(exam, name)[0];
     if (!top) return [];
@@ -1685,6 +1691,7 @@
     mockExamDates,
     upcomingExams,
     reportAsOf,
+    latestTakenMonth,
     noteStatuses,
     noteStatusClass,
     renderSubjectAreas,
@@ -1740,32 +1747,34 @@
       el.innerHTML = renderTrendSubject("국수탐");
     });
 
+    const openingMonth = latestTakenMonth();
+
     document.querySelectorAll("[data-exam-review]").forEach((el) => {
-      el.innerHTML = renderExamReview("3", "국어");
+      el.innerHTML = renderExamReview(openingMonth, "국어");
     });
 
     document.querySelectorAll("[data-exam-causes]").forEach((el) => {
-      el.innerHTML = renderExamCauses("3", "국어");
+      el.innerHTML = renderExamCauses(openingMonth, "국어");
     });
 
     document.querySelectorAll("[data-type-analysis]").forEach((el) => {
-      el.innerHTML = renderTypeAnalysis("3", "국어");
+      el.innerHTML = renderTypeAnalysis(openingMonth, "국어");
     });
 
     document.querySelectorAll("[data-wrong-note]").forEach((el) => {
-      el.innerHTML = renderWrongNote("3", "국어");
+      el.innerHTML = renderWrongNote(openingMonth, "국어");
     });
 
     document.querySelectorAll("[data-score-report]").forEach((el) => {
-      el.innerHTML = renderSubjectReport("3", "국어");
+      el.innerHTML = renderSubjectReport(openingMonth, "국어");
     });
 
     document.querySelectorAll("[data-strategy-summary]").forEach((el) => {
-      el.innerHTML = renderStrategySummary("국어", "3");
+      el.innerHTML = renderStrategySummary("국어", openingMonth);
     });
 
     document.querySelectorAll("[data-strategy-tasks]").forEach((el) => {
-      el.innerHTML = renderStrategyTasks("국어", "3");
+      el.innerHTML = renderStrategyTasks("국어", openingMonth);
     });
   }
 

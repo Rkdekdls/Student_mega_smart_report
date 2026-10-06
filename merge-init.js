@@ -1255,8 +1255,12 @@
     });
   }
 
+  function defaultExamMonth() {
+    return window.MegaReportData?.latestTakenMonth?.() || "6";
+  }
+
   let selectedSubject = "국어";
-  let selectedExamMonth = "3";
+  let selectedExamMonth = defaultExamMonth();
   let selectedStrategySubject = "국어";
   let selectedScoreScope = "selected";
   let selectedTrendSubject = "국수탐";
@@ -1268,8 +1272,9 @@
   }
 
   function resetRegularAdmissionView() {
-    activateTakenExam(regularPanel, "3");
-    activateRegularMonth("3");
+    const month = defaultExamMonth();
+    activateTakenExam(regularPanel, month);
+    activateRegularMonth(month);
     window.AdmissionRegular?.resetAll();
   }
 
@@ -1363,11 +1368,11 @@
 
   function resetScoreAnalysisView() {
     selectedSubject = "국어";
-    selectedExamMonth = "3";
+    selectedExamMonth = defaultExamMonth();
     selectedStrategySubject = "국어";
     selectedTrendSubject = "국수탐";
     activateScoreScope("selected");
-    activateTakenExam(scoresPanel, "3");
+    activateTakenExam(scoresPanel, selectedExamMonth);
     refreshStrategySubject();
     refreshTrendSubject();
   }
@@ -1486,10 +1491,10 @@
 
   function openLatestScores() {
     activate("scores");
-    selectedExamMonth = "6";
+    selectedExamMonth = defaultExamMonth();
     selectedWrongNo = null;
-    activateTakenExam(scoresPanel, "6");
-    activateTakenExam(analysisPanel, "6");
+    activateTakenExam(scoresPanel, selectedExamMonth);
+    activateTakenExam(analysisPanel, selectedExamMonth);
     refreshStrategySubject();
     refreshAnalysisSummary();
     closeMenus();
@@ -1855,33 +1860,33 @@
     major: "모집단위 선택"
   };
   const EARLY_UNIVERSITIES = {
+    서울대학교: {
+      학생부교과: { 지역균형전형: ["전기·정보공학부", "경영학과"] }
+    },
+    연세대학교: {
+      학생부교과: { 추천형: ["전기전자공학부", "경영학과"] }
+    },
     고려대학교: {
-      학생부교과: { 학교추천전형: ["자연계열", "인문계열"] }
+      학생부교과: { 학교추천전형: ["기계공학부", "경영학과"] }
     },
     성균관대학교: {
-      학생부교과: { 학교장추천전형: ["자연계열", "인문계열"] }
-    },
-    건국대학교: {
-      학생부교과: { KU지역균형: ["기계·로봇·자동차공학부", "경영학과"] }
-    },
-    인하대학교: {
-      학생부교과: { 학생부교과: ["기계공학과", "컴퓨터공학과"] }
-    },
-    단국대학교: {
-      학생부교과: { DKU학생부교과: ["기계공학과", "경영학부"] }
+      학생부교과: { 학교장추천전형: ["소프트웨어학과", "경영학과"] }
     },
     한양대학교: {
       학생부교과: { "학생부교과(추천)": ["기계공학부", "컴퓨터소프트웨어학부"] }
+    },
+    서강대학교: {
+      학생부교과: { 고교장추천: ["컴퓨터공학과", "경영학부"] }
     },
     중앙대학교: {
       학생부교과: { "학생부교과(지역균형)": ["경영학부", "소프트웨어학부"] }
     },
     경희대학교: {
-      학생부교과: { 지역균형전형: ["공과계열", "경영학과"] }
+      학생부교과: { 지역균형전형: ["화학공학과", "경영학과"] }
     }
   };
   const EARLY_TARGET_DEFAULTS = {
-    e1: { university: "고려대학교", category: "학생부교과", type: "학교추천전형", major: "자연계열", cutoff: 93.5 },
+    e1: { university: "고려대학교", category: "학생부교과", type: "학교추천전형", major: "기계공학부", cutoff: 93.5 },
     e2: { university: "한양대학교", category: "학생부교과", type: "학생부교과(추천)", major: "기계공학부", cutoff: 90.8 },
     e3: { university: "", category: "", type: "", major: "", cutoff: 0 },
     e4: { university: "", category: "", type: "", major: "", cutoff: 0 },
@@ -1889,14 +1894,14 @@
     e6: { university: "", category: "", type: "", major: "", cutoff: 0 }
   };
   const EARLY_LIST_ROWS = [
-    { id: 1, region: "서울", university: "고려대학교", category: "교과", type: "학교추천전형", major: "자연계열", quota: 18, rate: 8.4, myScore: "89.1", cutoff: "92.4", diff: -3.3, csat: "3개 합 7", csatMet: "충족", track: "자연", tier: { label: "상향", className: "is-reach" }, gradeMin: 1.28, gradeMax: 1.72 },
-    { id: 2, region: "서울", university: "성균관대학교", category: "교과", type: "학교장추천전형", major: "자연계열", quota: 25, rate: 10.7, myScore: "842", cutoff: "850.5", diff: -8.5, csat: "3개 합 7", csatMet: "충족", track: "자연", tier: { label: "상향", className: "is-reach" }, gradeMin: 1.35, gradeMax: 1.85 },
-    { id: 3, region: "서울", university: "건국대학교", category: "교과", type: "KU지역균형", major: "기계·로봇·자동차공학부", quota: 32, rate: 12.3, myScore: "704.8", cutoff: "700", diff: 4.8, csat: "없음", csatMet: "해당없음", track: "자연", tier: { label: "안정", className: "is-safe" }, gradeMin: 2.45, gradeMax: 2.90 },
-    { id: 4, region: "인천·경기", university: "인하대학교", category: "교과", type: "학생부교과", major: "기계공학과", quota: 29, rate: 9.8, myScore: "1,007.5", cutoff: "1,000", diff: 7.5, csat: "3개 합 7", csatMet: "충족", track: "자연", tier: { label: "안정", className: "is-safe" }, gradeMin: 2.55, gradeMax: 3.10 },
-    { id: 5, region: "인천·경기", university: "단국대학교", category: "교과", type: "DKU학생부교과", major: "기계공학과", quota: 24, rate: 7.6, myScore: "817.2", cutoff: "800", diff: 17.2, csat: "없음", csatMet: "해당없음", track: "자연", tier: { label: "안정", className: "is-safe" }, gradeMin: 2.70, gradeMax: 3.25 },
-    { id: 6, region: "서울", university: "한양대학교", category: "교과", type: "학생부교과(추천)", major: "기계공학부", quota: 22, rate: 9.1, myScore: "89.1", cutoff: "90.8", diff: -1.7, csat: "3개 합 7", csatMet: "충족", track: "자연", tier: { label: "적정", className: "is-fit" }, gradeMin: 1.62, gradeMax: 2.05 },
-    { id: 7, region: "서울", university: "중앙대학교", category: "교과", type: "학생부교과(지역균형)", major: "경영학부", quota: 26, rate: 8.2, myScore: "701.5", cutoff: "698.2", diff: 3.3, csat: "3개 합 7", csatMet: "충족", track: "인문", tier: { label: "안정", className: "is-safe" }, gradeMin: 2.40, gradeMax: 2.88 },
-    { id: 8, region: "서울", university: "경희대학교", category: "교과", type: "지역균형전형", major: "공과계열", quota: 20, rate: 7.4, myScore: "86.5", cutoff: "88.0", diff: -1.5, csat: "2개 합 5", csatMet: "충족", track: "자연", tier: { label: "적정", className: "is-fit" }, gradeMin: 1.90, gradeMax: 2.50 }
+    { id: 1, region: "서울", university: "서울대학교", category: "교과", type: "지역균형전형", major: "전기·정보공학부", quota: 16, rate: 6.2, myScore: "89.1", cutoff: "92.4", diff: -3.3, csat: "3개 합 7", csatMet: "충족", track: "자연", tier: { label: "상향", className: "is-reach" }, gradeMin: 1.10, gradeMax: 1.48 },
+    { id: 2, region: "서울", university: "연세대학교", category: "교과", type: "추천형", major: "전기전자공학부", quota: 20, rate: 5.8, myScore: "842", cutoff: "850.5", diff: -8.5, csat: "3개 합 7", csatMet: "충족", track: "자연", tier: { label: "상향", className: "is-reach" }, gradeMin: 1.22, gradeMax: 1.62 },
+    { id: 3, region: "서울", university: "고려대학교", category: "교과", type: "학교추천전형", major: "기계공학부", quota: 18, rate: 8.4, myScore: "89.1", cutoff: "92.4", diff: -3.3, csat: "3개 합 7", csatMet: "충족", track: "자연", tier: { label: "상향", className: "is-reach" }, gradeMin: 1.40, gradeMax: 1.82 },
+    { id: 4, region: "서울", university: "성균관대학교", category: "교과", type: "학교장추천전형", major: "소프트웨어학과", quota: 25, rate: 7.6, myScore: "842", cutoff: "850.5", diff: -8.5, csat: "3개 합 7", csatMet: "충족", track: "자연", tier: { label: "적정", className: "is-fit" }, gradeMin: 1.72, gradeMax: 2.18 },
+    { id: 5, region: "서울", university: "한양대학교", category: "교과", type: "학생부교과(추천)", major: "기계공학부", quota: 22, rate: 9.1, myScore: "89.1", cutoff: "90.8", diff: -1.7, csat: "3개 합 7", csatMet: "충족", track: "자연", tier: { label: "적정", className: "is-fit" }, gradeMin: 1.68, gradeMax: 2.12 },
+    { id: 6, region: "서울", university: "서강대학교", category: "교과", type: "고교장추천", major: "컴퓨터공학과", quota: 24, rate: 8.2, myScore: "89.1", cutoff: "90.0", diff: -0.9, csat: "3개 합 7", csatMet: "충족", track: "자연", tier: { label: "적정", className: "is-fit" }, gradeMin: 1.85, gradeMax: 2.22 },
+    { id: 7, region: "서울", university: "중앙대학교", category: "교과", type: "학생부교과(지역균형)", major: "경영학부", quota: 26, rate: 8.2, myScore: "701.5", cutoff: "698.2", diff: 3.3, csat: "3개 합 7", csatMet: "충족", track: "인문", tier: { label: "안정", className: "is-safe" }, gradeMin: 2.12, gradeMax: 2.58 },
+    { id: 8, region: "서울", university: "경희대학교", category: "교과", type: "지역균형전형", major: "화학공학과", quota: 20, rate: 7.4, myScore: "86.5", cutoff: "88.0", diff: -1.5, csat: "2개 합 5", csatMet: "충족", track: "자연", tier: { label: "안정", className: "is-safe" }, gradeMin: 2.08, gradeMax: 2.50 }
   ];
   const EARLY_GRADE_SCALE = { min: 1, max: 4.5 };
 

@@ -1195,6 +1195,10 @@ body.is-sidebar-collapsed .sidebar-collapse svg {
   margin-top: 0;
 }
 
+.mypage-school > .diag-section-title:not(:first-child) {
+  margin-top: 24px;
+}
+
 .content-empty {
   display: grid;
   place-items: center;
@@ -1694,6 +1698,17 @@ body.is-sidebar-collapsed .sidebar-collapse svg {
   background-position: left center;
 }
 
+.mypage-school .diag-table-define {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.mypage-school .diag-table-define th,
+.mypage-school .diag-table-define td {
+  width: 12.5%;
+  white-space: nowrap;
+}
+
 .diag-table-type thead th.diag-col-label,
 .diag-table-type thead th.diag-col-group,
 .diag-table-type thead tr:nth-child(2) th {
@@ -1722,15 +1737,19 @@ body.is-sidebar-collapsed .sidebar-collapse svg {
 }
 
 .diag-table-cumul col.cumul-col-zone {
-  width: 76px;
+  width: 56px;
+}
+
+.diag-table-cumul col.cumul-col-scope {
+  width: 56px;
 }
 
 .diag-table-cumul col.cumul-col-major {
-  width: 60px;
+  width: 88px;
 }
 
 .diag-table-cumul col.cumul-col-detail {
-  width: 104px;
+  width: 172px;
 }
 
 .diag-table-cumul thead tr:first-child th.cat-stress,
@@ -1757,6 +1776,26 @@ body.is-sidebar-collapsed .sidebar-collapse svg {
   writing-mode: horizontal-tb;
   text-orientation: mixed;
   letter-spacing: -0.02em;
+  white-space: normal;
+  line-height: 1.3;
+}
+
+.diag-table-cumul th.is-section {
+  width: 56px;
+  min-width: 56px;
+  max-width: 56px;
+  white-space: nowrap;
+}
+
+.diag-table-cumul thead tr:first-child th.diag-col-label:first-child {
+  width: 56px;
+  min-width: 56px;
+  max-width: 56px;
+}
+
+.diag-table-cumul thead tr:first-child th.diag-col-label:nth-child(3) {
+  width: 172px;
+  min-width: 172px;
   white-space: nowrap;
 }
 
@@ -1777,7 +1816,8 @@ body.is-sidebar-collapsed .sidebar-collapse svg {
 }
 
 .diag-table-cumul th.diag-subfactor {
-  min-width: 0;
+  min-width: 172px;
+  width: 172px;
   padding-left: 6px;
   padding-right: 6px;
   background: var(--white);
@@ -1786,6 +1826,7 @@ body.is-sidebar-collapsed .sidebar-collapse svg {
   font-weight: 700;
   text-align: center;
   white-space: nowrap;
+  line-height: 1.3;
 }
 
 .diag-table-cumul thead tr:nth-child(2) th {
@@ -3303,11 +3344,13 @@ body.adm-modal-open {
 .sub-panel[data-admission="regular"] .taken-exam-grid {
   grid-template-columns: repeat(7, minmax(0, 1fr));
   margin-bottom: 24px;
+  padding-top: 0;
 }
 
 .panel[data-panel="scores"] .taken-exam-grid,
 .panel[data-panel="analysis"] .taken-exam-grid {
   grid-template-columns: repeat(7, minmax(0, 1fr));
+  padding-top: 0;
 }
 
 .panel[data-panel="scores"] .taken-exam-cell,
@@ -3845,6 +3888,10 @@ body.adm-modal-open {
   margin: 0 0 24px;
 }
 
+.type-analysis-block .content-tabs {
+  margin-bottom: 24px;
+}
+
 .diag-table-exam {
   min-width: 920px;
 }
@@ -3882,12 +3929,28 @@ body.adm-modal-open {
   margin: 0 0 24px;
 }
 
+.score-report-block .diag-table-define {
+  width: 100%;
+  min-width: 0;
+  table-layout: fixed;
+}
+
+.score-report-block .diag-table-define th,
+.score-report-block .diag-table-define td {
+  box-sizing: border-box;
+  width: calc(100% / 6);
+  height: 46px;
+  padding-top: 0;
+  padding-bottom: 0;
+  white-space: nowrap;
+}
+
 .score-report-block + .strategy-full-block {
   margin-top: 24px;
 }
 
 .panel[data-panel="scores"] [data-taken-exams] + .score-subject-block {
-  margin-top: 28px;
+  margin-top: 24px;
 }
 
 .acc-track {
@@ -4102,20 +4165,22 @@ body.adm-modal-open {
 }
 
 .strategy-ratio-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr) max-content;
+  column-gap: 48px;
+  align-items: center;
   flex: 1 1 auto;
-  gap: 0;
 }
 
 .strategy-ratio-row {
-  display: grid;
-  grid-template-columns: 120px minmax(0, 1fr) 48px;
-  gap: 12px;
-  flex: 1 1 auto;
+  display: contents;
+}
+
+.strategy-ratio-row span:not(.acc-track),
+.strategy-ratio-row em {
+  display: flex;
   align-items: center;
   min-height: 48px;
-  padding: 10px 0;
 }
 
 .strategy-ratio-row span:not(.acc-track) {
@@ -4135,12 +4200,13 @@ body.adm-modal-open {
 }
 
 .strategy-ratio-row em {
+  justify-content: flex-end;
+  min-width: 12px;
   color: var(--gray-900);
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
   letter-spacing: -0.03em;
-  text-align: right;
 }
 
 .strategy-task-block {
@@ -4163,12 +4229,16 @@ body.adm-modal-open {
 
 .analysis-subject-block,
 .score-subject-block {
-  margin-top: 28px;
+  margin-top: 24px;
 }
 
 .analysis-subject-block > .content-tabs,
 .score-subject-block > .content-tabs {
   margin-bottom: 28px;
+}
+
+.score-subject-block.is-cumulative > .content-tabs {
+  display: none;
 }
 
 .wrong-area-overview > .percentile-block > .diag-result-head,
@@ -5148,6 +5218,10 @@ body.adm-modal-open {
   margin-top: 24px;
 }
 
+.score-overview.is-content-only {
+  grid-template-columns: 1fr;
+}
+
 .cumulative-wrong-lists > .percentile-block > .diag-result-head,
 .cumulative-wrong-lists > .trend-mini-block > .diag-result-head {
   margin: 0 0 24px;
@@ -5365,6 +5439,10 @@ body.adm-modal-open {
   grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
+.wrong-note-meta.is-content-only {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
 .wrong-note-meta .exam-summary-card {
   min-height: 0;
   padding: 12px 14px;
@@ -5554,6 +5632,10 @@ body.adm-modal-open {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 
+  .exam-summary-grid.wrong-note-meta.is-content-only {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
   .exam-summary-grid.cumulative-wrong-kpis,
   .exam-summary-grid.school-gpa-kpis {
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -5629,6 +5711,10 @@ body.adm-modal-open {
 
   .exam-summary-grid.wrong-note-meta {
     grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .exam-summary-grid.wrong-note-meta.is-content-only {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .exam-summary-grid.cumulative-wrong-kpis,

@@ -1309,6 +1309,8 @@
       panel.classList.toggle("active", panel.dataset.scoreScope === scope);
     });
 
+    scoresPanel?.querySelector(".score-subject-block")?.classList.toggle("is-cumulative", scope === "all");
+
     activateTakenExam(scoresPanel, selectedExamMonth);
     refreshStrategySubject();
   }

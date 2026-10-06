@@ -214,9 +214,9 @@
                     <th>국어</th>
                     <th>수학</th>
                     <th>영어</th>
-                    <th>한국사</th>
                     <th>통합사회</th>
                     <th>통합과학</th>
+                    <th>한국사</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -225,26 +225,26 @@
                     <td>128</td>
                     <td>135</td>
                     <td>-</td>
-                    <td>-</td>
                     <td>67</td>
                     <td>70</td>
+                    <td>-</td>
                   </tr>
                   <tr>
                     <th>백분위</th>
                     <td>91</td>
                     <td>96</td>
                     <td>-</td>
-                    <td>-</td>
                     <td>94</td>
                     <td>97</td>
+                    <td>-</td>
                   </tr>
                   <tr>
                     <th>등급</th>
                     <td>2</td>
                     <td>1</td>
                     <td>1</td>
-                    <td>1</td>
                     <td>2</td>
+                    <td>1</td>
                     <td>1</td>
                   </tr>
                   <tr>
@@ -252,9 +252,9 @@
                     <td>43,990 / 488,776</td>
                     <td>18,766 / 469,146</td>
                     <td>-</td>
-                    <td>-</td>
                     <td>11,708 / 195,136</td>
                     <td>7,131 / 237,712</td>
+                    <td>-</td>
                   </tr>
                 </tbody>
               </table>
@@ -296,17 +296,17 @@
           <div data-taken-exams></div>
 
           <section class="score-subject-block">
+            <div class="month-chips" role="tablist" aria-label="성적 범위">
+              <button type="button" class="month-chip active" data-score-scope="selected" role="tab" aria-selected="true">이번 시험</button>
+              <button type="button" class="month-chip" data-score-scope="all" role="tab" aria-selected="false">누적 시험</button>
+            </div>
             <div class="content-tabs" role="tablist" aria-label="과목 선택">
               <button type="button" class="content-tab active" data-score-subject="국어" role="tab" aria-selected="true">국어</button>
               <button type="button" class="content-tab" data-score-subject="수학" role="tab" aria-selected="false">수학</button>
               <button type="button" class="content-tab" data-score-subject="영어" role="tab" aria-selected="false">영어</button>
-              <button type="button" class="content-tab" data-score-subject="한국사" role="tab" aria-selected="false">한국사</button>
               <button type="button" class="content-tab" data-score-subject="통합사회" role="tab" aria-selected="false">통합사회</button>
               <button type="button" class="content-tab" data-score-subject="통합과학" role="tab" aria-selected="false">통합과학</button>
-            </div>
-            <div class="month-chips" role="tablist" aria-label="성적 범위">
-              <button type="button" class="month-chip active" data-score-scope="selected" role="tab" aria-selected="true">이번 시험</button>
-              <button type="button" class="month-chip" data-score-scope="all" role="tab" aria-selected="false">누적 시험</button>
+              <button type="button" class="content-tab" data-score-subject="한국사" role="tab" aria-selected="false">한국사</button>
             </div>
 
             <div class="content-tab-panel active" data-score-scope="selected" role="tabpanel">
@@ -376,6 +376,14 @@
                 <div class="diag-result-head">
                   <h2 class="diag-section-title">영역별 정답률 비교</h2>
                 </div>
+                <div class="content-tabs" role="tablist" aria-label="영역별 정답률 과목">
+                  <button type="button" class="content-tab active" data-score-subject="국어" role="tab" aria-selected="true">국어</button>
+                  <button type="button" class="content-tab" data-score-subject="수학" role="tab" aria-selected="false">수학</button>
+                  <button type="button" class="content-tab" data-score-subject="영어" role="tab" aria-selected="false">영어</button>
+                  <button type="button" class="content-tab" data-score-subject="통합사회" role="tab" aria-selected="false">통합사회</button>
+                  <button type="button" class="content-tab" data-score-subject="통합과학" role="tab" aria-selected="false">통합과학</button>
+                  <button type="button" class="content-tab" data-score-subject="한국사" role="tab" aria-selected="false">한국사</button>
+                </div>
                 <div data-type-analysis></div>
               </section>
             </div>
@@ -389,19 +397,18 @@
       <div data-taken-exams="analysis"></div>
 
       <section class="analysis-subject-block">
-        <div class="content-tabs" role="tablist" aria-label="과목 선택">
-          <button type="button" class="content-tab active" data-analysis-subject="국어" role="tab" aria-selected="true">국어</button>
-          <button type="button" class="content-tab" data-analysis-subject="수학" role="tab" aria-selected="false">수학</button>
-          <button type="button" class="content-tab" data-analysis-subject="영어" role="tab" aria-selected="false">영어</button>
-          <button type="button" class="content-tab" data-analysis-subject="한국사" role="tab" aria-selected="false">한국사</button>
-          <button type="button" class="content-tab" data-analysis-subject="통합사회" role="tab" aria-selected="false">통합사회</button>
-          <button type="button" class="content-tab" data-analysis-subject="통합과학" role="tab" aria-selected="false">통합과학</button>
-        </div>
-
           <div class="month-chips" role="tablist" aria-label="오답 노트 범위">
             <button type="button" class="month-chip active" data-note-scope="selected" role="tab" aria-selected="true">이번 시험</button>
             <button type="button" class="month-chip" data-note-scope="all" role="tab" aria-selected="false">누적 시험</button>
           </div>
+        <div class="content-tabs" role="tablist" aria-label="과목 선택">
+          <button type="button" class="content-tab active" data-analysis-subject="국어" role="tab" aria-selected="true">국어</button>
+          <button type="button" class="content-tab" data-analysis-subject="수학" role="tab" aria-selected="false">수학</button>
+          <button type="button" class="content-tab" data-analysis-subject="영어" role="tab" aria-selected="false">영어</button>
+          <button type="button" class="content-tab" data-analysis-subject="통합사회" role="tab" aria-selected="false">통합사회</button>
+          <button type="button" class="content-tab" data-analysis-subject="통합과학" role="tab" aria-selected="false">통합과학</button>
+          <button type="button" class="content-tab" data-analysis-subject="한국사" role="tab" aria-selected="false">한국사</button>
+        </div>
           <div data-wrong-note></div>
           <div data-wrong-note-all hidden></div>
       </section>

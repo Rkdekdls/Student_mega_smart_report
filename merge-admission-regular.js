@@ -74,7 +74,7 @@
     { value: "예체능", label: "예체능" }
   ];
 
-  const SIM_SUBJECT_ORDER = ["국어", "수학", "영어", "한국사", "통합사회", "통합과학"];
+  const SIM_SUBJECT_ORDER = ["국어", "수학", "영어", "통합사회", "통합과학", "한국사"];
 
   const UNIVERSITY_LIST = [
     { id: 1, group: "가군", region: "서울", university: "연세대학교", type: "일반전형", track: "자연", major: "의예과", quota: 18, rate: 5.4, subjects: "국·수·탐(2)", metric: "백분위", cutoff: 294.8 },

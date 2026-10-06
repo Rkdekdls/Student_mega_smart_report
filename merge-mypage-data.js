@@ -108,9 +108,9 @@
     ["국어", "국어", "-", "-", "-", "-"],
     ["수학", "수학", "-", "-", "-", "-"],
     ["영어", "영어", "-", "-", "-", "-"],
-    ["한국사", "한국사", "-", "-", "-", "-"],
     ["탐구", "통합사회", "-", "-", "-", "-"],
-    ["탐구", "통합과학", "-", "-", "-", "-"]
+    ["탐구", "통합과학", "-", "-", "-", "-"],
+    ["한국사", "한국사", "-", "-", "-", "-"]
   ];
 
   const mockSamples = {
@@ -118,33 +118,33 @@
       ["국어", "국어", 84, 125, 88, 3],
       ["수학", "수학", 88, 130, 92, 2],
       ["영어", "영어", 89, "-", "-", 2],
-      ["한국사", "한국사", 46, "-", "-", 1],
       ["탐구", "통합사회", 42, 64, 90, 2],
-      ["탐구", "통합과학", 45, 68, 93, 2]
+      ["탐구", "통합과학", 45, 68, 93, 2],
+      ["한국사", "한국사", 43, "-", "-", 1]
     ],
     4: [
       ["국어", "국어", 87, 129, 90, 2],
       ["수학", "수학", 90, 133, 94, 2],
       ["영어", "영어", 88, "-", "-", 2],
-      ["한국사", "한국사", 47, "-", "-", 1],
       ["탐구", "통합사회", 43, 65, 91, 2],
-      ["탐구", "통합과학", 46, 69, 95, 2]
+      ["탐구", "통합과학", 45, 69, 95, 2],
+      ["한국사", "한국사", 44, "-", "-", 1]
     ],
     5: [
       ["국어", "국어", 85, 127, 89, 2],
       ["수학", "수학", 91, 134, 95, 2],
       ["영어", "영어", 90, "-", "-", 1],
-      ["한국사", "한국사", 47, "-", "-", 1],
       ["탐구", "통합사회", 44, 66, 92, 2],
-      ["탐구", "통합과학", 48, 71, 96, 1]
+      ["탐구", "통합과학", 45, 71, 96, 1],
+      ["한국사", "한국사", 44, "-", "-", 1]
     ],
     6: [
       ["국어", "국어", 86, 128, 91, 2],
       ["수학", "수학", 92, 135, 96, 1],
       ["영어", "영어", 91, "-", "-", 1],
-      ["한국사", "한국사", 48, "-", "-", 1],
       ["탐구", "통합사회", 44, 67, 94, 2],
-      ["탐구", "통합과학", 47, 70, 97, 1]
+      ["탐구", "통합과학", 45, 70, 97, 1],
+      ["한국사", "한국사", 44, "-", "-", 1]
     ],
     7: blankMockRows,
     8: blankMockRows,
@@ -599,74 +599,62 @@
       ["작문", 4, 4, 81, 92]
     ],
     수학: [
-      ["수와 연산", 3, 3, 82, 94],
-      ["방정식", 3, 3, 78, 91],
-      ["부등식", 3, 2, 73, 87],
-      ["함수", 3, 3, 76, 90],
-      ["도형과 측정", 3, 2, 68, 84],
-      ["확률", 3, 3, 72, 87],
-      ["통계", 3, 2, 70, 85],
-      ["규칙성", 3, 2, 69, 84],
-      ["문제 해결", 3, 2, 65, 81],
-      ["추론", 3, 2, 67, 83]
+      ["수학Ⅰ·지수함수와 로그함수", 2, 2, 84, 94],
+      ["수학Ⅰ·삼각함수", 2, 1, 72, 86],
+      ["수학Ⅰ·수열", 2, 2, 80, 92],
+      ["수학Ⅱ·함수의 극한과 연속", 2, 2, 78, 90],
+      ["수학Ⅱ·미분", 2, 1, 70, 84],
+      ["수학Ⅱ·적분", 2, 1, 68, 83],
+      ["확률과 통계·경우의 수", 2, 2, 82, 93],
+      ["확률과 통계·확률", 2, 1, 74, 87],
+      ["확률과 통계·통계", 2, 2, 76, 89],
+      ["미적분·수열의 극한", 2, 2, 79, 91],
+      ["미적분·미분법", 2, 1, 66, 82],
+      ["미적분·적분법", 2, 1, 64, 80],
+      ["기하·이차곡선", 2, 2, 75, 88],
+      ["기하·평면벡터", 2, 1, 69, 84],
+      ["기하·공간도형과 공간좌표", 2, 1, 62, 79]
     ],
     영어: [
-      ["듣기", 5, 5, 88, 97],
-      ["목적·심경", 4, 4, 84, 94],
-      ["대의 파악", 5, 4, 81, 92],
-      ["세부 정보", 4, 4, 79, 90],
-      ["어법", 4, 3, 72, 86],
-      ["어휘", 5, 4, 74, 87],
-      ["빈칸 추론", 5, 4, 70, 85],
-      ["순서·삽입", 4, 3, 68, 83],
-      ["요약문", 4, 3, 73, 86],
-      ["장문 독해", 5, 4, 76, 88]
+      ["말하기·듣기", 17, 15, 88, 96],
+      ["말하기·간접말하기", 4, 3, 82, 93],
+      ["읽기·쓰기·대의파악", 5, 4, 80, 92],
+      ["읽기·쓰기·세부정보파악", 4, 3, 78, 90],
+      ["읽기·쓰기·어법·어휘", 4, 2, 72, 86],
+      ["읽기·쓰기·빈칸추론", 4, 2, 70, 85],
+      ["읽기·쓰기·간접쓰기", 4, 3, 74, 87],
+      ["읽기·쓰기·장문독해", 3, 2, 76, 88]
     ],
     한국사: [
-      ["선사·고대", 2, 1, 86, 96],
-      ["고려", 2, 2, 83, 94],
-      ["조선 전기", 2, 2, 82, 93],
-      ["조선 후기", 2, 2, 80, 92],
-      ["개항기", 2, 2, 78, 90],
-      ["일제강점기", 2, 2, 81, 92],
-      ["대한민국 수립", 2, 2, 79, 91],
-      ["민주주의 발전", 2, 1, 76, 88],
-      ["경제·사회 변화", 2, 2, 77, 89],
-      ["자료 해석", 2, 1, 74, 87]
+      ["전근대사·선사와 고대 국가", 3, 2, 84, 95],
+      ["전근대사·고려의 정치와 사회", 3, 3, 82, 93],
+      ["전근대사·조선 전기의 통치", 2, 2, 80, 92],
+      ["전근대사·조선 후기의 변화", 2, 1, 76, 89],
+      ["근현대사·개항과 근대 개혁", 3, 2, 78, 90],
+      ["근현대사·일제 강점과 독립운동", 3, 2, 81, 92],
+      ["근현대사·대한민국의 수립", 2, 2, 79, 91],
+      ["근현대사·민주화와 경제 성장", 2, 1, 74, 87]
     ],
     통합사회: [
-      ["통합적 관점", 3, 3, 81, 93],
-      ["인간과 공동체", 3, 3, 76, 89],
-      ["문화와 다양성", 3, 2, 72, 86],
-      ["생활공간과 사회", 3, 2, 70, 85],
-      ["인권과 헌법", 3, 3, 78, 90],
-      ["시장과 경제", 3, 2, 69, 84],
-      ["사회 정의", 3, 2, 73, 87],
-      ["세계화와 평화", 3, 2, 68, 83],
-      ["환경과 지속가능성", 3, 3, 75, 88],
-      ["미래와 변화", 3, 2, 67, 82]
+      ["통합사회1·통합적 관점", 3, 3, 81, 93],
+      ["통합사회1·인간, 사회, 환경과 행복", 3, 2, 74, 88],
+      ["통합사회1·자연환경과 인간", 2, 1, 70, 85],
+      ["통합사회1·문화와 다양성", 2, 1, 72, 86],
+      ["통합사회1·생활공간과 사회", 3, 2, 78, 90],
+      ["통합사회2·인권보장과 헌법", 3, 3, 80, 92],
+      ["통합사회2·사회정의와 불평등", 2, 1, 71, 85],
+      ["통합사회2·시장경제와 지속가능발전", 2, 1, 68, 83],
+      ["통합사회2·세계화와 평화", 3, 2, 73, 87],
+      ["통합사회2·미래와 지속가능한 삶", 2, 1, 69, 84]
     ],
     통합과학: [
-      ["물질의 규칙성", 3, 3, 77, 90],
-      ["자연의 구성 물질", 3, 2, 73, 87],
-      ["역학적 시스템", 3, 3, 75, 89],
-      ["지구 시스템", 3, 2, 72, 86],
-      ["생명 시스템", 3, 3, 76, 90],
-      ["화학 변화", 3, 2, 69, 84],
-      ["생물 다양성", 3, 2, 67, 82],
-      ["생태계와 환경", 3, 2, 70, 85],
-      ["에너지 전환", 3, 2, 68, 83],
-      ["과학과 미래 사회", 3, 2, 66, 81]
+      ["통합과학1·과학의 기초", 5, 4, 80, 92],
+      ["통합과학1·물질과 규칙성", 4, 3, 76, 89],
+      ["통합과학1·시스템과 상호작용", 4, 2, 70, 84],
+      ["통합과학2·변화와 다양성", 4, 3, 74, 87],
+      ["통합과학2·환경과 에너지", 4, 2, 68, 83],
+      ["통합과학2·과학과 미래사회", 4, 2, 66, 81]
     ]
-  };
-
-  const subjectActionMap = {
-    국어: ["정보 확인", "조건 해석", "관계 파악", "추론", "비판·평가"],
-    수학: ["개념 확인", "조건 해석", "관계 파악", "수식화", "계산", "경우 분류", "추론"],
-    영어: ["정보 확인", "맥락 파악", "관계 파악", "추론", "어휘 적용"],
-    한국사: ["정보 확인", "시대 판단", "자료 해석", "관계 파악", "추론"],
-    통합사회: ["개념 확인", "자료 해석", "관계 파악", "비판·평가", "추론"],
-    통합과학: ["개념 확인", "자료 해석", "관계 파악", "계산", "추론"]
   };
 
   function subjectAccuracyLegend(label) {
@@ -684,60 +672,145 @@
     return subject === "한국사" || subject === "통합사회" || subject === "통합과학" ? 50 : 100;
   }
 
+  const subjectPointMix = {
+    국어: { 2: 35, 3: 10 },
+    수학: { 2: 6, 3: 8, 4: 16 },
+    영어: { 2: 35, 3: 10 },
+    한국사: { 2: 10, 3: 10 },
+    통합사회: { 1.5: 6, 2: 13, 2.5: 6 },
+    통합과학: { 1.5: 6, 2: 13, 2.5: 6 }
+  };
+
   function behaviorLabels(subject) {
-    if (subject === "국어") return behaviorTypes;
-    return subjectActionMap[subject] || behaviorTypes;
+    return behaviorSchema[subject] || [];
   }
 
-  function buildPointGrid(areas, maxScore) {
-    const count = areas.reduce((sum, area) => sum + area.total, 0);
-    const base = 2 * count <= maxScore ? 2 : 1;
-    let extra = maxScore - base * count;
-    const ranked = areas
-      .map((area, areaIndex) => ({ areaIndex, avg: area.avg, total: area.total }))
-      .sort((a, b) => b.avg - a.avg || a.areaIndex - b.areaIndex);
-    const bonus = new Map();
-    let cap = 1;
-    while (extra > 0 && cap <= 6) {
-      let added = 0;
-      ranked.forEach((area) => {
-        for (let index = 0; index < area.total && extra > 0; index += 1) {
-          const key = `${area.areaIndex}:${index}`;
-          const current = bonus.get(key) || 0;
-          if (current >= cap) continue;
-          bonus.set(key, current + 1);
-          extra -= 1;
-          added += 1;
-        }
+  function pointUnits(point) {
+    return Math.round(Number(point) * 2);
+  }
+
+  function formatPoint(point) {
+    const units = pointUnits(point);
+    return units % 2 === 0 ? String(units / 2) : (units / 2).toFixed(1);
+  }
+
+  function buildPointGrid(areas, subject) {
+    const mix = subjectPointMix[subject] || {};
+    const bag = [];
+    Object.keys(mix)
+      .sort((a, b) => Number(a) - Number(b))
+      .forEach((point) => {
+        for (let count = 0; count < mix[point]; count += 1) bag.push(Number(point));
       });
-      if (!added) break;
-      cap += 1;
+    const rows = areas.map(() => []);
+    let start = 0;
+    while (bag.length) {
+      let placed = false;
+      for (let turn = 0; turn < areas.length; turn += 1) {
+        const areaIndex = (start + turn) % areas.length;
+        if (rows[areaIndex].length >= areas[areaIndex].total) continue;
+        rows[areaIndex].push(bag.shift());
+        start = areaIndex + 1;
+        placed = true;
+        break;
+      }
+      if (!placed) break;
     }
-    return areas.map((area, areaIndex) =>
-      Array.from({ length: area.total }, (_, index) => base + (bonus.get(`${areaIndex}:${index}`) || 0))
-    );
+    return rows;
+  }
+
+  function popcount(mask) {
+    let count = 0;
+    let value = mask;
+    while (value) {
+      count += value & 1;
+      value >>= 1;
+    }
+    return count;
   }
 
   function chooseWrongSet(questions, lost) {
-    if (!lost) return new Set();
-    let best = Array.from({ length: lost + 1 }, () => null);
-    best[0] = { overlap: 0, picks: [] };
+    const target = pointUnits(lost);
+    if (!target) return new Set();
+    const areaIndex = new Map();
+    questions.forEach((question) => {
+      if (!areaIndex.has(question.area)) areaIndex.set(question.area, areaIndex.size);
+    });
+    const masks = 1 << areaIndex.size;
+    const key = (sum, mask) => sum * masks + mask;
+    const size = (target + 1) * masks;
+    const seen = new Uint8Array(size);
+    const overlap = new Int16Array(size);
+    const shorts = new Int16Array(size);
+    const prevSum = new Int16Array(size);
+    const prevMask = new Int32Array(size);
+    const prevIndex = new Int16Array(size);
+    seen[0] = 1;
+
     questions.forEach((question, index) => {
-      const point = question.point;
+      const unit = pointUnits(question.point);
+      if (!unit || unit > target) return;
+      const bit = 1 << areaIndex.get(question.area);
       const gain = question.preferred ? 1 : 0;
-      const next = best.slice();
-      for (let sum = 0; sum <= lost - point; sum += 1) {
-        const source = best[sum];
-        if (!source) continue;
-        const nextSum = sum + point;
-        const overlap = source.overlap + gain;
-        if (!next[nextSum] || overlap > next[nextSum].overlap) {
-          next[nextSum] = { overlap, picks: source.picks.concat(index) };
+      const shortGain = question.shortAnswer ? 1 : 0;
+      const seenPrev = seen.slice();
+      const overlapPrev = overlap.slice();
+      const shortsPrev = shorts.slice();
+      for (let sum = 0; sum <= target - unit; sum += 1) {
+        for (let mask = 0; mask < masks; mask += 1) {
+          const from = key(sum, mask);
+          if (!seenPrev[from]) continue;
+          const to = key(sum + unit, mask | bit);
+          const nextOverlap = overlapPrev[from] + gain;
+          const nextShort = shortsPrev[from] + shortGain;
+          if (seen[to] && (overlap[to] > nextOverlap || (overlap[to] === nextOverlap && shorts[to] >= nextShort))) continue;
+          seen[to] = 1;
+          overlap[to] = nextOverlap;
+          shorts[to] = nextShort;
+          prevSum[to] = sum;
+          prevMask[to] = mask;
+          prevIndex[to] = index;
         }
       }
-      best = next;
     });
-    return new Set(best[lost]?.picks || []);
+
+    let bestMask = -1;
+    let bestScore = -1;
+    for (let mask = 0; mask < masks; mask += 1) {
+      const id = key(target, mask);
+      if (!seen[id]) continue;
+      const areas = popcount(mask);
+      const score = Math.min(areas, 3) * 1000 + overlap[id] * 20 + shorts[id] * 5 + areas;
+      if (score > bestScore) {
+        bestScore = score;
+        bestMask = mask;
+      }
+    }
+    if (bestMask < 0) return new Set();
+
+    const picks = new Set();
+    let sum = target;
+    let mask = bestMask;
+    while (sum !== 0 || mask !== 0) {
+      const id = key(sum, mask);
+      picks.add(prevIndex[id]);
+      const nextSum = prevSum[id];
+      const nextMask = prevMask[id];
+      if (nextSum === sum && nextMask === mask) break;
+      sum = nextSum;
+      mask = nextMask;
+      if (picks.size > questions.length) break;
+    }
+    return picks;
+  }
+
+  function spreadWrongBehaviors(questions, labels) {
+    const wrongs = questions.filter((question) => !question.correct);
+    if (labels.length < 3 || wrongs.length < 3) return;
+    if (new Set(wrongs.map((question) => question.action)).size >= 3) return;
+    wrongs.forEach((question, index) => {
+      question.action = labels[index % labels.length];
+    });
   }
 
   const examModelCache = new Map();
@@ -755,14 +828,16 @@
       avg: average,
       top
     }));
-    const pointGrid = buildPointGrid(areas, maxScore);
+    const pointGrid = buildPointGrid(areas, subject);
     const slots = [];
     areas.forEach((area, areaIndex) => {
       pointGrid[areaIndex].forEach((point, index) => {
+        const shortAnswer = subject === "수학" && slots.length >= 21;
         slots.push({
           area: area.area,
           point,
-          preferred: index >= area.baseCorrect
+          shortAnswer,
+          preferred: index >= area.baseCorrect || shortAnswer
         });
       });
     });
@@ -773,8 +848,10 @@
       area: slot.area,
       correct: !wrongSet.has(index),
       points: slot.point,
+      shortAnswer: Boolean(slot.shortAnswer),
       action: types[index % types.length] || "오답 문항"
     }));
+    spreadWrongBehaviors(questions, types);
     const areaRows = areas.map((area) => {
       const list = questions.filter((question) => question.area === area.area);
       const correct = list.filter((question) => question.correct).length;
@@ -806,10 +883,20 @@
     return (last - 0xac00) % 28 === 0 ? "를" : "을";
   }
 
+  function areaLabel(subject, area) {
+    const blocks = contentSchemas[subject] || [];
+    for (const block of blocks) {
+      for (const detail of block.details) {
+        if (area === `${block.major}·${detail}` || area === detail) return detail;
+      }
+    }
+    return String(area || "");
+  }
+
   function renderStrategySummary(subject, month) {
     const exam = month || latestTakenMonth();
     const name = subject && subject !== "전체" ? subject : "국어";
-    const focus = getExamReviewItems(exam, name)[0]?.name || name;
+    const focus = areaLabel(name, getExamReviewItems(exam, name)[0]?.name || name);
 
     return `
       <strong>지금은 <em>${focus}</em>${objectParticle(focus)} 먼저 보완할 때예요.</strong>
@@ -821,7 +908,8 @@
     const name = subject || "국어";
     const top = getExamReviewItems(exam, name)[0];
     if (!top) return [];
-    const item = { area: top.name, name: top.name, subjectName: name };
+    const label = areaLabel(name, top.name);
+    const item = { area: label, name: label, subjectName: name };
     return [item, item, item];
   }
 
@@ -931,7 +1019,7 @@
             return `
               <li>
                 <em>${index + 1}</em>
-                <b>${item.name}</b>
+                <b>${areaLabel(subject, item.name)}</b>
                 <p>${item.total}문항 중 ${item.wrong}문항 오답</p>
                 <span class="adm-tier ${reviewTagTier(tag)}">${tag}</span>
               </li>`;
@@ -966,13 +1054,46 @@
       </div>`;
   }
 
-  const koreanContentSchema = [
-    { zone: "공통", major: "독서", details: ["인문", "사회", "과학", "기술", "예술", "독서이론", "융합"] },
-    { zone: "공통", major: "문학", details: ["현대시", "현대소설", "고전시가", "고전소설", "수필", "극", "갈래복합"] },
-    { zone: "선택", major: "화작", details: ["화법", "작문"] },
-    { zone: "선택", major: "언매", details: ["언어", "매체"] }
-  ];
-  const behaviorTypes = ["사실적 이해", "추론적 이해", "비판적 이해", "창의적 이해", "어휘", "어법"];
+  const contentSchemas = {
+    국어: [
+      { zone: "공통", major: "독서", details: ["인문", "사회", "과학", "기술", "예술", "독서이론", "융합"] },
+      { zone: "공통", major: "문학", details: ["현대시", "현대소설", "고전시가", "고전소설", "수필", "극", "갈래복합"] },
+      { zone: "선택", major: "화법과 작문", details: ["화법", "작문"] },
+      { zone: "선택", major: "언어와 매체", details: ["언어", "매체"] }
+    ],
+    수학: [
+      { zone: "공통", major: "수학Ⅰ", details: ["지수함수와 로그함수", "삼각함수", "수열"] },
+      { zone: "공통", major: "수학Ⅱ", details: ["함수의 극한과 연속", "미분", "적분"] },
+      { zone: "선택", major: "확률과 통계", details: ["경우의 수", "확률", "통계"] },
+      { zone: "선택", major: "미적분", details: ["수열의 극한", "미분법", "적분법"] },
+      { zone: "선택", major: "기하", details: ["이차곡선", "평면벡터", "공간도형과 공간좌표"] }
+    ],
+    영어: [
+      { major: "말하기", details: ["듣기", "간접말하기"] },
+      { major: "읽기·쓰기", details: ["대의파악", "세부정보파악", "어법·어휘", "빈칸추론", "간접쓰기", "장문독해"] }
+    ],
+    한국사: [
+      { major: "전근대사", details: ["선사와 고대 국가", "고려의 정치와 사회", "조선 전기의 통치", "조선 후기의 변화"] },
+      { major: "근현대사", details: ["개항과 근대 개혁", "일제 강점과 독립운동", "대한민국의 수립", "민주화와 경제 성장"] }
+    ],
+    통합사회: [
+      { major: "통합사회1", details: ["통합적 관점", "인간, 사회, 환경과 행복", "자연환경과 인간", "문화와 다양성", "생활공간과 사회"] },
+      { major: "통합사회2", details: ["인권보장과 헌법", "사회정의와 불평등", "시장경제와 지속가능발전", "세계화와 평화", "미래와 지속가능한 삶"] }
+    ],
+    통합과학: [
+      { major: "통합과학1", details: ["과학의 기초", "물질과 규칙성", "시스템과 상호작용"] },
+      { major: "통합과학2", details: ["변화와 다양성", "환경과 에너지", "과학과 미래사회"] }
+    ]
+  };
+
+  const behaviorSchema = {
+    국어: ["사실적 이해", "추론적 이해", "비판적 이해", "창의적 이해", "어휘", "어법"],
+    수학: ["계산영역", "이해력", "문제해결", "추론"],
+    영어: ["어휘/어법", "사실적 이해", "적용", "종합적 이해", "추론적 이해"],
+    한국사: ["사실 확인", "시대 판단", "자료 해석", "인과 파악", "역사 평가"],
+    통합사회: ["개념 적용", "자료 분석", "관점 비교", "가치 판단", "대안 모색"],
+    통합과학: ["개념 이해", "자료 해석", "모형 적용", "규칙 추론", "시스템 설명"]
+  };
 
   function renderWrongGroupList(groups) {
     if (!groups.length) {
@@ -1090,29 +1211,14 @@
   }
 
   function contentTypeRows(month, subject, lookup) {
-    if (subject === "국어") {
-      return koreanContentSchema.flatMap((block) =>
-        block.details
-          .filter((detail) =>
-            (subjectAreaMap.국어 || []).some(
-              ([area]) => area === `${block.major}·${detail}` || area === detail
-            )
-          )
-          .map((detail) => ({
-            zone: block.zone,
-            major: block.major,
-            detail,
-            metric: typeMetricFromArea(lookup.get(`${block.major}·${detail}`) || lookup.get(detail))
-          }))
-      );
-    }
-
-    return getSubjectAreaRows(month, subject).map((row) => ({
-      zone: "공통",
-      major: subject,
-      detail: String(row.area).includes("·") ? String(row.area).split("·").pop() : row.area,
-      metric: typeMetricFromArea(row)
-    }));
+    return (contentSchemas[subject] || []).flatMap((block) =>
+      block.details.map((detail) => ({
+        zone: block.zone || "",
+        major: block.major,
+        detail,
+        metric: typeMetricFromArea(lookup.get(`${block.major}·${detail}`) || lookup.get(detail))
+      }))
+    );
   }
 
   function groupSpans(rows, key) {
@@ -1189,7 +1295,8 @@
       .map((row, index) => {
         const heads = [];
         if (index === 0) {
-          heads.push(`<th class="is-vert is-section" rowspan="${rows.length}">${section}</th>`);
+          const sectionLabel = section.endsWith("영역") ? section.slice(0, -2) : section;
+          heads.push(`<th class="is-vert is-section" rowspan="${rows.length}">${sectionLabel}</th>`);
         }
         extraKeys.forEach((key, keyIndex) => {
           const span = extraSpans[keyIndex][index];
@@ -1203,10 +1310,10 @@
       .join("");
   }
 
-  function renderCumulTotalRow(row, months) {
+  function renderCumulTotalRow(row, months, labelCols) {
     if (!row) return "";
     const cells = months.map((month) => cumulMetricCells(row.metricsByMonth[month], false)).join("");
-    return `<tr class="is-total-row"><th class="diag-col-label is-total" colspan="3">총계</th>${cells}</tr>`;
+    return `<tr class="is-total-row"><th class="diag-col-label is-total" colspan="${labelCols}">총계</th>${cells}</tr>`;
   }
 
   function renderTypeAnalysis(month, subject) {
@@ -1215,6 +1322,8 @@
     const contentRows = getCumulContentRows(name);
     const totalRow = contentRows.find((row) => row.isTotal);
     const bodyRows = contentRows.filter((row) => !row.isTotal);
+    const behaviorRows = getCumulBehaviorRows(name);
+    const labelCols = 3;
     const monthHeads = months.map((item, index) => `<th colspan="3" class="${cumulCat(index)}">${item}월</th>`).join("");
     const subHeads = months.map(() => `<th class="cumul-metric">출제</th><th class="cumul-metric">정답</th><th class="cumul-metric is-rate-head">정답률</th>`).join("");
 
@@ -1238,9 +1347,9 @@
             </tr>
           </thead>
           <tbody>
-            ${renderCumulTotalRow(totalRow, months)}
+            ${renderCumulTotalRow(totalRow, months, labelCols)}
             ${renderCumulRows("내용영역", bodyRows, months, ["major"])}
-            ${renderCumulRows("행동영역", getCumulBehaviorRows(name), months, [], 2)}
+            ${behaviorRows.length ? renderCumulRows("행동영역", behaviorRows, months, [], labelCols - 1) : ""}
           </tbody>
         </table>
       </div>`;
@@ -1344,8 +1453,8 @@
       .map((question, index) => {
         if (question.correct) return null;
         const area = lookup.get(question.area);
-        const answer = ((question.no * 3 + index) % 5) + 1;
-        const marked = (answer % 5) + 1;
+        const answer = question.shortAnswer ? 12 + (question.no % 9) : ((question.no * 3 + index) % 5) + 1;
+        const marked = question.shortAnswer ? answer + 3 : (answer % 5) + 1;
         const choices = wrongNoteChoices(subject, question.area);
         const checks = wrongNoteChecks(subject);
         const saved = getWrongNoteState(month, subject, question.no);
@@ -1365,14 +1474,15 @@
           behavior: question.action,
           marked,
           answer,
-          markedLabel: choiceLine(marked, choices),
-          answerLabel: choiceLine(answer, choices),
+          shortAnswer: Boolean(question.shortAnswer),
+          markedLabel: question.shortAnswer ? String(marked) : choiceLine(marked, choices),
+          answerLabel: question.shortAnswer ? String(answer) : choiceLine(answer, choices),
           points: question.points,
           mine: area?.mine ?? 0,
           cause: saved?.cause || noteCauses[index % noteCauses.length],
           status,
           checks: Array.isArray(saved?.checks) ? saved.checks : defaultChecks,
-          stem: wrongNoteStem(subject, question.area),
+          stem: question.shortAnswer ? "빈칸에 알맞은 값을 구하시오." : wrongNoteStem(subject, question.area),
           core: wrongNoteCore(subject),
           steps: wrongNoteSteps(subject),
           checksText: checks
@@ -1382,6 +1492,9 @@
   }
 
   function wrongNoteMemo(item) {
+    if (item.shortAnswer) {
+      return `식을 세우는 데는 맞았는데 계산이 틀려서 ${item.markedLabel}을 적었다. 정답은 ${item.answerLabel}이다. 다음엔 단답 칸에 적기 전에 계산을 한 번 더 확인하기.`;
+    }
     const marked = choiceCircle(item.marked);
     const answer = choiceCircle(item.answer);
     if (item.cause === "해석 오류") {
@@ -1421,8 +1534,8 @@
                   (item) => `
                 <li class="${item.no === current.no ? "is-active" : ""}" data-wrong-note-no="${item.no}">
                   <em>${item.no}</em>
-                  <b>${item.area}</b>
-                  <p>정답률 ${item.mine}% · ${item.points}점</p>
+                  <b>${areaLabel(subject, item.area)}</b>
+                  <p>정답률 ${item.mine}% · ${formatPoint(item.points)}점${item.shortAnswer ? " · 단답형" : ""}</p>
                   <span class="adm-tier ${noteStatusClass(item.status)}" data-wrong-list-status="${item.no}">${item.status}</span>
                 </li>`
                 )
@@ -1444,13 +1557,17 @@
           </div>
           <div class="wrong-note-box">
             <div class="wrong-note-kicker">
-              <strong>${current.subject} ${current.no}번</strong>
+              <strong>${current.subject} ${current.no}번${current.shortAnswer ? " · 단답형" : ""}</strong>
             </div>
-            <div class="exam-summary-grid wrong-note-meta">
+            <div class="exam-summary-grid wrong-note-meta${behaviorLabels(subject).length ? "" : " is-content-only"}">
               <article class="exam-summary-card"><span>정답률</span><strong class="is-text">${current.mine}%</strong></article>
-              <article class="exam-summary-card"><span>배점</span><strong class="is-text">${current.points}점</strong></article>
-              <article class="exam-summary-card"><span>내용 영역</span><strong class="is-text">${current.area}</strong></article>
-              <article class="exam-summary-card"><span>행동 영역</span><strong class="is-text">${current.behavior}</strong></article>
+              <article class="exam-summary-card"><span>배점</span><strong class="is-text">${formatPoint(current.points)}점</strong></article>
+              <article class="exam-summary-card"><span>내용 영역</span><strong class="is-text">${areaLabel(subject, current.area)}</strong></article>
+              ${
+                behaviorLabels(subject).length
+                  ? `<article class="exam-summary-card"><span>행동 영역</span><strong class="is-text">${current.behavior}</strong></article>`
+                  : ""
+              }
               <article class="exam-summary-card"><span>오답 원인</span><strong class="is-text">${current.cause}</strong></article>
             </div>
             <div class="wrong-note-block">
@@ -1546,16 +1663,17 @@
       getSubjectQuestions(month, subject).forEach((question) => {
         total += 1;
         if (!question.correct) wrong += 1;
-        bumpCount(byArea, question.area, !question.correct);
+        bumpCount(byArea, areaLabel(subject, question.area), !question.correct);
         bumpCount(byAction, question.action, !question.correct);
       });
     });
 
     const rate = total ? Math.round((wrong / total) * 100) : 0;
+    const hasBehavior = behaviorLabels(subject).length > 0;
     const weakArea = weakestGroup(byArea);
-    const weakAction = weakestGroup(byAction);
-    const areaGroups = groupCumulativeWrongs(subject, (question) => question.area);
-    const actionGroups = groupCumulativeWrongs(subject, (question) => question.action);
+    const weakAction = hasBehavior ? weakestGroup(byAction) : null;
+    const areaGroups = groupCumulativeWrongs(subject, (question) => areaLabel(subject, question.area));
+    const actionGroups = hasBehavior ? groupCumulativeWrongs(subject, (question) => question.action) : [];
 
     return `
       <section class="cumulative-wrong-block">
@@ -1578,7 +1696,7 @@
           </div>
           ${renderExamShareChart(subject)}
         </section>
-        <div class="score-overview wrong-area-overview cumulative-wrong-lists">
+        <div class="score-overview wrong-area-overview cumulative-wrong-lists${hasBehavior ? "" : " is-content-only"}">
           <section class="percentile-block wrong-area-block">
             <div class="diag-result-head">
               <h2 class="diag-section-title">내용 영역 오답</h2>
@@ -1590,7 +1708,9 @@
             </article>
             ${renderWrongGroupList(areaGroups)}
           </section>
-          <section class="trend-mini-block wrong-area-block">
+          ${
+            hasBehavior
+              ? `<section class="trend-mini-block wrong-area-block">
             <div class="diag-result-head">
               <h2 class="diag-section-title">행동 영역 오답</h2>
             </div>
@@ -1600,7 +1720,9 @@
               <p>오답률 ${weakAction ? weakAction.rate : 0}%로 가장 높아요.</p>
             </article>
             ${renderWrongGroupList(actionGroups)}
-          </section>
+          </section>`
+              : ""
+          }
         </div>
       </section>`;
   }

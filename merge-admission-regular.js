@@ -1029,6 +1029,15 @@
     onMonthChange(month) {
       activeMonth = month;
       activePanel = document.querySelector(`.regular-month-panel[data-regular-month="${month}"]`);
+      if (!activePanel) return;
+      const state = getState(month);
+      state.listFilter.listTab = "all";
+      activePanel.querySelectorAll("[data-adm-list-tab]").forEach((el) => {
+        const isActive = el.dataset.admListTab === "all";
+        el.classList.toggle("active", isActive);
+        el.setAttribute("aria-selected", isActive ? "true" : "false");
+      });
+      renderList(activePanel, state);
     },
     resetPanelState,
     initCustomSelects,

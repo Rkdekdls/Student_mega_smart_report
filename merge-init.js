@@ -393,6 +393,7 @@
     qnaPanel?.querySelectorAll(".content-tab-panel[data-qna]").forEach((panel) => {
       panel.classList.toggle("active", panel.dataset.qna === name);
     });
+    closeConsultantDetail();
   }
 
   function activateQnaDetailTab(name) {
@@ -1096,6 +1097,9 @@
     document.querySelectorAll(".content-tab-panel[data-mypage]").forEach((panel) => {
       panel.classList.toggle("active", panel.dataset.mypage === name);
     });
+
+    if (name === "school") activateSchoolGrade("1");
+    else activateMockMonth("3");
   }
 
   function activateSchoolGrade(grade) {
@@ -1144,6 +1148,7 @@
     earlyPanel?.querySelectorAll(".content-tab-panel[data-admission-view]").forEach((panel) => {
       panel.classList.toggle("active", panel.dataset.admissionView === view);
     });
+    resetEarlyListTabs();
   }
 
   let selectedWrongNo = null;
@@ -1151,6 +1156,7 @@
 
   function activateNoteScope(scope) {
     selectedNoteScope = scope;
+    selectedWrongNo = null;
 
     analysisPanel?.querySelectorAll("[data-note-scope]").forEach((chip) => {
       const isActive = chip.dataset.noteScope === scope;
@@ -1159,7 +1165,7 @@
     });
 
     activateTakenExam(analysisPanel, selectedExamMonth);
-    syncNoteScopeView();
+    activateAnalysisSubject("국어");
   }
 
   function openWrongItem(subject, no) {
@@ -1330,6 +1336,8 @@
 
   function activateScoreScope(scope) {
     selectedScoreScope = scope;
+    selectedStrategySubject = "국어";
+    selectedTrendSubject = "국수탐";
 
     scoresPanel?.querySelectorAll(".month-chip[data-score-scope]").forEach((chip) => {
       const isActive = chip.dataset.scoreScope === scope;
@@ -1345,6 +1353,7 @@
 
     activateTakenExam(scoresPanel, selectedExamMonth);
     refreshStrategySubject();
+    refreshTrendSubject();
   }
 
   function refreshTrendSubject() {
@@ -1400,9 +1409,7 @@
   }
 
   function resetAnalysisView() {
-    activateAnalysisSubject("국어");
     activateNoteScope("selected");
-    activateTakenExam(analysisPanel, selectedExamMonth);
   }
 
   function openMypage() {
@@ -1831,10 +1838,8 @@
 
   bindTakenExamPicker(scoresPanel, (month) => {
     selectedExamMonth = month;
-    selectedWrongNo = null;
-    activateTakenExam(analysisPanel, month);
-    refreshStrategySubject();
-    refreshAnalysisSummary();
+    activateScoreScope("selected");
+    activateNoteScope("selected");
   });
   bindTakenExamPicker(regularPanel, (month) => {
     activateRegularMonth(month);
@@ -1842,10 +1847,8 @@
   });
   bindTakenExamPicker(analysisPanel, (month) => {
     selectedExamMonth = month;
-    selectedWrongNo = null;
-    activateTakenExam(scoresPanel, month);
-    refreshAnalysisSummary();
-    refreshStrategySubject();
+    activateScoreScope("selected");
+    activateNoteScope("selected");
   });
 
   window.AdmissionRegular?.initCustomSelects(scoresPanel);
@@ -2084,6 +2087,17 @@
 
   function renderEarlyList() {
     earlyListPanels.forEach(renderEarlyListFor);
+  }
+
+  function resetEarlyListTabs() {
+    earlyListPanels.forEach((root) => {
+      root.querySelectorAll("[data-early-list-tab]").forEach((el) => {
+        const isActive = el.dataset.earlyListTab === "all";
+        el.classList.toggle("active", isActive);
+        el.setAttribute("aria-selected", isActive ? "true" : "false");
+      });
+      renderEarlyListFor(root);
+    });
   }
 
   function renderEarlyListFor(root) {

@@ -3513,10 +3513,6 @@ body.adm-modal-open {
   margin: 0 0 16px;
 }
 
-.pct-meta--legend {
-  justify-content: flex-end;
-}
-
 .pct-meta strong {
   color: var(--gray-900);
   font-size: 26px;
@@ -3535,38 +3531,6 @@ body.adm-modal-open {
 .pct-meta .trend-mini-title {
   font-size: 23px;
   font-weight: 800;
-}
-
-.pct-legend {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  color: var(--gray-600);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1;
-}
-
-.pct-legend span {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.pct-legend span::before {
-  content: "";
-  width: 10px;
-  height: 10px;
-  background: var(--cat-stress);
-}
-
-.pct-legend .is-avg::before {
-  background: var(--cat-motive);
-}
-
-.pct-legend .is-top::before {
-  background: var(--cat-strategy);
 }
 
 .pct-chart {
@@ -4678,75 +4642,6 @@ body.adm-modal-open {
   font-size: 14px;
   font-weight: 400;
   line-height: 1.5;
-}
-
-.area-rate-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0 24px;
-  flex: 1 1 auto;
-  min-height: 0;
-}
-
-.area-rate-col {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 0;
-  min-height: 0;
-  height: 100%;
-}
-
-.area-rate-col + .area-rate-col {
-  padding-left: 24px;
-  border-left: 1px solid var(--line);
-}
-
-.area-rate-row {
-  display: grid;
-  grid-template-columns: 88px minmax(0, 1fr) 48px;
-  gap: 10px;
-  flex: 1 1 0;
-  align-items: center;
-  min-height: 0;
-}
-
-.area-rate-name b {
-  display: block;
-  color: var(--gray-900);
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 1.3;
-  word-break: keep-all;
-}
-
-.area-rate-name span {
-  color: var(--gray-400);
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1.3;
-}
-
-.area-rate-bars {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.area-rate-bars .acc-track {
-  height: 10px;
-}
-
-.area-rate-row em {
-  color: var(--gray-900);
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  text-align: center;
-  white-space: nowrap;
-  transform: translateX(6px);
 }
 
 .analysis-subject-block > .month-chips,
@@ -5954,16 +5849,6 @@ body.adm-modal-open {
 
   .pct-chart--triple .pct-bar {
     width: 52px;
-  }
-
-  .area-rate-grid {
-    grid-template-columns: 1fr;
-    gap: 16px 0;
-  }
-
-  .area-rate-col + .area-rate-col {
-    padding-left: 0;
-    border-left: 0;
   }
 }
 

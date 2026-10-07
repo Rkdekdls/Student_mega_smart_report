@@ -166,6 +166,14 @@
     return `${rounded.toFixed(1)} : 1`;
   }
 
+  function emptyTargets() {
+    return {
+      ga: { university: "", type: "", major: "", cutoff: 0 },
+      na: { university: "", type: "", major: "", cutoff: 0 },
+      da: { university: "", type: "", major: "", cutoff: 0 }
+    };
+  }
+
   function cloneTargets() {
     return {
       ga: { ...TARGET_OPTIONS.ga.default },
@@ -321,20 +329,25 @@
 
     const state = getState(month);
     activePanel = panel;
-    bindPanelEvents(panel, state);
+    bindPanelEvents(panel);
     initCustomSelects(panel);
     updateSimControlsVisibility(panel, state);
     renderSimGrid(panel, state);
     renderPanel(panel, state);
   }
 
-  function bindPanelEvents(panel, state) {
+  function bindPanelEvents(panel) {
+    const month = panel.dataset.regularMonth;
+    const currentState = () => getState(month);
+
     panel.querySelector("[data-adm-sim-apply]")?.addEventListener("click", () => {
+      const state = currentState();
       state.viewMode = "simulation";
       renderPanel(panel, state);
     });
 
     panel.querySelector("[data-adm-sim-reset]")?.addEventListener("click", () => {
+      const state = currentState();
       SIM_SUBJECT_ORDER.forEach((subject) => {
         if (subject in state.scores) {
           state.adjustments[subject] = 0;
@@ -348,7 +361,7 @@
 
     panel.addEventListener("click", (event) => {
       if (event.target.closest("[data-adm-open-target]")) {
-        openTargetModal(panel, state);
+        openTargetModal(panel, currentState());
       }
     });
 
@@ -358,6 +371,7 @@
         const html = document.documentElement;
         const prevBehavior = html.style.scrollBehavior;
         html.style.scrollBehavior = "auto";
+        const state = currentState();
         state.listFilter.listTab = tab.dataset.admListTab;
         panel.querySelectorAll("[data-adm-list-tab]").forEach((el) => {
           const isActive = el.dataset.admListTab === state.listFilter.listTab;
@@ -380,6 +394,7 @@
 
     const searchInput = panel.querySelector("[data-adm-search]");
     const runSearch = () => {
+      const state = currentState();
       state.listFilter.search = searchInput?.value.trim().toLowerCase() || "";
       renderList(panel, state);
     };
@@ -392,13 +407,14 @@
       }
     });
 
-    panel.querySelector("[data-adm-group-filter]")?.addEventListener("change", () => renderList(panel, state));
-    panel.querySelector("[data-adm-track-filter]")?.addEventListener("change", () => renderList(panel, state));
-    panel.querySelector("[data-adm-tier-filter]")?.addEventListener("change", () => renderList(panel, state));
+    panel.querySelector("[data-adm-group-filter]")?.addEventListener("change", () => renderList(panel, currentState()));
+    panel.querySelector("[data-adm-track-filter]")?.addEventListener("change", () => renderList(panel, currentState()));
+    panel.querySelector("[data-adm-tier-filter]")?.addEventListener("change", () => renderList(panel, currentState()));
 
     panel.querySelector("[data-adm-list-body]")?.addEventListener("click", (event) => {
       const button = event.target.closest("[data-adm-fav-toggle]");
       if (!button) return;
+      const state = currentState();
       const id = Number(button.dataset.admFavToggle);
       if (state.favorites.has(id)) state.favorites.delete(id);
       else state.favorites.add(id);
@@ -687,6 +703,7 @@
       html.push(`<option value="${option}"${option === selected ? " selected" : ""}>${option}</option>`);
     });
     select.innerHTML = html.join("");
+    select.value = options.includes(selected) ? selected : "";
   }
 
   function fillTargetModalForm(targets) {
@@ -715,19 +732,19 @@
           return;
         }
         const typeKeys = Object.keys(config.universities[univ].types);
-        fillSelect(typeSelect, typeKeys, typeKeys[0]);
-        const majorList = config.universities[univ].types[typeKeys[0]];
-        fillSelect(majorSelect, majorList, majorList[0]);
+        fillSelect(typeSelect, typeKeys, "", "전형명 선택");
+        fillSelect(majorSelect, [], "", "모집단위 선택");
       };
 
       typeSelect.onchange = () => {
         const univ = univSelect.value;
-        if (!univ) {
+        const type = typeSelect.value;
+        if (!univ || !type) {
           fillSelect(majorSelect, [], "", "모집단위 선택");
           return;
         }
-        const majorList = config.universities[univ].types[typeSelect.value] || [];
-        fillSelect(majorSelect, majorList, majorList[0]);
+        const majorList = config.universities[univ].types[type] || [];
+        fillSelect(majorSelect, majorList, "", "모집단위 선택");
       };
     });
   }
@@ -805,8 +822,21 @@
     fillTargetModalForm(state.targets);
   }
 
+  function targetCutoff(group, university, type, major, fallback) {
+    const row = UNIVERSITY_LIST.find(
+      (item) => item.group === group && item.university === university && item.type === type && item.major === major
+    );
+    return row ? row.cutoff : fallback;
+  }
+
   function resetTargetModalForm() {
-    fillTargetModalForm(cloneTargets());
+    const empty = emptyTargets();
+    if (modalPanel) {
+      const state = getState(modalPanel.dataset.regularMonth);
+      state.targets = empty;
+      renderPanel(modalPanel, state);
+    }
+    fillTargetModalForm(empty);
   }
 
   function closeTargetModal() {
@@ -824,13 +854,20 @@
       const university = modal.querySelector(`[data-target-field="${key}-univ"]`).value;
       const type = modal.querySelector(`[data-target-field="${key}-type"]`).value;
       const major = modal.querySelector(`[data-target-field="${key}-major"]`).value;
-      state.targets[key] = university
-        ? { university, type, major, cutoff: config.default.cutoff }
-        : { university: "", type: "", major: "", cutoff: 0 };
+      state.targets[key] =
+        university && type && major
+          ? {
+              university,
+              type,
+              major,
+              cutoff: targetCutoff(config.group, university, type, major, config.default.cutoff)
+            }
+          : { university: "", type: "", major: "", cutoff: 0 };
     });
 
+    const panel = modalPanel;
+    renderPanel(panel, state);
     closeTargetModal();
-    renderPanel(modalPanel, state);
   }
 
   function resetPanelState(month) {

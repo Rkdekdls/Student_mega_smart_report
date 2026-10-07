@@ -648,17 +648,6 @@
     ]
   };
 
-  function subjectAccuracyLegend(label) {
-    return `
-      <div class="pct-meta pct-meta--legend">
-        <div class="pct-legend" aria-label="${label}">
-          <span class="is-mine">나</span>
-          <span class="is-avg">평균</span>
-          <span class="is-top">상위 30%</span>
-        </div>
-      </div>`;
-  }
-
   function subjectMaxScore(subject) {
     return subject === "한국사" || subject === "통합사회" || subject === "통합과학" ? 50 : 100;
   }
@@ -916,7 +905,7 @@
           <li>
             <button type="button" data-score-target="${item.no}" aria-label="${item.no}번 오답 분석 보기">
               <b>${item.no}번</b>
-              <span>${item.area}</span>
+              <span>${areaLabel(name, item.area)}</span>
               <i class="score-rise-split" aria-hidden="true"></i>
               <span>정답률 ${item.mine}% · ${formatPoint(item.points)}점</span>
             </button>
@@ -1144,6 +1133,7 @@
   function renderStrategyTasks(subject, month) {
     const items = getStrategyTaskItems(subject, month);
     if (!items.length) return `<p class="exam-review-empty">이번 시험에서 틀린 문항이 없어요.</p>`;
+    const name = subject || "국어";
     const guides = buildStrategyGuides(items);
 
     return `
@@ -1157,7 +1147,7 @@
               <article class="strategy-task-card">
                 <div class="strategy-task-head">
                   <em>${String(index + 1).padStart(2, "0")}</em>
-                  <strong><span>${item.no}번</span><span class="strategy-task-split" aria-hidden="true"></span><span>${item.area}</span></strong>
+                  <strong><span>${item.no}번</span><span class="strategy-task-split" aria-hidden="true"></span><span>${areaLabel(name, item.area)}</span></strong>
                   ${tag}
                   <p>정답률 ${item.mine}% · ${formatPoint(item.points)}점</p>
                 </div>
@@ -1174,56 +1164,8 @@
       </div>`;
   }
 
-  function renderSubjectAreas(month, subject) {
-    const items = getSubjectAreaRows(month, subject);
-    if (!items.length) return "";
-
-    const row = (item) => `
-      <article class="area-rate-row" aria-label="${item.area}: 나 ${item.mine}%, 전체 평균 ${item.avg}%, 상위 30% ${item.top}%">
-        <div class="area-rate-name">
-          <b>${item.area}</b>
-          <span>${item.correct}/${item.total}</span>
-        </div>
-        <div class="area-rate-bars">
-          <span class="acc-track is-mine"><i style="width:${item.mine}%"></i></span>
-          <span class="acc-track is-avg"><i style="width:${item.avg}%"></i></span>
-          <span class="acc-track is-top"><i style="width:${item.top}%"></i></span>
-        </div>
-        <em>${item.mine}%</em>
-      </article>`;
-
-    const mid = Math.ceil(items.length / 2);
-
-    return `
-      ${subjectAccuracyLegend("영역별 정답률 범례")}
-      <div class="area-rate-grid">
-        <div class="area-rate-col">${items.slice(0, mid).map(row).join("")}</div>
-        <div class="area-rate-col">${items.slice(mid).map(row).join("")}</div>
-      </div>`;
-  }
-
   function getSubjectQuestions(month, subject) {
     return getExamModel(month, subject).questions;
-  }
-
-  function getExamReviewItems(month, subject) {
-    const areas = getSubjectAreaRows(month, subject);
-    const wrongByArea = new Map();
-    getWrongNoteItems(month, subject).forEach((item) => {
-      wrongByArea.set(item.area, (wrongByArea.get(item.area) || 0) + 1);
-    });
-
-    return areas
-      .map((area, index) => ({
-        name: area.area,
-        total: area.total,
-        wrong: wrongByArea.get(area.area) || 0,
-        rate: area.mine,
-        index
-      }))
-      .filter((item) => item.wrong > 0)
-      .sort((a, b) => b.wrong - a.wrong || a.rate - b.rate || a.index - b.index)
-      .slice(0, 3);
   }
 
   const contentSchemas = {
@@ -2873,7 +2815,6 @@
     latestTakenMonth,
     noteStatuses,
     noteStatusClass,
-    renderSubjectAreas,
     renderTypeAnalysis,
     renderWrongNote,
     renderCumulativeWrong,

@@ -2027,6 +2027,7 @@
         return `<option value="${option}"${option === selected ? " selected" : ""}>${label}</option>`;
       })
       .join("");
+    select.value = options.includes(selected) ? selected : "";
   }
 
   function earlyUnivEntry(university) {
@@ -2324,7 +2325,9 @@
       const category = earlyModal.querySelector(`[data-early-target-field="${key}-category"]`)?.value;
       const type = earlyModal.querySelector(`[data-early-target-field="${key}-type"]`)?.value;
       const major = earlyModal.querySelector(`[data-early-target-field="${key}-major"]`)?.value;
-      const preset = EARLY_TARGET_DEFAULTS[key];
+      const preset = EARLY_LIST_ROWS.find(
+        (item) => item.university === university && item.type === type && item.major === major
+      );
       earlyTargets[key] =
         university && category && type && major
           ? {
@@ -2332,7 +2335,7 @@
               category,
               type,
               major,
-              cutoff: preset.cutoff || 88.0
+              cutoff: preset ? Number(preset.cutoff) || preset.cutoff : EARLY_TARGET_DEFAULTS[key].cutoff || 88
             }
           : emptyEarlyTarget();
     });
@@ -2365,7 +2368,11 @@
     button.addEventListener("click", closeEarlyTargetModal);
   });
   earlyModal?.querySelector("[data-early-target-reset]")?.addEventListener("click", () => {
-    fillEarlyTargetModal(cloneEarlyTargets());
+    EARLY_TARGET_KEYS.forEach((key) => {
+      earlyTargets[key] = emptyEarlyTarget();
+    });
+    renderEarlyTargetCards();
+    fillEarlyTargetModal(earlyTargets);
   });
   earlyModal?.querySelector("[data-early-target-save]")?.addEventListener("click", saveEarlyTargetModal);
 

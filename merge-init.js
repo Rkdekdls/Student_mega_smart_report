@@ -1162,6 +1162,38 @@
     syncNoteScopeView();
   }
 
+  function openWrongItem(subject, no) {
+    const questionNo = Number(no);
+    if (!subject || !Number.isFinite(questionNo)) return;
+
+    selectedSubject = subject;
+    selectedWrongNo = questionNo;
+    selectedNoteScope = "selected";
+
+    tabs.forEach((tab) => tab.classList.toggle("active", tab.dataset.panel === "analysis"));
+    panels.forEach((panel) => panel.classList.toggle("active", panel.dataset.panel === "analysis"));
+    setPageTitle("analysis");
+
+    document.querySelectorAll("[data-analysis-subject]").forEach((el) => {
+      const isActive = el.dataset.analysisSubject === subject;
+      el.classList.toggle("active", isActive);
+      if (el.getAttribute("role") === "tab") {
+        el.setAttribute("aria-selected", isActive ? "true" : "false");
+      }
+    });
+
+    analysisPanel?.querySelectorAll("[data-note-scope]").forEach((chip) => {
+      const isActive = chip.dataset.noteScope === "selected";
+      chip.classList.toggle("active", isActive);
+      chip.setAttribute("aria-selected", isActive ? "true" : "false");
+    });
+
+    activateTakenExam(analysisPanel, selectedExamMonth);
+    refreshAnalysisSummary();
+    closeMenus();
+    scrollToMainTop();
+  }
+
   function activateAnalysisSubject(name) {
     selectedSubject = name;
     selectedWrongNo = null;
@@ -1347,18 +1379,6 @@
     if (tasks) {
       tasks.innerHTML =
         window.MegaReportData?.renderStrategyTasks?.(selectedStrategySubject, selectedExamMonth) || "";
-    }
-
-    const examReview = scoresPanel?.querySelector("[data-exam-review]");
-    if (examReview) {
-      examReview.innerHTML =
-        window.MegaReportData?.renderExamReview?.(selectedExamMonth, selectedStrategySubject) || "";
-    }
-
-    const examCauses = scoresPanel?.querySelector("[data-exam-causes]");
-    if (examCauses) {
-      examCauses.innerHTML =
-        window.MegaReportData?.renderExamCauses?.(selectedExamMonth, selectedStrategySubject) || "";
     }
 
     const typeAnalysis = scoresPanel?.querySelector("[data-type-analysis]");
@@ -1831,6 +1851,15 @@
   window.AdmissionRegular?.initCustomSelects(scoresPanel);
   window.AdmissionRegular?.initCustomSelects(regularPanel);
   window.AdmissionRegular?.initCustomSelects(analysisPanel);
+
+  scoresPanel?.addEventListener("click", (event) => {
+    const target = event.target.closest("[data-score-target]");
+    if (!target || !scoresPanel.contains(target)) return;
+    scoresPanel.querySelectorAll("[data-score-target]").forEach((button) => {
+      button.classList.toggle("is-active", button === target);
+    });
+    openWrongItem(selectedStrategySubject, target.dataset.scoreTarget);
+  });
 
   scoresPanel?.querySelectorAll("[data-score-subject]").forEach((tab) => {
     tab.addEventListener("click", () => {

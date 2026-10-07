@@ -599,21 +599,16 @@
       ["작문", 4, 4, 81, 92]
     ],
     수학: [
-      ["수학Ⅰ·지수함수와 로그함수", 2, 2, 84, 94],
-      ["수학Ⅰ·삼각함수", 2, 1, 72, 86],
-      ["수학Ⅰ·수열", 2, 2, 80, 92],
-      ["수학Ⅱ·함수의 극한과 연속", 2, 2, 78, 90],
-      ["수학Ⅱ·미분", 2, 1, 70, 84],
-      ["수학Ⅱ·적분", 2, 1, 68, 83],
-      ["확률과 통계·경우의 수", 2, 2, 82, 93],
-      ["확률과 통계·확률", 2, 1, 74, 87],
-      ["확률과 통계·통계", 2, 2, 76, 89],
-      ["미적분·수열의 극한", 2, 2, 79, 91],
-      ["미적분·미분법", 2, 1, 66, 82],
-      ["미적분·적분법", 2, 1, 64, 80],
-      ["기하·이차곡선", 2, 2, 75, 88],
-      ["기하·평면벡터", 2, 1, 69, 84],
-      ["기하·공간도형과 공간좌표", 2, 1, 62, 79]
+      ["수학Ⅰ·지수함수와 로그함수", 3, 2, 84, 94],
+      ["수학Ⅰ·삼각함수", 3, 2, 72, 86],
+      ["수학Ⅰ·수열", 3, 2, 80, 92],
+      ["수학Ⅱ·함수의 극한과 연속", 3, 2, 78, 90],
+      ["수학Ⅱ·미분", 3, 2, 70, 84],
+      ["수학Ⅱ·적분", 3, 2, 68, 83],
+      ["확률과 통계·경우의 수", 3, 2, 82, 93],
+      ["미적분·수열의 극한", 3, 2, 79, 91],
+      ["미적분·미분법", 3, 2, 66, 82],
+      ["기하·이차곡선", 3, 2, 75, 88]
     ],
     영어: [
       ["듣기·말하기·듣기", 17, 15, 88, 96],
@@ -626,26 +621,22 @@
       ["읽기·쓰기·장문독해", 3, 2, 76, 88]
     ],
     한국사: [
-      ["전근대사·선사와 고대 국가", 3, 2, 84, 95],
-      ["전근대사·고려의 정치와 사회", 3, 3, 82, 93],
-      ["전근대사·조선 전기의 통치", 2, 2, 80, 92],
-      ["전근대사·조선 후기의 변화", 2, 1, 76, 89],
+      ["전근대사·선사와 고대 국가", 4, 3, 84, 95],
+      ["전근대사·고려의 정치와 사회", 4, 3, 82, 93],
+      ["전근대사·조선 전기의 통치", 3, 2, 80, 92],
+      ["전근대사·조선 후기의 변화", 3, 2, 76, 89],
       ["근현대사·개항과 근대 개혁", 3, 2, 78, 90],
-      ["근현대사·일제 강점과 독립운동", 3, 2, 81, 92],
-      ["근현대사·대한민국의 수립", 2, 2, 79, 91],
-      ["근현대사·민주화와 경제 성장", 2, 1, 74, 87]
+      ["근현대사·일제 강점과 독립운동", 3, 2, 81, 92]
     ],
     통합사회: [
-      ["통합사회1·통합적 관점", 3, 3, 81, 93],
+      ["통합사회1·통합적 관점", 3, 2, 81, 93],
       ["통합사회1·인간, 사회, 환경과 행복", 3, 2, 74, 88],
-      ["통합사회1·자연환경과 인간", 2, 1, 70, 85],
-      ["통합사회1·문화와 다양성", 2, 1, 72, 86],
+      ["통합사회1·자연환경과 인간", 3, 2, 70, 85],
+      ["통합사회1·문화와 다양성", 3, 2, 72, 86],
       ["통합사회1·생활공간과 사회", 3, 2, 78, 90],
-      ["통합사회2·인권보장과 헌법", 3, 3, 80, 92],
-      ["통합사회2·사회정의와 불평등", 2, 1, 71, 85],
-      ["통합사회2·시장경제와 지속가능발전", 2, 1, 68, 83],
-      ["통합사회2·세계화와 평화", 3, 2, 73, 87],
-      ["통합사회2·미래와 지속가능한 삶", 2, 1, 69, 84]
+      ["통합사회2·인권보장과 헌법", 4, 3, 80, 92],
+      ["통합사회2·사회정의와 불평등", 3, 2, 71, 85],
+      ["통합사회2·세계화와 평화", 3, 2, 73, 87]
     ],
     통합과학: [
       ["통합과학1·과학의 기초", 5, 4, 80, 92],
@@ -883,6 +874,12 @@
     return (last - 0xac00) % 28 === 0 ? "를" : "을";
   }
 
+  function andParticle(word) {
+    const last = String(word || "").charCodeAt(String(word || "").length - 1);
+    if (last < 0xac00 || last > 0xd7a3) return "와";
+    return (last - 0xac00) % 28 === 0 ? "와" : "과";
+  }
+
   function areaLabel(subject, area) {
     const blocks = contentSchemas[subject] || [];
     for (const block of blocks) {
@@ -896,52 +893,284 @@
   function renderStrategySummary(subject, month) {
     const exam = month || latestTakenMonth();
     const name = subject && subject !== "전체" ? subject : "국어";
-    const focus = areaLabel(name, getExamReviewItems(exam, name)[0]?.name || name);
+    const row = getSubjectRow(exam, name);
+    const raw = Number(row?.[2]);
+    const currentGrade = Number(row?.[5]);
+    if (!Number.isFinite(raw) || !Number.isFinite(currentGrade)) {
+      return `<p class="score-rise-empty">이번 시험 성적이 없어 시뮬레이션을 만들 수 없어요.</p>`;
+    }
+
+    const targets = getWrongNoteItems(exam, name)
+      .filter((item) => item.mine > 50)
+      .sort((a, b) => b.mine - a.mine || pointUnits(b.points) - pointUnits(a.points) || a.no - b.no)
+      .slice(0, 5)
+      .sort((a, b) => a.no - b.no);
+    const gainUnits = targets.reduce((sum, item) => sum + pointUnits(item.points), 0);
+    const gain = gainUnits / 2;
+    const projected = Math.min(subjectMaxScore(name), raw + gain);
+    const lead = `<i class="score-rise-icon" aria-hidden="true">📌</i> 친구들이 많이 맞힌 ${targets.length}문항을 보완하면 ${formatExamScore(gain)}점을 더 올릴 수 있어요!`;
+
+    const chips = targets
+      .map(
+        (item) => `
+          <li>
+            <button type="button" data-score-target="${item.no}" aria-label="${item.no}번 오답 분석 보기">
+              <b>${item.no}번</b>
+              <span>${item.area}</span>
+              <i class="score-rise-split" aria-hidden="true"></i>
+              <span>정답률 ${item.mine}% · ${formatPoint(item.points)}점</span>
+            </button>
+          </li>`
+      )
+      .join("");
 
     return `
-      <strong>지금은 <em>${focus}</em>${objectParticle(focus)} 먼저 보완할 때예요.</strong>
-      <p>이번 시험에서 틀린 문항을 바탕으로 학습 과제·복습 우선 순위·오답 원인을 정리했습니다.</p>`;
+      <div class="score-rise">
+        <p class="score-rise-lead">${lead}</p>
+        <div class="score-rise-flow">
+          <article class="score-rise-card">
+            <span>현재 점수</span>
+            <p><b>${formatExamScore(raw)}</b><span>점</span></p>
+          </article>
+          <i class="score-rise-arrow" aria-hidden="true"></i>
+          <article class="score-rise-card is-gain">
+            <span>상승 가능</span>
+            <p><b>+${formatExamScore(gain)}</b><span>점 · ${targets.length}문항</span></p>
+          </article>
+          <i class="score-rise-arrow" aria-hidden="true"></i>
+          <article class="score-rise-card is-projected">
+            <span>예상 점수</span>
+            <p><b>${formatExamScore(projected)}</b><span>점</span></p>
+          </article>
+        </div>
+        ${
+          targets.length
+            ? `<div class="score-rise-targets">
+                <b>대상 문항</b>
+                <ul>${chips}</ul>
+              </div>`
+            : ""
+        }
+        <p class="score-rise-note">※ 시험에 응시한 MEXX 재원생 기준입니다.</p>
+      </div>`;
+  }
+
+  const strategyGuideMin = 75;
+  const strategyGuideMax = 85;
+  const strategyJoins = [
+    "도식화하고",
+    "구분해 두고",
+    "연결한 다음",
+    "표로 정리하고",
+    "짝으로 묶어 두고",
+    "한 줄로 적은 뒤",
+    "순서대로 세운 다음",
+    "범위만 좁힌 뒤",
+    "차이만 남긴 뒤",
+    "식으로 옮긴 뒤",
+    "옆에 풀어 두고",
+    "먼저 고정하고"
+  ];
+  const strategyCloses = [
+    "기준으로 삼아 보세요",
+    "앞에 적어 두세요",
+    "한 줄로 정리해 보세요",
+    "관계로 이어 보세요",
+    "먼저 고정해 보세요",
+    "흐름으로 읽어 보세요",
+    "사례와 맞춰 보세요",
+    "정의와 비교해 보세요",
+    "조건으로 좁혀 보세요",
+    "차이로 갈라 보세요",
+    "순서대로 적어 보세요",
+    "핵심으로 남겨 보세요"
+  ];
+  const strategyPurposes = [
+    "핵심이 남도록",
+    "관계가 이어지게",
+    "조건이 빠지지 않게",
+    "공통점과 차이가 보이게",
+    "문제 조건이 빠지지 않게",
+    "앞뒤 관계가 한눈에 보이게",
+    "틀린 곳과 맞는 곳이 갈리게",
+    "답을 적기 전에 흐름이 이어지도록",
+    "이번 문항의 관계를 한 줄로 남긴 뒤",
+    "원인과 결과의 흐름을 고정하고 방향을 맞춰",
+    "답을 적기 전에 원인과 결과가 서로 이어지게 두고",
+    "풀이가 끊기지 않도록 조건과 관계를 앞에 모아 두고",
+    "비교하기 전에 핵심만 앞에 두고 나머지 조건은 옆에 적고",
+    "틀린 근거와 맞는 근거가 섞이지 않게 둘을 먼저 갈라 두고",
+    "비교하기 전에 핵심만 앞에 두고 나머지 조건은 옆에 적어 두고",
+    "정의와 사례가 어긋나지 않게 둘을 짝으로 두고 공통 기준을 앞에 남겨",
+    "원인에서 결과까지 중간 조건이 빠지지 않게 흐름을 한 줄로 이어 정리해 두고",
+    "원인에서 결과까지 중간 조건이 빠지지 않게 전체 흐름을 한 줄로 이어 정리해 두고",
+    "원인에서 결과까지 중간 조건이 빠지지 않게 전체 흐름을 한 줄로 빠짐없이 이어 정리해 두고"
+  ];
+
+  function guideChars(text) {
+    return [...String(text || "")];
+  }
+
+  function guideLength(text) {
+    return guideChars(text).length;
+  }
+
+  function focusPhrase(step, point) {
+    let text = String(step || "").trim().replace(/[.。]$/, "");
+    text = text.replace(/\s+[가-힣]{1,12}다$/, "");
+    text = text.replace(/\s+하나씩$/, "");
+    text = text.replace(/(?:\s+(?:나누어|먼저|다르게|서로|한 줄로))+$/, "");
+    text = text.replace(/(?:에서|에|을|를|은|는|이|가|과|와)$/, "");
+    return text.replace(/\s+/g, " ").trim() || String(point || "").trim();
+  }
+
+  function joinClause(phrase, ending) {
+    const body = String(phrase || "").trim();
+    const tail = String(ending || "").replace(/[.]$/, "");
+    if (!body) return tail;
+    if (/(?:으로|로|로서|로써|에서|부터|까지|처럼|대로|같이|다)$/.test(body)) return `${body} ${tail}`;
+    if (/(?:은|는)$/.test(body)) return `${body} 것을 ${tail}`;
+    const last = body.charCodeAt(body.length - 1);
+    const particle = last < 0xac00 || last > 0xd7a3 ? "을" : objectParticle(body);
+    return `${body}${particle} ${tail}`;
+  }
+
+  function corePhrase(core, fallback) {
+    let text = String(core || "").trim().replace(/[.。]$/, "");
+    text = text.replace(/\s*(?:문항이에요|묻어요)$/, "");
+    text = text.replace(/\s*묻는(?:\s+\S+){0,3}$/, "");
+    text = text.replace(/인지를$/, "인지").replace(/는지를$/, "는지").replace(/은지를$/, "은지");
+    text = text.replace(/^(?:인문|사회|과학|기술|문학)\s*지문(?:이|에서|은)\s*/, "");
+    text = text.replace(/(?:을|를)$/, "");
+    return text.replace(/\s+/g, " ").trim() || fallback;
+  }
+
+  function dropFirstWord(text) {
+    const next = String(text || "").replace(/^\S+\s+/, "").trim();
+    return next && next !== text ? next : "";
+  }
+
+  function endingKey(line) {
+    const parts = String(line || "").replace(/[.]$/, "").split(/\s+/).filter(Boolean);
+    if (!parts.length) return "";
+    const last = parts[parts.length - 1];
+    if (parts.length >= 2 && /(?:세요|보세요|두세요|마세요)$/.test(last)) {
+      return `${parts[parts.length - 2]} ${last}`;
+    }
+    return last;
+  }
+
+  function taskSteps(item) {
+    return item.shortAnswer ? (item.steps || []).filter((step) => !/선지/.test(step)) : item.steps || [];
+  }
+
+  function assembleGuide(focus, next, join, close, purpose) {
+    const bridge = purpose ? `${purpose} ` : "";
+    return `${joinClause(focus, join)}, ${bridge}${joinClause(next, close)}.`.replace(/\s+/g, " ").trim();
+  }
+
+  function phraseOptions(text) {
+    const options = [];
+    let current = String(text || "").trim();
+    while (current) {
+      options.push(current);
+      current = dropFirstWord(current);
+    }
+    return options.length ? options : [""];
+  }
+
+  function fitStrategyGuide(focus, next, join, close, salt) {
+    const found = [];
+    phraseOptions(focus).forEach((left) => {
+      phraseOptions(next).forEach((right) => {
+        if (!left || !right) return;
+        ["", ...strategyPurposes].forEach((purpose) => {
+          const text = assembleGuide(left, right, join, close, purpose);
+          const length = guideLength(text);
+          if (length < strategyGuideMin || length > strategyGuideMax) return;
+          found.push({
+            text,
+            dropped: guideLength(focus) - guideLength(left) + guideLength(next) - guideLength(right),
+            length
+          });
+        });
+      });
+    });
+    if (!found.length) return assembleGuide(focus, next, join, close, "");
+    found.sort((a, b) => a.dropped - b.dropped || Math.abs(a.length - 80) - Math.abs(b.length - 80));
+    const pool = found.filter((item) => item.dropped === found[0].dropped);
+    return pool[Math.abs(salt) % pool.length].text;
+  }
+
+  function buildStrategyGuides(items) {
+    const used = new Set();
+    return items.map((item, index) => {
+      const steps = taskSteps(item);
+      const point = item.point || item.area;
+      const focus = focusPhrase(steps[0], point);
+      const secondStep = steps[1] || "";
+      const next = /선지/.test(secondStep) || !secondStep
+        ? corePhrase(item.core, point)
+        : focusPhrase(secondStep, point);
+      let joinAt = index % strategyJoins.length;
+      let closeAt = (index + 3) % strategyCloses.length;
+      let text = "";
+      let guard = 0;
+      while (guard < strategyCloses.length) {
+        const close = strategyCloses[closeAt];
+        const join = strategyJoins[joinAt];
+        text = fitStrategyGuide(focus, next === focus ? item.area : next, join, close, index + guard);
+        const key = endingKey(text);
+        if (!used.has(key) && !/(?:표시|지우|확인|고르)세요/.test(key)) break;
+        closeAt = (closeAt + 1) % strategyCloses.length;
+        joinAt = (joinAt + 1) % strategyJoins.length;
+        guard += 1;
+      }
+      used.add(endingKey(text));
+      return text;
+    });
   }
 
   function getStrategyTaskItems(subject, month) {
     const exam = month || latestTakenMonth();
     const name = subject || "국어";
-    const top = getExamReviewItems(exam, name)[0];
-    if (!top) return [];
-    const label = areaLabel(name, top.name);
-    const item = { area: label, name: label, subjectName: name };
-    return [item, item, item];
-  }
-
-  function strategyTaskCopy(item, index) {
-    const verbs = ["오답 복기", "개념 정리", "실전 확인"];
-    const texts = [
-      "틀린 문항의 근거를 표시한 뒤 다시 풀어보세요.",
-      "필요한 개념과 조건을 짧게 정리해 보세요.",
-      "제한 시간 안에 같은 유형 문항을 풀어 확인해 보세요."
-    ];
-    if (!item) return { title: "-", text: "" };
-    return {
-      title: `${item.area} ${verbs[index] || verbs[0]}`,
-      text: texts[index] || texts[0]
-    };
+    return getWrongNoteItems(exam, name)
+      .filter((item) => item.mine > 50)
+      .slice()
+      .sort((a, b) => b.mine - a.mine || b.points - a.points || a.no - b.no)
+      .slice(0, 3);
   }
 
   function renderStrategyTasks(subject, month) {
     const items = getStrategyTaskItems(subject, month);
+    if (!items.length) return `<p class="exam-review-empty">이번 시험에서 틀린 문항이 없어요.</p>`;
+    const guides = buildStrategyGuides(items);
+
     return `
       <div class="strategy-task-grid">
         ${items
           .map((item, index) => {
-            const copy = strategyTaskCopy(item, index);
+            const tag = item.behavior
+              ? `<span class="strategy-task-tag">${item.behavior}</span>`
+              : "";
             return `
-              <article class="summary-card">
-                <span>${String(index + 1).padStart(2, "0")}</span>
-                <strong>${copy.title}</strong>
-                <p>${copy.text}</p>
+              <article class="strategy-task-card">
+                <div class="strategy-task-head">
+                  <em>${String(index + 1).padStart(2, "0")}</em>
+                  <strong><span>${item.no}번</span><span class="strategy-task-split" aria-hidden="true"></span><span>${item.area}</span></strong>
+                  ${tag}
+                  <p>정답률 ${item.mine}% · ${formatPoint(item.points)}점</p>
+                </div>
+                <div class="strategy-task-guide">
+                  <b>보완 전략</b>
+                  <p>${guides[index]}</p>
+                </div>
               </article>`;
           })
           .join("")}
+        <div class="strategy-task-apply">
+          <button type="button" class="btn-adm-primary">상담 신청하기</button>
+        </div>
       </div>`;
   }
 
@@ -977,14 +1206,6 @@
     return getExamModel(month, subject).questions;
   }
 
-  const reviewTags = ["최우선", "우선", "점검"];
-
-  function reviewTagTier(tag) {
-    if (tag === "최우선") return "is-reach";
-    if (tag === "우선") return "is-fit";
-    return "is-safe";
-  }
-
   function getExamReviewItems(month, subject) {
     const areas = getSubjectAreaRows(month, subject);
     const wrongByArea = new Map();
@@ -1005,55 +1226,6 @@
       .slice(0, 3);
   }
 
-  function renderExamReview(month, subject) {
-    const items = getExamReviewItems(month, subject);
-    if (!items.length) {
-      return `<p class="exam-review-empty">이번 시험에서 틀린 문항이 없어요.</p>`;
-    }
-
-    return `
-      <ol class="strategy-priority-list">
-        ${items
-          .map((item, index) => {
-            const tag = reviewTags[index];
-            return `
-              <li>
-                <em>${index + 1}</em>
-                <b>${areaLabel(subject, item.name)}</b>
-                <p>${item.total}문항 중 ${item.wrong}문항 오답</p>
-                <span class="adm-tier ${reviewTagTier(tag)}">${tag}</span>
-              </li>`;
-          })
-          .join("")}
-      </ol>`;
-  }
-
-  function renderExamCauses(month, subject) {
-    const counts = Object.fromEntries(noteCauses.map((name) => [name, 0]));
-    getWrongNoteItems(month, subject).forEach((item) => {
-      if (counts[item.cause] == null) counts[item.cause] = 0;
-      counts[item.cause] += 1;
-    });
-    const causes = noteCauses;
-
-    const ranks = causes.map((name) => ({ name, count: counts[name] }));
-    const max = Math.max(...ranks.map((item) => item.count), 1);
-
-    return `
-      <div class="strategy-ratio-list">
-        ${ranks
-          .map(
-            (item) => `
-              <div class="strategy-ratio-row">
-                <span>${item.name}</span>
-                <span class="acc-track"><i style="width:${Math.round((item.count / max) * 100)}%"></i></span>
-                <em>${item.count}</em>
-              </div>`
-          )
-          .join("")}
-      </div>`;
-  }
-
   const contentSchemas = {
     국어: [
       { zone: "공통", major: "독서", details: ["인문", "사회", "과학", "기술", "예술", "독서이론", "융합"] },
@@ -1064,9 +1236,9 @@
     수학: [
       { zone: "공통", major: "수학Ⅰ", details: ["지수함수와 로그함수", "삼각함수", "수열"] },
       { zone: "공통", major: "수학Ⅱ", details: ["함수의 극한과 연속", "미분", "적분"] },
-      { zone: "선택", major: "확률과 통계", details: ["경우의 수", "확률", "통계"] },
-      { zone: "선택", major: "미적분", details: ["수열의 극한", "미분법", "적분법"] },
-      { zone: "선택", major: "기하", details: ["이차곡선", "평면벡터", "공간도형과 공간좌표"] }
+      { zone: "선택", major: "확률과 통계", details: ["경우의 수"] },
+      { zone: "선택", major: "미적분", details: ["수열의 극한", "미분법"] },
+      { zone: "선택", major: "기하", details: ["이차곡선"] }
     ],
     영어: [
       { major: "듣기·말하기", details: ["듣기", "간접말하기"] },
@@ -1074,11 +1246,11 @@
     ],
     한국사: [
       { major: "전근대사", details: ["선사와 고대 국가", "고려의 정치와 사회", "조선 전기의 통치", "조선 후기의 변화"] },
-      { major: "근현대사", details: ["개항과 근대 개혁", "일제 강점과 독립운동", "대한민국의 수립", "민주화와 경제 성장"] }
+      { major: "근현대사", details: ["개항과 근대 개혁", "일제 강점과 독립운동"] }
     ],
     통합사회: [
       { major: "통합사회1", details: ["통합적 관점", "인간, 사회, 환경과 행복", "자연환경과 인간", "문화와 다양성", "생활공간과 사회"] },
-      { major: "통합사회2", details: ["인권보장과 헌법", "사회정의와 불평등", "시장경제와 지속가능발전", "세계화와 평화", "미래와 지속가능한 삶"] }
+      { major: "통합사회2", details: ["인권보장과 헌법", "사회정의와 불평등", "세계화와 평화"] }
     ],
     통합과학: [
       { major: "통합과학1", details: ["과학의 기초", "물질과 규칙성", "시스템과 상호작용"] },
@@ -1406,7 +1578,7 @@
       "해석 오류": `${point} 자료의 방향을 반대로 읽어서 「${trapText}」로 골랐다. 정답은 「${answerText}」이다. 다음엔 근거에 표시하고 선지와 한 줄씩 대조하기.`,
       "시간 부족": `${point} 마지막에 시간이 모자라 「${trapText}」를 급히 골랐다. 정답은 「${answerText}」이다. 다음엔 발문과 조건부터 보고 근거를 확인하기.`
     };
-    return { stem, choices, answer, trap, core, steps, checks, memos, short };
+    return { stem, choices, answer, trap, point, core, steps, checks, memos, short };
   }
 
   const wrongNoteBank = {
@@ -2040,7 +2212,7 @@
       trap,
       point,
       core,
-      steps: [action, `${point}과 반대인 선지를 지운다`, `${point}과 맞는 선지를 고른다`],
+      steps: [action, `${point}${andParticle(point)} 반대인 선지를 지운다`, `${point}${andParticle(point)} 맞는 선지를 고른다`],
       checks: [`${point} 근거를 표시했는지 확인한다`, "반대 선지를 지웠는지 확인한다", "정답 선지가 근거와 같은지 확인한다"]
     });
   }
@@ -2376,6 +2548,7 @@
           status,
           checks: Array.isArray(saved?.checks) ? saved.checks : defaultChecks,
           stem: useShort ? pack.short.stem : pack.stem,
+          point: pack.point,
           core: pack.core,
           steps: pack.steps,
           checksText: checks,
@@ -2701,8 +2874,6 @@
     noteStatuses,
     noteStatusClass,
     renderSubjectAreas,
-    renderExamReview,
-    renderExamCauses,
     renderTypeAnalysis,
     renderWrongNote,
     renderCumulativeWrong,
@@ -2754,14 +2925,6 @@
     });
 
     const openingMonth = latestTakenMonth();
-
-    document.querySelectorAll("[data-exam-review]").forEach((el) => {
-      el.innerHTML = renderExamReview(openingMonth, "국어");
-    });
-
-    document.querySelectorAll("[data-exam-causes]").forEach((el) => {
-      el.innerHTML = renderExamCauses(openingMonth, "국어");
-    });
 
     document.querySelectorAll("[data-type-analysis]").forEach((el) => {
       el.innerHTML = renderTypeAnalysis(openingMonth, "국어");
